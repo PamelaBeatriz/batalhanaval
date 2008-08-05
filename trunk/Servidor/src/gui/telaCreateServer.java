@@ -13,7 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import java.awt.Dimension;
+
+import util.MD5;
 
 import logica.Servidor;
 
@@ -117,6 +118,7 @@ public class telaCreateServer extends JFrame {
 		if (nomeServerField == null) {
 			nomeServerField = new JTextField();
 			nomeServerField.setBounds(new Rectangle(90, 27, 165, 19));
+			nomeServerField.setText(this.servidor.getNome());
 			nomeServerField
 					.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		}
@@ -160,6 +162,13 @@ public class telaCreateServer extends JFrame {
 			startButton = new JButton();
 			startButton.setBounds(new Rectangle(66, 169, 128, 27));
 			startButton.setText("Start Server");
+			startButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					servidor.startServidor(nomeServerField.getText(), ipField
+							.getText(), MD5.getHash(passwordField.getPassword()
+							.toString().getBytes()));
+				}
+			});
 		}
 		return startButton;
 	}
@@ -176,8 +185,7 @@ public class telaCreateServer extends JFrame {
 			cancelButton.setText("Cancel");
 			cancelButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					System.exit(0); // TODO Auto-generated Event stub
-					// actionPerformed()
+					System.exit(0);
 				}
 			});
 		}
