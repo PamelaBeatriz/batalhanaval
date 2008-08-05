@@ -157,8 +157,6 @@ public class telaConectToServer extends JFrame {
 			connectButton.setBounds(new Rectangle(54, 170, 128, 27));
 			connectButton.setText("Connect");
 			final JFrame frame = this;
-
-
 			connectButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					frame.setVisible(false);

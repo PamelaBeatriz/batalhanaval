@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 
-public class MainServer {
+public class MainClient {
 
 	/**
 	 * @param args
