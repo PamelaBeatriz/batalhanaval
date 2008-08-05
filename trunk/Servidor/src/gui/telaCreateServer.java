@@ -1,4 +1,5 @@
 package gui;
+
 import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Font;
@@ -12,6 +13,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import java.awt.Dimension;
+
+import logica.Servidor;
 
 public class telaCreateServer extends JFrame {
 
@@ -26,12 +30,16 @@ public class telaCreateServer extends JFrame {
 	private JPasswordField passwordField = null;
 	private JButton startButton = null;
 	private JButton cancelButton = null;
+	private JLabel ipLabel = null;
+	private JTextField ipField = null;
+	private Servidor servidor = null;
 
 	/**
 	 * This is the default constructor
 	 */
 	public telaCreateServer() {
 		super();
+		this.servidor = new Servidor();
 		initialize();
 	}
 
@@ -41,7 +49,7 @@ public class telaCreateServer extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(300, 200);
+		this.setSize(335, 237);
 		this.setContentPane(getJContentPane());
 		this.setTitle("Create Server - Batalha Naval");
 	}
@@ -69,6 +77,9 @@ public class telaCreateServer extends JFrame {
 	 */
 	private JPanel getPainelPrincipal() {
 		if (painelPrincipal == null) {
+			ipLabel = new JLabel();
+			ipLabel.setBounds(new Rectangle(15, 121, 61, 16));
+			ipLabel.setText("IP Server:");
 			passwordLabel = new JLabel();
 			passwordLabel.setBounds(new Rectangle(11, 86, 68, 16));
 			passwordLabel.setText("Password: ");
@@ -80,7 +91,7 @@ public class telaCreateServer extends JFrame {
 			NomeServerLabel.setText("Name: ");
 			painelPrincipal = new JPanel();
 			painelPrincipal.setLayout(null);
-			painelPrincipal.setBounds(new Rectangle(7, 6, 280, 117));
+			painelPrincipal.setBounds(new Rectangle(7, 6, 309, 153));
 			painelPrincipal.setBorder(BorderFactory.createTitledBorder(null,
 					"Main Painel", TitledBorder.DEFAULT_JUSTIFICATION,
 					TitledBorder.DEFAULT_POSITION, new Font("Dialog",
@@ -91,6 +102,8 @@ public class telaCreateServer extends JFrame {
 			painelPrincipal.add(getPortaField(), null);
 			painelPrincipal.add(passwordLabel, null);
 			painelPrincipal.add(getPasswordField(), null);
+			painelPrincipal.add(ipLabel, null);
+			painelPrincipal.add(getIpField(), null);
 		}
 		return painelPrincipal;
 	}
@@ -132,7 +145,7 @@ public class telaCreateServer extends JFrame {
 	private JPasswordField getPasswordField() {
 		if (passwordField == null) {
 			passwordField = new JPasswordField();
-			passwordField.setBounds(new Rectangle(92, 85, 161, 20));
+			passwordField.setBounds(new Rectangle(90, 86, 161, 20));
 		}
 		return passwordField;
 	}
@@ -145,7 +158,7 @@ public class telaCreateServer extends JFrame {
 	private JButton getStartButton() {
 		if (startButton == null) {
 			startButton = new JButton();
-			startButton.setBounds(new Rectangle(54, 139, 128, 27));
+			startButton.setBounds(new Rectangle(66, 169, 128, 27));
 			startButton.setText("Start Server");
 		}
 		return startButton;
@@ -159,17 +172,31 @@ public class telaCreateServer extends JFrame {
 	private JButton getCancelButton() {
 		if (cancelButton == null) {
 			cancelButton = new JButton();
-			cancelButton.setBounds(new Rectangle(192, 139, 95, 26));
+			cancelButton.setBounds(new Rectangle(221, 170, 95, 26));
 			cancelButton.setText("Cancel");
-			cancelButton
-					.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
-							System.exit(0); // TODO Auto-generated Event stub
-											// actionPerformed()
-						}
-					});
+			cancelButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					System.exit(0); // TODO Auto-generated Event stub
+					// actionPerformed()
+				}
+			});
 		}
 		return cancelButton;
 	}
 
-}
+	/**
+	 * This method initializes ipField
+	 *
+	 * @return javax.swing.JTextField
+	 */
+	private JTextField getIpField() {
+		if (ipField == null) {
+			ipField = new JTextField();
+			ipField.setBounds(new Rectangle(89, 121, 138, 20));
+			ipField.setEditable(false);
+			ipField.setText(this.servidor.getIpLocal());
+		}
+		return ipField;
+	}
+
+} // @jve:decl-index=0:visual-constraint="10,10"
