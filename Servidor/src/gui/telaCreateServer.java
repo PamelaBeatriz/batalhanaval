@@ -136,6 +136,7 @@ public class telaCreateServer extends JFrame {
 			portaField = new JTextField();
 			portaField.setBounds(new Rectangle(90, 57, 51, 20));
 
+			portaField.setText("17169");
 		}
 		return portaField;
 	}
