@@ -1,5 +1,6 @@
 package logica;
 
+import java.io.IOException;
 import java.net.Socket;
 
 public class ThreadCliente extends Thread {
@@ -8,6 +9,15 @@ public class ThreadCliente extends Thread {
 
 	public ThreadCliente(Socket socket) {
 		this.conexao = socket;
+	}
+
+	@Override
+	protected void finalize() {
+		try{
+		    //Encerro o ServerSocket
+			this.conexao.close();
+		}catch(IOException e){
+		}
 	}
 
 	@Override
