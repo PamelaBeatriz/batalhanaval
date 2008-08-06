@@ -66,14 +66,32 @@ public class Servidor extends Thread{
 	}
 
 	public void esperaConexaoCliente() {
+		Socket socket = null;
 		while (true) {
 			try {
-				Socket socket = this.serverSocket.accept();
+				socket = this.serverSocket.accept();
 				new ThreadCliente(socket).start();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
+			}finally{
+				try{
+					//Encerro o socket de comunicação
+					socket.close();
 
+				    //Encerro o ServerSocket
+					this.serverSocket.close();
+				}catch(IOException e){
+				}
+			}
+		}
+	}
+
+	@Override
+	protected void finalize ( ) {
+		try{
+		    //Encerro o ServerSocket
+			this.serverSocket.close();
+		}catch(IOException e){
 		}
 	}
 
