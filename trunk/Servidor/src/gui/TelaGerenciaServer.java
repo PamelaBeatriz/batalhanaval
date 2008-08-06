@@ -11,6 +11,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import java.awt.Dimension;
+import javax.swing.JTextPane;
+import java.awt.GridBagLayout;
+import javax.swing.JTextArea;
+
+import logica.Servidor;
 
 public class TelaGerenciaServer extends JFrame {
 
@@ -25,10 +31,18 @@ public class TelaGerenciaServer extends JFrame {
 	private JTextField ipField = null;
 	private JPanel clientePanel = null;
 	private JButton fecharButton = null;
+	private JPanel logPanel = null;
+	private JTextArea logTextArea = null;
+	private Servidor servidor;
+
 	/**
-	 * This is the default constructor
+	 *
+	 * @param nome
+	 * @param porta
+	 * @param ip
+	 * @param servidor
 	 */
-	public TelaGerenciaServer(String nome, String porta, String ip) {
+	public TelaGerenciaServer(String nome, String porta, String ip, Servidor servidor) {
 		super();
 		initialize();
 		this.nomeField.setText(nome);
@@ -37,6 +51,11 @@ public class TelaGerenciaServer extends JFrame {
 		this.nomeField.setEditable(false);
 		this.portaField.setEditable(false);
 		this.ipField.setEditable(false);
+		this.logTextArea.setText("** Servidor Inicializado **");
+		this.servidor = servidor;
+		this.servidor.esperaConexaoCliente();
+
+
 	}
 
 	/**
@@ -45,7 +64,7 @@ public class TelaGerenciaServer extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(320, 361);
+		this.setSize(614, 417);
 		this.setContentPane(getJContentPane());
 		this.setTitle("Server Manager - Batalha Naval");
 		this.setVisible(true);
@@ -65,6 +84,7 @@ public class TelaGerenciaServer extends JFrame {
 			jContentPane.add(getPainelControlePanel(), null);
 			jContentPane.add(getClientePanel(), null);
 			jContentPane.add(getFecharButton(), null);
+			jContentPane.add(getLogPanel(), null);
 		}
 		return jContentPane;
 	}
@@ -77,7 +97,7 @@ public class TelaGerenciaServer extends JFrame {
 	private JPanel getPainelControlePanel() {
 		if (painelControlePanel == null) {
 			ipLabel = new JLabel();
-			ipLabel.setBounds(new Rectangle(13, 90, 38, 16));
+			ipLabel.setBounds(new Rectangle(16, 90, 38, 16));
 			ipLabel.setText("IP:");
 			portaLabel = new JLabel();
 			portaLabel.setBounds(new Rectangle(14, 60, 38, 16));
@@ -87,12 +107,8 @@ public class TelaGerenciaServer extends JFrame {
 			nameServerLabel.setText("Name: ");
 			painelControlePanel = new JPanel();
 			painelControlePanel.setLayout(null);
-			painelControlePanel.setBounds(new Rectangle(8, 7, 288, 121));
-			painelControlePanel.setBorder(BorderFactory.createTitledBorder(
-					null, "Control Painel - Server",
-					TitledBorder.DEFAULT_JUSTIFICATION,
-					TitledBorder.DEFAULT_POSITION, new Font("Dialog",
-							Font.BOLD, 12), new Color(51, 51, 51)));
+			painelControlePanel.setBounds(new Rectangle(8, 7, 293, 130));
+			painelControlePanel.setBorder(BorderFactory.createTitledBorder(null, "Control Painel - Server", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
 			painelControlePanel.add(nameServerLabel, null);
 			painelControlePanel.add(portaLabel, null);
 			painelControlePanel.add(ipLabel, null);
@@ -151,11 +167,8 @@ public class TelaGerenciaServer extends JFrame {
 		if (clientePanel == null) {
 			clientePanel = new JPanel();
 			clientePanel.setLayout(null);
-			clientePanel.setBounds(new Rectangle(9, 135, 288, 135));
-			clientePanel.setBorder(BorderFactory.createTitledBorder(null,
-					"Clients", TitledBorder.DEFAULT_JUSTIFICATION,
-					TitledBorder.DEFAULT_POSITION, new Font("Dialog",
-							Font.BOLD, 12), new Color(51, 51, 51)));
+			clientePanel.setBounds(new Rectangle(309, 5, 288, 131));
+			clientePanel.setBorder(BorderFactory.createTitledBorder(null, "Clients", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
 		}
 		return clientePanel;
 	}
@@ -168,7 +181,7 @@ public class TelaGerenciaServer extends JFrame {
 	private JButton getFecharButton() {
 		if (fecharButton == null) {
 			fecharButton = new JButton();
-			fecharButton.setBounds(new Rectangle(189, 290, 109, 24));
+			fecharButton.setBounds(new Rectangle(492, 359, 109, 24));
 			fecharButton.setText("Close Server");
 			fecharButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
@@ -177,5 +190,35 @@ public class TelaGerenciaServer extends JFrame {
 			});
 		}
 		return fecharButton;
+	}
+
+	/**
+	 * This method initializes logPanel
+	 *
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getLogPanel() {
+		if (logPanel == null) {
+			logPanel = new JPanel();
+			logPanel.setLayout(null);
+			logPanel.setBounds(new Rectangle(7, 150, 590, 194));
+			logPanel.setBorder(BorderFactory.createTitledBorder(null, "Log", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+			logPanel.add(getLogTextArea(), null);
+		}
+		return logPanel;
+	}
+
+	/**
+	 * This method initializes logTextArea
+	 *
+	 * @return javax.swing.JTextArea
+	 */
+	private JTextArea getLogTextArea() {
+		if (logTextArea == null) {
+			logTextArea = new JTextArea();
+			logTextArea.setBounds(new Rectangle(17, 22, 556, 156));
+			logTextArea.setEditable(false);
+		}
+		return logTextArea;
 	}
 } // @jve:decl-index=0:visual-constraint="10,10"

@@ -170,7 +170,7 @@ public class telaCreateServer extends JFrame {
 									.getPassword().toString().getBytes()))) {
 						setVisible(false);
 						new TelaGerenciaServer(nomeServerField.getText(),
-								portaField.getText(), ipField.getText());
+								portaField.getText(), ipField.getText(),servidor);
 
 					} else {
 						JOptionPane.showMessageDialog(null,
