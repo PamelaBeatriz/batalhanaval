@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Servidor{
+public class Servidor extends Thread{
 
 	private String porta = "";
 
@@ -15,6 +15,9 @@ public class Servidor{
 	private String nome = "";
 
 	private String senhaCriptografada = "";
+
+	private ServerSocket serverSocket;
+
 
 	/**
 	 * Seta os parametros fundamentais do servidor e o inicia.
@@ -29,7 +32,7 @@ public class Servidor{
 		this.nome = nome;
 		this.porta = porta;
 		this.senhaCriptografada = senhaCriptografada;
-		return(this.inicializar());
+		return (this.inicializar());
 	}
 
 	/**
@@ -49,8 +52,7 @@ public class Servidor{
 	 */
 	private boolean inicializar() {
 		try {
-			ServerSocket serverSocket = new ServerSocket(Integer
-					.parseInt(this.porta));
+			this.serverSocket = new ServerSocket(Integer.parseInt(this.porta));
 			return true;
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -61,6 +63,18 @@ public class Servidor{
 		}
 		return false;
 
+	}
+
+	public void esperaConexaoCliente() {
+		while (true) {
+			try {
+				Socket socket = this.serverSocket.accept();
+				new ThreadCliente(socket).start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
 	}
 
 	public String getIpLocal() {
