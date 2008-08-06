@@ -2,10 +2,11 @@ package logica;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Servidor extends Thread {
+public class Servidor{
 
 	private String porta = "";
 
@@ -15,28 +16,50 @@ public class Servidor extends Thread {
 
 	private String senhaCriptografada = "";
 
-	public void startServidor(String nome, String ipLocal, String senhaCriptografada) {
+	/**
+	 * Seta os parametros fundamentais do servidor e o inicia.
+	 *
+	 * @author Thiago A. L. Genez
+	 * @param nome
+	 * @param ipLocal
+	 * @param senhaCriptografada
+	 */
+	public boolean startServidor(String nome, String porta,
+			String senhaCriptografada) {
 		this.nome = nome;
-		this.ipLocal = ipLocal;
+		this.porta = porta;
 		this.senhaCriptografada = senhaCriptografada;
-		try {
-			this.inicializar();
-		} catch (UnknownHostException e) {
-			e.printStackTrace();
-			System.err.println("SERVIDOR DESCONHECIDO");
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.err.println("ERRO NA INIALIZACAO DO SERVIDOR");
-		}
+		return(this.inicializar());
 	}
 
+	/**
+	 * Construtor
+	 */
 	public Servidor() {
 		this.setIpLocal();
 		this.setNome();
 	}
 
-	private void inicializar() throws UnknownHostException, IOException {
-		Socket socket = new Socket(this.ipLocal, 8989);
+	/**
+	 * Inicializa o Servidor
+	 *
+	 * @author Thiago A. L. Genez
+	 * @throws UnknownHostException
+	 * @throws IOException
+	 */
+	private boolean inicializar() {
+		try {
+			ServerSocket serverSocket = new ServerSocket(Integer
+					.parseInt(this.porta));
+			return true;
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			System.out.println("ERRO NO NUMERO DA PORTA");
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("ERRO NO SERVER SOCKET");
+		}
+		return false;
 
 	}
 
