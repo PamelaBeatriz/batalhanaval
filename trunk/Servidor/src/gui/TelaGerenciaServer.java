@@ -11,9 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import java.awt.Dimension;
-import javax.swing.JTextPane;
-import java.awt.GridBagLayout;
+//import java.awt.Dimension;
+//import javax.swing.JTextPane;
+//import java.awt.GridBagLayout;
 import javax.swing.JTextArea;
 
 import logica.Servidor;
