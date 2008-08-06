@@ -9,6 +9,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -164,9 +165,19 @@ public class telaCreateServer extends JFrame {
 			startButton.setText("Start Server");
 			startButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
-					servidor.startServidor(nomeServerField.getText(), ipField
-							.getText(), MD5.getHash(passwordField.getPassword()
-							.toString().getBytes()));
+					if (servidor.startServidor(nomeServerField.getText(),
+							portaField.getText(), MD5.getHash(passwordField
+									.getPassword().toString().getBytes()))) {
+						setVisible(false);
+						new TelaGerenciaServer(nomeServerField.getText(),
+								portaField.getText(), ipField.getText());
+
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"Erro na Criacao do Servidor",
+								"Create Server - Batalha Naval",
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			});
 		}
