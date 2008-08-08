@@ -1,8 +1,11 @@
 package gui;
+
 import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -13,6 +16,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+
+import logica.Cliente;
+import util.MD5;
 
 public class telaConectToServer extends JFrame {
 
@@ -29,12 +35,14 @@ public class telaConectToServer extends JFrame {
 	private JButton cancelButton = null;
 	private JLabel IP = null;
 	private JTextField IPfield = null;
+	private Cliente cliente = null;
 
 	/**
 	 * This is the default constructor
 	 */
 	public telaConectToServer() {
 		super();
+		this.cliente = new Cliente();
 		initialize();
 	}
 
@@ -44,7 +52,7 @@ public class telaConectToServer extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(300, 229);
+		this.setSize(306, 237);
 		this.setContentPane(getJContentPane());
 		this.setTitle("Connect to Server - Batalha Naval");
 		this.setVisible(true);
@@ -157,18 +165,45 @@ public class telaConectToServer extends JFrame {
 			connectButton.setBounds(new Rectangle(54, 170, 128, 27));
 			connectButton.setText("Connect");
 			final JFrame frame = this;
-			connectButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
-					frame.setVisible(false);
-					int resultado = JOptionPane.showOptionDialog(null, "Connecting...",
-							"Connecting to Server", JOptionPane.CANCEL_OPTION,
-							JOptionPane.INFORMATION_MESSAGE, null,
-							new String[] { "Cancel" }, null);
-					if(resultado==0){
-						frame.setVisible(true);
-					}
-				}
-			});
+			connectButton
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+							frame.setVisible(false);
+							cliente.setCliente(nickField.getText(), IPfield
+									.getText(), portaField.getText(), MD5
+									.getHash(passwordField.getPassword()
+											.toString().getBytes()));
+							try {
+								cliente.tentarConexaoServer();
+							} catch (NumberFormatException e1) {
+								JOptionPane.showMessageDialog(null,
+										"Porta Inválida",
+										"Batalha Naval - Erro",
+										JOptionPane.ERROR_MESSAGE);
+								e1.printStackTrace();
+							} catch (UnknownHostException e1) {
+								JOptionPane.showMessageDialog(null,
+										"Endereco IP Desconhecido",
+										"Batalha Naval - Erro",
+										JOptionPane.ERROR_MESSAGE);
+								e1.printStackTrace();
+							} catch (IOException e1) {
+								JOptionPane.showMessageDialog(null, "Erro",
+										"Batalha Naval - Erro",
+										JOptionPane.ERROR_MESSAGE);
+								e1.printStackTrace();
+							}
+							int resultado = JOptionPane.showOptionDialog(null,
+									"Connecting...", "Connecting to Server",
+									JOptionPane.CANCEL_OPTION,
+									JOptionPane.INFORMATION_MESSAGE, null,
+									new String[] { "Cancel" }, null);
+							if (resultado == 0) {
+								frame.setVisible(true);
+							}
+
+						}
+					});
 		}
 		return connectButton;
 	}
@@ -204,8 +239,5 @@ public class telaConectToServer extends JFrame {
 		}
 		return IPfield;
 	}
-
-
-
 
 } // @jve:decl-index=0:visual-constraint="10,10"
