@@ -70,8 +70,6 @@ public class Servidor extends Thread {
 	}
 
 	public void esperaConexaoCliente() {
-		//Pesquisei no google e lá fala q esse finally garante q as portas vão ser liberadas caso
-		//ocorra algum erro...
 		while (true) {
 			Socket socket = null;
 			try {
@@ -79,12 +77,11 @@ public class Servidor extends Thread {
 				new ThreadCliente(socket).start();
 			} catch (IOException e) {
 				e.printStackTrace();
-			} finally {
 				try {
 					socket.close();
 					this.serverSocket.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
 				}
 			}
 		}
