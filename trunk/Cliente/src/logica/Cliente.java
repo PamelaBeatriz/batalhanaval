@@ -3,6 +3,8 @@ package logica;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.net.ConnectException;
+
 
 public class Cliente extends Thread {
 
@@ -25,7 +27,7 @@ public class Cliente extends Thread {
 	}
 
 	public void tentarConexaoServer() throws NumberFormatException,
-			UnknownHostException, IOException {
+			UnknownHostException, ConnectException, IOException {
 		this.socket = new Socket(this.ipServer, Integer.parseInt(this.porta));
 	}
 
