@@ -5,6 +5,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.UnknownHostException;
 
 import javax.swing.BorderFactory;
@@ -185,6 +186,11 @@ public class telaConectToServer extends JFrame {
 							} catch (UnknownHostException e1) {
 								JOptionPane.showMessageDialog(null,
 										"Endereco IP Desconhecido",
+										"Batalha Naval - Erro",
+										JOptionPane.ERROR_MESSAGE);
+								e1.printStackTrace();
+							} catch (ConnectException e1) {
+								JOptionPane.showMessageDialog(null, "Conexão recusada",
 										"Batalha Naval - Erro",
 										JOptionPane.ERROR_MESSAGE);
 								e1.printStackTrace();
