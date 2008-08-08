@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-public class Servidor extends Thread{
+public class Servidor extends Thread {
 
 	private String porta = "";
 
@@ -17,7 +17,6 @@ public class Servidor extends Thread{
 	private String senhaCriptografada = "";
 
 	private ServerSocket serverSocket;
-
 
 	/**
 	 * Seta os parametros fundamentais do servidor e o inicia.
@@ -39,6 +38,11 @@ public class Servidor extends Thread{
 	 * Construtor
 	 */
 	public Servidor() {
+		this.porta = "";
+		this.ipLocal = "";
+		this.nome = "";
+		this.senhaCriptografada = "";
+		this.serverSocket = null;
 		this.setIpLocal();
 		this.setNome();
 	}
@@ -66,32 +70,32 @@ public class Servidor extends Thread{
 	}
 
 	public void esperaConexaoCliente() {
-		Socket socket = null;
 		while (true) {
 			try {
-				socket = this.serverSocket.accept();
+				Socket socket = this.serverSocket.accept();
 				new ThreadCliente(socket).start();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}finally{
-				try{
-					//Encerro o socket de comunicação
+			} /*finally {
+				try {
+					// Encerro o socket de comunicação
 					socket.close();
-
-				    //Encerro o ServerSocket
+					// Encerro o ServerSocket
 					this.serverSocket.close();
-				}catch(IOException e){
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-			}
+			}*/
 		}
 	}
 
 	@Override
-	protected void finalize ( ) {
-		try{
-		    //Encerro o ServerSocket
+	protected void finalize() {
+		try {
+			// Encerro o ServerSocket
 			this.serverSocket.close();
-		}catch(IOException e){
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -142,6 +146,11 @@ public class Servidor extends Thread{
 
 	public void setSenhaCriptografada(String senha) {
 		this.senhaCriptografada = senha;
+	}
+
+	@Override
+	public void run() {
+		this.esperaConexaoCliente();
 	}
 
 }

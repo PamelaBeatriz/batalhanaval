@@ -15,9 +15,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import util.MD5;
-
 import logica.Servidor;
+import util.MD5;
 
 public class telaCreateServer extends JFrame {
 
@@ -35,6 +34,7 @@ public class telaCreateServer extends JFrame {
 	private JLabel ipLabel = null;
 	private JTextField ipField = null;
 	private Servidor servidor = null;
+
 
 	/**
 	 * This is the default constructor
@@ -136,7 +136,7 @@ public class telaCreateServer extends JFrame {
 			portaField = new JTextField();
 			portaField.setBounds(new Rectangle(90, 57, 51, 20));
 
-			portaField.setText("17169");
+			portaField.setText("9999");
 		}
 		return portaField;
 	}

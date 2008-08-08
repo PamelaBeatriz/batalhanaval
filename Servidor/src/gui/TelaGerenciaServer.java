@@ -9,12 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-//import java.awt.Dimension;
-//import javax.swing.JTextPane;
-//import java.awt.GridBagLayout;
-import javax.swing.JTextArea;
 
 import logica.Servidor;
 
@@ -53,14 +50,15 @@ public class TelaGerenciaServer extends JFrame {
 		this.ipField.setEditable(false);
 		this.logTextArea.setText("** Servidor Inicializado **");
 		this.servidor = servidor;
-		final Servidor server = this.servidor;
+		this.servidor.start();
+		/*final Servidor server = this.servidor;
 		class waitConn extends Thread {
 			public void run() {
 				server.esperaConexaoCliente();
 			}
 		}
 		Thread esperarCliente = new waitConn();
-		esperarCliente.start();
+		esperarCliente.start();*/
 	}
 
 	/**
@@ -69,7 +67,7 @@ public class TelaGerenciaServer extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(614, 417);
+		this.setSize(621, 423);
 		this.setContentPane(getJContentPane());
 		this.setTitle("Server Manager - Batalha Naval");
 		this.setVisible(true);
