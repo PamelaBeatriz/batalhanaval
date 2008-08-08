@@ -26,9 +26,10 @@ public class Cliente extends Thread {
 		this.senhaCriptografada = "";
 	}
 
-	public void tentarConexaoServer() throws NumberFormatException,
+	public boolean tentarConexaoServer() throws NumberFormatException,
 			UnknownHostException, ConnectException, IOException {
 		this.socket = new Socket(this.ipServer, Integer.parseInt(this.porta));
+		return this.socket.isConnected();
 	}
 
 	public void setCliente(String nick, String ipServer, String porta,

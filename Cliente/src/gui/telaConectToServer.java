@@ -176,39 +176,39 @@ public class telaConectToServer extends JFrame {
 									.getHash(passwordField.getPassword()
 											.toString().getBytes()));
 							try {
-								cliente.tentarConexaoServer();
+								if(cliente.tentarConexaoServer()) {
+									//abre sala de espera
+									System.out.print("conectou");
+								} else {
+									frame.setVisible(true);
+								}
 							} catch (NumberFormatException e1) {
 								JOptionPane.showMessageDialog(null,
 										"Porta Inválida",
 										"Batalha Naval - Erro",
 										JOptionPane.ERROR_MESSAGE);
 								e1.printStackTrace();
+								frame.setVisible(true);
 							} catch (UnknownHostException e1) {
 								JOptionPane.showMessageDialog(null,
 										"Endereco IP Desconhecido",
 										"Batalha Naval - Erro",
 										JOptionPane.ERROR_MESSAGE);
 								e1.printStackTrace();
+								frame.setVisible(true);
 							} catch (ConnectException e1) {
 								JOptionPane.showMessageDialog(null, "Conexão recusada",
 										"Batalha Naval - Erro",
 										JOptionPane.ERROR_MESSAGE);
 								e1.printStackTrace();
+								frame.setVisible(true);
 							} catch (IOException e1) {
 								JOptionPane.showMessageDialog(null, "Erro",
 										"Batalha Naval - Erro",
 										JOptionPane.ERROR_MESSAGE);
 								e1.printStackTrace();
-							}
-							int resultado = JOptionPane.showOptionDialog(null,
-									"Connecting...", "Connecting to Server",
-									JOptionPane.CANCEL_OPTION,
-									JOptionPane.INFORMATION_MESSAGE, null,
-									new String[] { "Cancel" }, null);
-							if (resultado == 0) {
 								frame.setVisible(true);
 							}
-
 						}
 					});
 		}
