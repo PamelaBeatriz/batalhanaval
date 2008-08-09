@@ -16,6 +16,8 @@ public class Servidor extends Thread {
 
 	private String senhaCriptografada = "";
 
+	private String logServer = "";
+
 	private ServerSocket serverSocket;
 
 	/**
@@ -30,6 +32,7 @@ public class Servidor extends Thread {
 			String senhaCriptografada) {
 		this.nome = nome;
 		this.porta = porta;
+		this.logServer = "";
 		this.senhaCriptografada = senhaCriptografada;
 		return (this.inicializar());
 	}
@@ -43,6 +46,7 @@ public class Servidor extends Thread {
 		this.nome = "";
 		this.senhaCriptografada = "";
 		this.serverSocket = null;
+		this.logServer = "";
 		this.setIpLocal();
 		this.setNome();
 	}
@@ -57,6 +61,9 @@ public class Servidor extends Thread {
 	private boolean inicializar() {
 		try {
 			this.serverSocket = new ServerSocket(Integer.parseInt(this.porta));
+			this.logServer = "** Servidor \"" + this.nome
+					+ "\" inicializado com sucesso\n";
+			this.logServer += "> Esperando Conexoes ... \n";
 			return true;
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -74,6 +81,9 @@ public class Servidor extends Thread {
 			Socket socket = null;
 			try {
 				socket = this.serverSocket.accept();
+				this.logServer += "> Conectado ==> Cliente: "
+						+ socket.getInetAddress().getHostName() + " Ip: "
+						+ socket.getInetAddress().getHostAddress() + "\n";
 				new ThreadCliente(socket).start();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -149,6 +159,14 @@ public class Servidor extends Thread {
 	@Override
 	public void run() {
 		this.esperaConexaoCliente();
+	}
+
+	public String getLogServer() {
+		return logServer;
+	}
+
+	public void setLogServer(String logServer) {
+		this.logServer = logServer;
 	}
 
 }
