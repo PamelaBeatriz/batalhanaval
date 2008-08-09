@@ -1,9 +1,9 @@
 package logica;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.net.ConnectException;
 
 
 public class Cliente extends Thread {
@@ -78,6 +78,14 @@ public class Cliente extends Thread {
 
 	public void setIpServer(String ipServer) {
 		this.ipServer = ipServer;
+	}
+
+	public void finalize() {
+		 try {
+			 this.socket.close();
+		 } catch (IOException e) {
+		 	 e.printStackTrace();
+		 }
 	}
 
 }
