@@ -6,6 +6,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.JTextArea;
+
 public class Servidor extends Thread {
 
 	private String porta = "";
@@ -16,9 +18,11 @@ public class Servidor extends Thread {
 
 	private String senhaCriptografada = "";
 
-	private String logServer = "";
+	//private String logServer = "";
 
 	private ServerSocket serverSocket;
+
+	private JTextArea logTextArea = null;
 
 	/**
 	 * Seta os parametros fundamentais do servidor e o inicia.
@@ -32,7 +36,7 @@ public class Servidor extends Thread {
 			String senhaCriptografada) {
 		this.nome = nome;
 		this.porta = porta;
-		this.logServer = "";
+		//this.logServer = "";
 		this.senhaCriptografada = senhaCriptografada;
 		return (this.inicializar());
 	}
@@ -46,7 +50,7 @@ public class Servidor extends Thread {
 		this.nome = "";
 		this.senhaCriptografada = "";
 		this.serverSocket = null;
-		this.logServer = "";
+		//this.logServer = "";
 		this.setIpLocal();
 		this.setNome();
 	}
@@ -61,9 +65,10 @@ public class Servidor extends Thread {
 	private boolean inicializar() {
 		try {
 			this.serverSocket = new ServerSocket(Integer.parseInt(this.porta));
-			this.logServer = "** Servidor \"" + this.nome
+			/*this.logServer = "** Servidor \"" + this.nome
 					+ "\" inicializado com sucesso\n";
 			this.logServer += "> Esperando Conexoes ... \n";
+			*/
 			return true;
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -77,14 +82,18 @@ public class Servidor extends Thread {
 	}
 
 	public void esperaConexaoCliente() {
+		this.logTextArea.append("** Servidor inicializado com sucesso **\n> Esperando Conexões ...");
 		while (true) {
 			Socket socket = null;
 			try {
 				socket = this.serverSocket.accept();
-				this.logServer += "> Conectado ==> Cliente: "
+				/*this.logServer += "> Conectado ==> Cliente: "
 						+ socket.getInetAddress().getHostName() + " Ip: "
 						+ socket.getInetAddress().getHostAddress() + "\n";
-				new ThreadCliente(socket).start();
+				*/new ThreadCliente(socket, this.logTextArea).start();
+				this.logTextArea.append("\n> Novo Cliente conectado: " /* pegar apelido */
+						+ " ["
+						+ socket.getInetAddress().getHostAddress() + "]");
 			} catch (IOException e) {
 				e.printStackTrace();
 				try {
@@ -161,12 +170,15 @@ public class Servidor extends Thread {
 		this.esperaConexaoCliente();
 	}
 
-	public String getLogServer() {
+	/*public String getLogServer() {
 		return logServer;
 	}
 
 	public void setLogServer(String logServer) {
 		this.logServer = logServer;
-	}
+	}*/
 
+	public void setLogArea(JTextArea logTextArea) {
+		this.logTextArea = logTextArea;
+	}
 }
