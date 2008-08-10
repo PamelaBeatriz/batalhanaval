@@ -48,17 +48,10 @@ public class TelaGerenciaServer extends JFrame {
 		this.nomeField.setEditable(false);
 		this.portaField.setEditable(false);
 		this.ipField.setEditable(false);
-		this.logTextArea.setText("** Servidor Inicializado **");
+		//this.logTextArea.setText("** Servidor Inicializado **");
 		this.servidor = servidor;
+		this.servidor.setLogArea(logTextArea);
 		this.servidor.start();
-		/*final Servidor server = this.servidor;
-		class waitConn extends Thread {
-			public void run() {
-				server.esperaConexaoCliente();
-			}
-		}
-		Thread esperarCliente = new waitConn();
-		esperarCliente.start();*/
 	}
 
 	/**
