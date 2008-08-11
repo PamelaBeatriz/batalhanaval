@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Rectangle;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,6 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import logica.Servidor;
+import javax.swing.JScrollPane;
+import javax.swing.JList;
 
 public class TelaGerenciaServer extends JFrame {
 
@@ -31,6 +34,8 @@ public class TelaGerenciaServer extends JFrame {
 	private JPanel logPanel = null;
 	private JTextArea logTextArea = null;
 	private Servidor servidor;
+	private JScrollPane clientScrollPane = null;
+	private JList clientList = null;
 
 	/**
 	 *
@@ -51,6 +56,7 @@ public class TelaGerenciaServer extends JFrame {
 		//this.logTextArea.setText("** Servidor Inicializado **");
 		this.servidor = servidor;
 		this.servidor.setLogArea(logTextArea);
+		this.servidor.setClientList(clientList);
 		this.servidor.start();
 	}
 
@@ -60,6 +66,7 @@ public class TelaGerenciaServer extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
+		this.setIconImage(new ImageIcon("src/images/icon.gif").getImage());
 		this.setSize(621, 423);
 		this.setContentPane(getJContentPane());
 		this.setTitle("Server Manager - Batalha Naval");
@@ -165,6 +172,7 @@ public class TelaGerenciaServer extends JFrame {
 			clientePanel.setLayout(null);
 			clientePanel.setBounds(new Rectangle(309, 5, 288, 131));
 			clientePanel.setBorder(BorderFactory.createTitledBorder(null, "Clients", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+			clientePanel.add(getClientScrollPane(), null);
 		}
 		return clientePanel;
 	}
@@ -216,5 +224,31 @@ public class TelaGerenciaServer extends JFrame {
 			logTextArea.setEditable(false);
 		}
 		return logTextArea;
+	}
+
+	/**
+	 * This method initializes clientScrollPane
+	 *
+	 * @return javax.swing.JScrollPane
+	 */
+	private JScrollPane getClientScrollPane() {
+		if (clientScrollPane == null) {
+			clientScrollPane = new JScrollPane();
+			clientScrollPane.setBounds(new Rectangle(9, 22, 269, 100));
+			clientScrollPane.setViewportView(getClientList());
+		}
+		return clientScrollPane;
+	}
+
+	/**
+	 * This method initializes clientList
+	 *
+	 * @return javax.swing.JList
+	 */
+	private JList getClientList() {
+		if (clientList == null) {
+			clientList = new JList();
+		}
+		return clientList;
 	}
 } // @jve:decl-index=0:visual-constraint="10,10"

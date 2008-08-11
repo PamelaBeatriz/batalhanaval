@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Rectangle;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -51,6 +52,7 @@ public class telaCreateServer extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
+		this.setIconImage(new ImageIcon("src/images/icon.gif").getImage());
 		this.setSize(335, 237);
 		this.setContentPane(getJContentPane());
 		this.setTitle("Create Server - Batalha Naval");
