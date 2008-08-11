@@ -6,6 +6,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JTextArea;
 
 public class Servidor extends Thread {
@@ -23,6 +25,10 @@ public class Servidor extends Thread {
 	private ServerSocket serverSocket;
 
 	private JTextArea logTextArea = null;
+
+	private JList clientList = null;
+
+	private DefaultListModel modelo = null;
 
 	/**
 	 * Seta os parametros fundamentais do servidor e o inicia.
@@ -83,6 +89,8 @@ public class Servidor extends Thread {
 
 	public void esperaConexaoCliente() {
 		this.logTextArea.append("** Servidor inicializado com sucesso **\n> Esperando Conexões ...");
+		modelo = new DefaultListModel();
+		clientList.setModel(modelo);
 		while (true) {
 			Socket socket = null;
 			try {
@@ -94,6 +102,8 @@ public class Servidor extends Thread {
 				this.logTextArea.append("\n> Novo Cliente conectado: " /* pegar apelido */
 						+ " ["
 						+ socket.getInetAddress().getHostAddress() + "]");
+				//ainda não remove...
+				(((DefaultListModel) clientList.getModel())).addElement("> [" + socket.getInetAddress().getHostAddress() + "]");
 			} catch (IOException e) {
 				e.printStackTrace();
 				try {
@@ -180,5 +190,9 @@ public class Servidor extends Thread {
 
 	public void setLogArea(JTextArea logTextArea) {
 		this.logTextArea = logTextArea;
+	}
+
+	public void setClientList(JList clientList) {
+		this.clientList = clientList;
 	}
 }
