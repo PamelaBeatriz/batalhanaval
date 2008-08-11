@@ -3,12 +3,14 @@ package gui;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -53,6 +55,7 @@ public class telaConectToServer extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
+		this.setIconImage(new ImageIcon("src/images/icon.gif").getImage());
 		this.setSize(306, 237);
 		this.setContentPane(getJContentPane());
 		this.setTitle("Connect to Server - Batalha Naval");
