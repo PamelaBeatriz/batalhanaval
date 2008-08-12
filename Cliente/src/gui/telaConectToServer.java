@@ -180,7 +180,7 @@ public class telaConectToServer extends JFrame {
 							try {
 								if(cliente.tentarConexaoServer()) {
 									frame.setVisible(false);
-									new TelaJogo(nickField.getText());
+									new TelaJogo(nickField.getText(),cliente);
 								} else {
 									frame.setVisible(true);
 								}
