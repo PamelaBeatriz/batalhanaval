@@ -15,9 +15,9 @@ public class ThreadCliente extends Thread {
 
 	private JTextArea logTextArea;
 
-	private ObjectOutputStream saida = null;
+	private ObjectOutputStream output = null;
 
-	private ObjectInputStream entrada = null;
+	private ObjectInputStream input = null;
 
 	public ThreadCliente(Socket socket, JTextArea logTextArea) {
 		this.conexao = socket;
@@ -32,11 +32,6 @@ public class ThreadCliente extends Thread {
 		}
         try {
 			saida.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        try {
-			entrada = new ObjectInputStream( conexao.getInputStream() );
 		} catch (IOException e) {
 			e.printStackTrace();
 		}*/
@@ -66,32 +61,42 @@ public class ThreadCliente extends Thread {
 		} catch (IOException e2) {
 			e2.printStackTrace();
 		}*/
-		while(true) {
-			BufferedReader entrada = null;
+        try {
+			input = new ObjectInputStream( conexao.getInputStream() );
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		BufferedReader entrada = null;
+		String msg = null;
+		String linha = null;
+		do {
+			try {
+				msg = (String) input.readObject();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			this.logTextArea.append(msg);
 			try {
 				entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-			String linha = null;
 			try {
 				linha = entrada.readLine();
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
-		    while (linha != null && !(linha.trim().equals(""))) {
-		        try {
-					linha = entrada.readLine();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-		    }
-			try {
-				this.conexao.close();
-				this.logTextArea.append("\n> Cliente desconectou");
+		    try {
+				linha = entrada.readLine();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		} while(linha != null && !(linha.trim().equals("")));
+	    try {
+			this.conexao.close();
+			this.logTextArea.append("\n> Cliente desconectou");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}
