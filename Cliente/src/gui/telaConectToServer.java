@@ -3,7 +3,6 @@ package gui;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.Rectangle;
 import java.io.IOException;
 import java.net.ConnectException;
@@ -180,8 +179,8 @@ public class telaConectToServer extends JFrame {
 											.toString().getBytes()));
 							try {
 								if(cliente.tentarConexaoServer()) {
-									//abre sala de espera
-									System.out.print("conectou");
+									frame.setVisible(false);
+									new TelaJogo(nickField.getText());
 								} else {
 									frame.setVisible(true);
 								}
