@@ -1,20 +1,23 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
 
 public class TelaJogo extends JFrame {
 
@@ -63,7 +66,7 @@ public class TelaJogo extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(717, 679);
+		this.setSize(738, 614);
 		this.setJMenuBar(getJJMenuBar());
 		this.setContentPane(getJContentPane());
 		this.setTitle("Batalha Naval - O Jogo");
@@ -98,7 +101,7 @@ public class TelaJogo extends JFrame {
 		if (chatJPanel == null) {
 			chatJPanel = new JPanel();
 			chatJPanel.setLayout(null);
-			chatJPanel.setBounds(new Rectangle(5, 463, 686, 150));
+			chatJPanel.setBounds(new Rectangle(341, 332, 347, 203));
 			chatJPanel.setBorder(BorderFactory.createTitledBorder(null, "Chat",
 					TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION,
 					new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
@@ -289,10 +292,100 @@ public class TelaJogo extends JFrame {
 		if (painelControleJPanel == null) {
 			painelControleJPanel = new JPanel();
 			painelControleJPanel.setLayout(null);
-			painelControleJPanel.setBounds(new Rectangle(7, 326, 682, 133));
+			painelControleJPanel.setBounds(new Rectangle(7, 326, 318, 211));
 			painelControleJPanel.setBorder(BorderFactory.createTitledBorder(null, "Navios", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
 		}
 		return painelControleJPanel;
 	}
+
+	private void initComponents(){
+		//Cria uma box, que é um gerenciador de containeres. Neste caso criamos uma box horizontal, e todo container adicionado à box
+        //o será da esquerda para a direita. Para quem quiser saber mais sobre Box (BoxLayout), indiquei o link do tutorial da Sun
+        //na descrição da classe.
+        Box boxHorizontalCima = Box.createHorizontalBox();
+
+        //Aqui criamos 4 box auxiliares. A box1CimaX é uma box horizontal que adiciona o container com as letras e o tabuleiro do
+        //jogador. Depois "empacotamos" esta box na box1CimaY, junto com o container com os números. O mesmo acontece com box2CimaX
+        //e box2CimaY. Explicarei melhor no decorrer do código ;-)
+        Box box1CimaX = Box.createHorizontalBox(); Box box2CimaX = Box.createHorizontalBox();
+        Box box1CimaY = Box.createVerticalBox(); Box box2CimaY = Box.createVerticalBox();
+
+
+
+        Dimension distPadraoX = new Dimension(10, 249);
+        Dimension distPadraoY  = new Dimension(250,10);
+
+        //Criamos os containeres com as letras e números. bottom1 é um container que serve apenas para dar um espaço de preenchimento.
+        Container letras = criarVetorLetras();
+        Container numeros = criarVetorNumeros();
+        Container bottom1 = new Container();
+
+        bottom1.setPreferredSize(new Dimension(251,15));
+
+        //Primeiro adicionamos um espaço de preenchimento na box horizontal, com dimensão 10,252. Isto cria o espaço entre o lado
+        //esquerdo do frame e as letras
+        box1CimaX.add(new Box.Filler(distPadraoX,distPadraoX,distPadraoX));
+        //Adicionamos as letras  e o tabuleiro do jogador
+        box1CimaX.add(letras);
+       // box1CimaX.add(meuTabuleiro);
+
+        //Depois adicionamos um espaço de preenchimento similar à box horizontal, mas agora na vertical. Isto cria o espaço entre o
+        //a parte de cima do frame e os números
+        box1CimaY.add(new Box.Filler(distPadraoY,distPadraoY,distPadraoY));
+        //Adicionamos os números e a box horizontal, para empacotar tudo numa grande box
+        box1CimaY.add(numeros);
+        box1CimaY.add(box1CimaX);
+        //Adicionamos um espaço de preenchimento também na vertical. Isto cria o espaço entre o tabuleiro e o painel com os botões
+        //(ou dados da rede).
+        box1CimaY.add(new Box.Filler(distPadraoY,distPadraoY,distPadraoY));
+        //Por fim, adicionamos a box que contém o tabuleiro, letras e números na box horizontal de cima. Entenda que isto funciona
+        //basicamente como uma série de empacotamentos de containeres. Até aqui, adicionamos apenas o tabuleiro do jogador
+        boxHorizontalCima.add(box1CimaY);
+        boxHorizontalCima.add(new Box.Filler(distPadraoX,distPadraoX,distPadraoX));
+	}
+
+	 /**
+     * Retorna um container com as letras de cada linha do tabuleiro
+     *
+     * @return container - container com os labels
+     */
+    private Container criarVetorLetras() {
+
+        Container container = new Container();
+        container.setPreferredSize(new Dimension(10,250));
+        container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+
+        JLabel label = null;
+
+        for(char c = 'A'; c <= 'J'; c++) {
+            label = new JLabel(c+"");
+            container.add(label);
+            container.add(Box.createRigidArea(new Dimension(0,9)));
+        }
+        return container;
+    }
+
+    /**
+     * Retorna um container com os números de cada linha do tabuleiro
+     * @return container - container com os labels que indicam os números
+     */
+    private Container criarVetorNumeros() {
+
+        Container container = new Container();
+
+        container.setPreferredSize(new Dimension(250,10));
+        container.setLayout(new BoxLayout(container, BoxLayout.LINE_AXIS));
+
+        JLabel label = null;
+
+        container.add(Box.createRigidArea(new Dimension(30,0)));
+
+        for(int i = 0; i < 10; i++) {
+            label = new JLabel(i+"");
+            container.add(label);
+            container.add(Box.createRigidArea(new Dimension(18,0)));
+        }
+        return container;
+    }
 
 } // @jve:decl-index=0:visual-constraint="10,10"
