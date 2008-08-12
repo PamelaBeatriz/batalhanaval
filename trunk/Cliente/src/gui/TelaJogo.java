@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.net.Socket;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -18,6 +19,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
+
+import logica.Cliente;
+import logica.NWdata;
 
 public class TelaJogo extends JFrame {
 
@@ -36,6 +40,7 @@ public class TelaJogo extends JFrame {
 	private JMenuItem comoJogarJMenuItem = null;
 	private JMenuItem sobreJMenuItem = null;
 	private JPanel painelControleJPanel = null;
+	private Cliente client;
 
 	public String getNickName() {
 		return nickName;
@@ -48,16 +53,18 @@ public class TelaJogo extends JFrame {
 	/**
 	 * This is the default constructor
 	 */
-	public TelaJogo() {
+	public TelaJogo(Socket socket) {
 		super();
 		initialize();
 	}
 
-	public TelaJogo(String nickName) {
+	public TelaJogo(String nickName, Cliente cliente) {
 		super();
 		this.nickName = nickName;
+		this.client = client;
 		initialize();
-
+		Thread nwd = new NWdata(cliente);
+		nwd.start();
 	}
 
 	/**
