@@ -1,6 +1,12 @@
 package logica;
 
-public class Packet {
+import java.io.Serializable;
+
+public class Packet implements Serializable{
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -177285901285284008L;
 	private String from = null;
 	private String to = null;
 	private String type = null;
