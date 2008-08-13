@@ -67,15 +67,16 @@ public class ThreadCliente extends Thread {
 			e.printStackTrace();
 		}
 		BufferedReader entrada = null;
-		String msg = null;
+		Packet packet = null;
 		String linha = null;
 		do {
 			try {
-				msg = (String) input.readObject();
+				packet = (Packet) input.readObject();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			this.logTextArea.append(msg);
+			this.logTextArea.append("\n> De: " + packet.getFrom() + "\n Para: " + packet.getTo() +
+					"\n Tipo: " + packet.getType() + "\n Dados: " + packet.getData());
 			try {
 				entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
 			} catch (IOException e1) {
