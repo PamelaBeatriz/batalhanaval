@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JTextArea;
 
@@ -95,7 +98,9 @@ public class ThreadCliente extends Thread {
 		} while(linha != null && !(linha.trim().equals("")));
 	    try {
 			this.conexao.close();
-			this.logTextArea.append("\n> Cliente desconectou");
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	        Date date = new Date();
+			this.logTextArea.append("\n> Cliente desconectou ["+ dateFormat.format(date)+ "]");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

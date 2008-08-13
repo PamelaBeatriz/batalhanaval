@@ -5,6 +5,9 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -96,12 +99,17 @@ public class Servidor extends Thread {
 				 * this.logServer += "> Conectado ==> Cliente: " +
 				 * socket.getInetAddress().getHostName() + " Ip: " +
 				 * socket.getInetAddress().getHostAddress() + "\n";
-				 */new ThreadCliente(socket, this.logTextArea).start();
+				 */
+
+				new ThreadCliente(socket, this.logTextArea).start();
+				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		        Date date = new Date();
+
 				this.logTextArea
 						.append("\n> Novo Cliente conectado: " /* pegar apelido */
 								+ " ["
 								+ socket.getInetAddress().getHostAddress()
-								+ "]");
+								+ "] ["+ dateFormat.format(date)+ "]");
 				// ainda não remove...
 				(((DefaultListModel) clientList.getModel())).addElement("> ["
 						+ socket.getInetAddress().getHostAddress() + "]");
