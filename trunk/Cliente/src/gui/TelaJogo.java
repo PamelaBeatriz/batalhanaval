@@ -21,7 +21,11 @@ import javax.swing.KeyStroke;
 import javax.swing.border.TitledBorder;
 
 import logica.Cliente;
-import logica.NWdata;
+import logica.DataOutput;
+import logica.Packet;
+
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 public class TelaJogo extends JFrame {
 
@@ -41,6 +45,9 @@ public class TelaJogo extends JFrame {
 	private JMenuItem sobreJMenuItem = null;
 	private JPanel painelControleJPanel = null;
 	private Cliente client;
+	private JTextArea chatTextArea = null;
+	private JTextField inputTextField = null;
+	private DataOutput output;
 
 	public String getNickName() {
 		return nickName;
@@ -53,18 +60,12 @@ public class TelaJogo extends JFrame {
 	/**
 	 * This is the default constructor
 	 */
-	public TelaJogo(Socket socket) {
-		super();
-		initialize();
-	}
-
-	public TelaJogo(String nickName, Cliente cliente) {
+	public TelaJogo(String nickName, Cliente client) {
 		super();
 		this.nickName = nickName;
 		this.client = client;
 		initialize();
-		Thread nwd = new NWdata(cliente);
-		nwd.start();
+		this.output = new DataOutput(this.client);
 	}
 
 	/**
@@ -112,6 +113,8 @@ public class TelaJogo extends JFrame {
 			chatJPanel.setBorder(BorderFactory.createTitledBorder(null, "Chat",
 					TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION,
 					new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
+			chatJPanel.add(getChatTextArea(), null);
+			chatJPanel.add(getInputTextField(), null);
 		}
 		return chatJPanel;
 	}
@@ -394,5 +397,38 @@ public class TelaJogo extends JFrame {
         }
         return container;
     }
+
+	/**
+	 * This method initializes chatTextArea
+	 *
+	 * @return javax.swing.JTextArea
+	 */
+	private JTextArea getChatTextArea() {
+		if (chatTextArea == null) {
+			chatTextArea = new JTextArea();
+			chatTextArea.setBounds(new Rectangle(12, 16, 324, 155));
+		}
+		return chatTextArea;
+	}
+
+	/**
+	 * This method initializes inputTextField
+	 *
+	 * @return javax.swing.JTextField
+	 */
+	private JTextField getInputTextField() {
+		if (inputTextField == null) {
+			inputTextField = new JTextField();
+			inputTextField.setBounds(new Rectangle(12, 175, 325, 20));
+			inputTextField.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					output.SendPacket(new Packet("FROM","TO","CHAT",inputTextField.getText()));
+					chatTextArea.append(inputTextField.getText() + "\n");
+					inputTextField.setText("");
+				}
+			});
+		}
+		return inputTextField;
+	}
 
 } // @jve:decl-index=0:visual-constraint="10,10"
