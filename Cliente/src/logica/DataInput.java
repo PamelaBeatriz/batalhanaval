@@ -5,7 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-public class NWdata extends Thread {
+public class DataInput extends Thread {
 
 	private Socket socket = null;
 
@@ -15,7 +15,9 @@ public class NWdata extends Thread {
 
 	private Cliente client;
 
-	public NWdata(Cliente cliente) {
+	private Packet packet;
+
+	public DataInput(Cliente cliente) {
 		this.socket = cliente.getSocket();
 	}
 
