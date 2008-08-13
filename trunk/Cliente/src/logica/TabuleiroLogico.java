@@ -1,6 +1,6 @@
 package logica;
 
-public class TabuleiroLogico extends Thread {
+public class TabuleiroLogico extends Thread{
 
 	private String[][] tabuleiro = null;
 
@@ -29,7 +29,9 @@ public class TabuleiroLogico extends Thread {
 	}
 
 	public TabuleiroLogico() {
+		this.tabuleiro = new String[10][10];
 		this.inicialize();
+
 	}
 
 	private void inicialize() {
