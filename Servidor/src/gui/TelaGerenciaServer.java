@@ -36,6 +36,7 @@ public class TelaGerenciaServer extends JFrame {
 	private Servidor servidor;
 	private JScrollPane clientScrollPane = null;
 	private JList clientList = null;
+	private JScrollPane logScrollPane = null;
 
 	/**
 	 *
@@ -207,7 +208,7 @@ public class TelaGerenciaServer extends JFrame {
 			logPanel.setLayout(null);
 			logPanel.setBounds(new Rectangle(7, 150, 590, 194));
 			logPanel.setBorder(BorderFactory.createTitledBorder(null, "Log", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
-			logPanel.add(getLogTextArea(), null);
+			logPanel.add(getLogScrollPane(), null);
 		}
 		return logPanel;
 	}
@@ -220,7 +221,6 @@ public class TelaGerenciaServer extends JFrame {
 	private JTextArea getLogTextArea() {
 		if (logTextArea == null) {
 			logTextArea = new JTextArea();
-			logTextArea.setBounds(new Rectangle(17, 22, 556, 156));
 			logTextArea.setEditable(false);
 		}
 		return logTextArea;
@@ -250,5 +250,19 @@ public class TelaGerenciaServer extends JFrame {
 			clientList = new JList();
 		}
 		return clientList;
+	}
+
+	/**
+	 * This method initializes logScrollPane
+	 *
+	 * @return javax.swing.JScrollPane
+	 */
+	private JScrollPane getLogScrollPane() {
+		if (logScrollPane == null) {
+			logScrollPane = new JScrollPane();
+			logScrollPane.setBounds(new Rectangle(9, 23, 572, 161));
+			logScrollPane.setViewportView(getLogTextArea());
+		}
+		return logScrollPane;
 	}
 } // @jve:decl-index=0:visual-constraint="10,10"
