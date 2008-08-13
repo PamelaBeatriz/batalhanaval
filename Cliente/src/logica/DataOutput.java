@@ -1,7 +1,6 @@
 package logica;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
@@ -23,6 +22,7 @@ public class DataOutput{
 			saida.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
+
 		}
 
 	}
@@ -33,6 +33,7 @@ public class DataOutput{
 			saida.flush();
 		} catch (IOException e2) {
 			e2.printStackTrace();
+			System.out.println("ERRO NO ENVIO DO PACOTE");
 		}
 	}
 }

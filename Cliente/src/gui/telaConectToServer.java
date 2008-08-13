@@ -59,6 +59,7 @@ public class telaConectToServer extends JFrame {
 		this.setContentPane(getJContentPane());
 		this.setTitle("Connect to Server - Batalha Naval");
 		this.setVisible(true);
+
 	}
 
 	/**
@@ -178,9 +179,9 @@ public class telaConectToServer extends JFrame {
 									.getHash(passwordField.getPassword()
 											.toString().getBytes()));
 							try {
-								if(cliente.tentarConexaoServer()) {
+								if (cliente.tentarConexaoServer()) {
 									frame.setVisible(false);
-									new TelaJogo(nickField.getText(),cliente);
+									new TelaJogo(nickField.getText(), cliente);
 								} else {
 									frame.setVisible(true);
 								}
@@ -199,7 +200,8 @@ public class telaConectToServer extends JFrame {
 								e1.printStackTrace();
 								frame.setVisible(true);
 							} catch (ConnectException e1) {
-								JOptionPane.showMessageDialog(null, "Conexão recusada",
+								JOptionPane.showMessageDialog(null,
+										"Conexão recusada",
 										"Batalha Naval - Erro",
 										JOptionPane.ERROR_MESSAGE);
 								e1.printStackTrace();
@@ -245,6 +247,7 @@ public class telaConectToServer extends JFrame {
 		if (IPfield == null) {
 			IPfield = new JTextField();
 			IPfield.setBounds(new Rectangle(90, 54, 100, 20));
+			IPfield.setText("localhost");
 		}
 		return IPfield;
 	}
