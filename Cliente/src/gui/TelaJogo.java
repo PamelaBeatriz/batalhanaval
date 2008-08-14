@@ -24,6 +24,7 @@ import javax.swing.border.TitledBorder;
 import logica.Cliente;
 import logica.DataOutput;
 import logica.Packet;
+import javax.swing.JScrollPane;
 
 public class TelaJogo extends JFrame {
 
@@ -45,9 +46,9 @@ public class TelaJogo extends JFrame {
 	private Cliente client;
 	private JLabel tabuleiroCasaLabel = null;
 	private JTextArea chatTextArea = null;
-	private JTextField inputTextField = null;
 	private DataOutput output;
 	private JScrollPane chatScrollPane = null;
+	private JTextField chatTextField = null;
 
 	public String getNickName() {
 		return nickName;
@@ -68,9 +69,9 @@ public class TelaJogo extends JFrame {
 	public TelaJogo(String nickName, Cliente cliente) {
 		super();
 		this.nickName = nickName;
-		this.client = client;
-		initialize();
+		this.client = cliente;
 		this.output = new DataOutput(this.client);
+		initialize();
 	}
 
 	/**
@@ -119,9 +120,8 @@ public class TelaJogo extends JFrame {
 			chatJPanel.setBorder(BorderFactory.createTitledBorder(null, "Chat",
 					TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION,
 					new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
-			chatJPanel.add(getChatTextArea(), null);
-			chatJPanel.add(getInputTextField(), null);
 			chatJPanel.add(getChatScrollPane(), null);
+			chatJPanel.add(getChatTextField(), null);
 		}
 		return chatJPanel;
 	}
@@ -321,33 +321,29 @@ public class TelaJogo extends JFrame {
 	private JTextArea getChatTextArea() {
 		if (chatTextArea == null) {
 			chatTextArea = new JTextArea();
-			chatTextArea.setBounds(new Rectangle(10, 13, 324, 155));
 		}
 		return chatTextArea;
 	}
 
 	/**
-	 * This method initializes inputTextField
+	 * This method initializes chatTextField
 	 *
 	 * @return javax.swing.JTextField
 	 */
-	private JTextField getInputTextField() {
-		if (inputTextField == null) {
-			inputTextField = new JTextField();
-			inputTextField.setBounds(new Rectangle(32, 178, 224, 20));
-			inputTextField
-					.addActionListener(new java.awt.event.ActionListener() {
-						public void actionPerformed(java.awt.event.ActionEvent e) {
-							Packet packet = new Packet("FROM", "TO", "CHAT",
-									inputTextField.getText());
-							output.SendPacket(packet);
-							chatTextArea
-									.append(inputTextField.getText() + "\n");
-							inputTextField.setText("");
-						}
-					});
+	private JTextField getChatTextField() {
+		if (chatTextField == null) {
+			chatTextField = new JTextField();
+			chatTextField.setBounds(new Rectangle(12, 210, 361, 20));
+			chatTextField.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					Packet packet = new Packet("CHAT", chatTextField.getText());
+					output.SendPacket(packet);
+					chatTextArea
+							.append(chatTextField.getText() + "\n");
+					chatTextField.setText("");				}
+			});
 		}
-		return inputTextField;
+		return chatTextField;
 	}
 
 	/**
@@ -358,7 +354,7 @@ public class TelaJogo extends JFrame {
 	private JScrollPane getChatScrollPane() {
 		if (chatScrollPane == null) {
 			chatScrollPane = new JScrollPane();
-			chatScrollPane.setBounds(new Rectangle(12, 16, 325, 156));
+			chatScrollPane.setBounds(new Rectangle(12, 16, 361, 190));
 			chatScrollPane.setViewportView(getChatTextArea());
 		}
 		return chatScrollPane;
