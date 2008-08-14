@@ -47,24 +47,10 @@ public class TabuleiroDaCasa extends JPanel {
 
 	private int naviosPosicionadosParaJogar = 0;
 
-	public int getNaviosPosicionadosParaJogar() {
-		return naviosPosicionadosParaJogar;
-	}
-
-	public void setNaviosPosicionadosParaJogar(int naviosPosicionadosParaJogar) {
-		this.naviosPosicionadosParaJogar = naviosPosicionadosParaJogar;
-	}
-
-	public TabuleiroLogico getTabuleiroLogico() {
-		return tabuleiroLogico;
-	}
-
-	public void setTabuleiroLogico(TabuleiroLogico tabuleiroLogico) {
-		this.tabuleiroLogico = tabuleiroLogico;
-	}
-
 	/**
-	 * This is the default constructor
+	 * Construtor
+	 *
+	 * @param painelControle
 	 */
 	public TabuleiroDaCasa(PainelControle painelControle) {
 		super();
@@ -96,6 +82,9 @@ public class TabuleiroDaCasa extends JPanel {
 		this.posicaoDoCursor = new Point();
 	}
 
+	/**
+	 * Metodo para pintar na tela
+	 */
 	protected void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
@@ -149,7 +138,8 @@ public class TabuleiroDaCasa extends JPanel {
 	}
 
 	/**
-	 * Retorna um ponto normalizado onde deve-se desenhar cada navio
+	 * Retorna um ponto normalizado para desenhar
+	 * o navio na tela
 	 */
 	private Point normalizaPonto(int x, int y) {
 
@@ -162,12 +152,10 @@ public class TabuleiroDaCasa extends JPanel {
 	/**
 	 * MouseHandler.java
 	 *
-	 * Criado em 12 de Agosto de 2007, 22:08
 	 *
 	 * O propósito desta classe é lidar com eventos de mouse sobre o tabuleiro,
 	 * de forma a saber em qual posição será inserida a imagem
 	 */
-
 	private class MouseHandler extends MouseAdapter {
 
 		public void mousePressed(MouseEvent me) {
@@ -325,6 +313,22 @@ public class TabuleiroDaCasa extends JPanel {
 			setEnabled(true);
 			this.handlerOFF = false;
 		}
+	}
+
+	public int getNaviosPosicionadosParaJogar() {
+		return naviosPosicionadosParaJogar;
+	}
+
+	public void setNaviosPosicionadosParaJogar(int naviosPosicionadosParaJogar) {
+		this.naviosPosicionadosParaJogar = naviosPosicionadosParaJogar;
+	}
+
+	public TabuleiroLogico getTabuleiroLogico() {
+		return tabuleiroLogico;
+	}
+
+	public void setTabuleiroLogico(TabuleiroLogico tabuleiroLogico) {
+		this.tabuleiroLogico = tabuleiroLogico;
 	}
 
 	public String getShipName() {
