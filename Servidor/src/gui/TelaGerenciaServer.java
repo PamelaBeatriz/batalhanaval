@@ -55,6 +55,7 @@ public class TelaGerenciaServer extends JFrame {
 		this.portaField.setEditable(false);
 		this.ipField.setEditable(false);
 		//this.logTextArea.setText("** Servidor Inicializado **");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.servidor = servidor;
 		this.servidor.setLogArea(logTextArea);
 		this.servidor.setClientList(clientList);
