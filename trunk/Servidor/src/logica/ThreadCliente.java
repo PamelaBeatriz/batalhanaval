@@ -9,12 +9,20 @@ import java.net.Socket;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
 
+import javax.swing.JList;
 import javax.swing.JTextArea;
 
 public class ThreadCliente extends Thread {
 
 	private Socket conexao = null;
+
+	private Vector<Socket> clients;
+
+	private int index;
+
+	private JList clientList;
 
 	private JTextArea logTextArea;
 
@@ -22,28 +30,22 @@ public class ThreadCliente extends Thread {
 
 	private ObjectInputStream input = null;
 
-	public ThreadCliente(Socket socket, JTextArea logTextArea) {
-		this.conexao = socket;
+	private Vector<String> cListing;
+
+	private String nick = null;
+
+	public ThreadCliente(Vector<Socket> clients, int index, Vector<String> cListing, JList clientList, JTextArea logTextArea) {
+		this.clients = clients;
+		this.cListing = cListing;
+		this.index = index;
+		this.conexao = clients.get(index);
+		this.clientList = clientList;
 		this.logTextArea = logTextArea;
-        //criação dos canais de entrada e saida de pacotes
-		/*esta pausando a execução da thread, não sei se porque ainda não foi implementado
-		  os canais no cliente, ou se proque é necessário fazer essa comunicação em outra thread*/
-		/*try {
-			saida = new ObjectOutputStream( conexao.getOutputStream() );
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        try {
-			saida.flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 	}
 
 	@Override
 	protected void finalize() {
 		try {
-			// Encerro o ServerSocket
 			this.conexao.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -52,59 +54,43 @@ public class ThreadCliente extends Thread {
 
 	@Override
 	public void run() {
-		System.out.println("cliente conectou server no server");
-		// enviando msg de teste ao cliente
-		/*try {
-			saida.writeObject("** Seja bem vindo ao Servidor **");
-		} catch (IOException e2) {
-			e2.printStackTrace();
-		}
-		try {
-			saida.flush();
-		} catch (IOException e2) {
-			e2.printStackTrace();
-		}*/
         try {
-			input = new ObjectInputStream( conexao.getInputStream() );
-		} catch (IOException e) {
+    		Packet packet = null;
+        	input = new ObjectInputStream( conexao.getInputStream() );
+        	packet = (Packet) input.readObject();
+        	if(packet.getType().equals("setNick")) {
+        		this.nick = packet.getData();
+        		this.cListing.add(this.nick);
+        	}
+			logTextArea.append("\n"
+					+ " ["
+					+ new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())
+					+ "] Novo Cliente conectado: "
+					+ this.nick
+					+ " ["
+					+ this.conexao.getInetAddress().getHostAddress()
+					+ "]");
+			this.clientList.setListData(this.cListing);
+        	BufferedReader entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
+        	String alive;
+        	while((alive = entrada.readLine()) != null);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		BufferedReader entrada = null;
-		Packet packet = null;
-		String linha = null;
-		do {
-			try {
-				packet = (Packet) input.readObject();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			this.logTextArea.append("\n> De: " + packet.getFrom() + "\n Para: " + packet.getTo() +
-					"\n Tipo: " + packet.getType() + "\n Dados: " + packet.getData());
-			try {
-				entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			try {
-				linha = entrada.readLine();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-		    try {
-				linha = entrada.readLine();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} while(linha != null && !(linha.trim().equals("")));
 	    try {
-			this.conexao.close();
-			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-	        Date date = new Date();
-			this.logTextArea.append("\n> Cliente desconectou ["+ dateFormat.format(date)+ "]");
+	    	this.logTextArea.append("\n> " + this.nick + " desconectou [" + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + "]");
+	    	this.clients.remove(this.index);
+	    	this.cListing.remove(this.index);
+	    	this.clientList.setListData(this.cListing);
+	    	this.conexao.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	private String getNick(){
+		return this.nick;
 	}
 
 	public Socket getConexao() {

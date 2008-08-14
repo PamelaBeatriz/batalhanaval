@@ -8,6 +8,7 @@ import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -91,33 +92,20 @@ public class Servidor extends Thread {
 				.append("** Servidor inicializado com sucesso **\n> Esperando Conexões ...");
 		modelo = new DefaultListModel();
 		clientList.setModel(modelo);
+		Vector<Socket> clients = new Vector<Socket>();
+		Vector<String> cListing = new Vector<String>();
 		while (true) {
-			Socket socket = null;
 			try {
-				socket = this.serverSocket.accept();
-				/*
-				 * this.logServer += "> Conectado ==> Cliente: " +
-				 * socket.getInetAddress().getHostName() + " Ip: " +
-				 * socket.getInetAddress().getHostAddress() + "\n";
-				 */
+				clients.add(new Socket());
 
-				new ThreadCliente(socket, this.logTextArea).start();
-				DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		        Date date = new Date();
+				clients.setElementAt(this.serverSocket.accept(), clients.size()-1);
 
-				this.logTextArea
-						.append("\n> Novo Cliente conectado: " /* pegar apelido */
-								+ " ["
-								+ socket.getInetAddress().getHostAddress()
-								+ "] ["+ dateFormat.format(date)+ "]");
-				// ainda não remove...
+				new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea).start();
 
-				(((DefaultListModel) clientList.getModel())).addElement("> ["
-						+ socket.getInetAddress().getHostAddress() + "]");
-			} catch (IOException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 				try {
-					socket.close();
+					clients.lastElement().close();
 					this.serverSocket.close();
 				} catch (IOException e1) {
 					e1.printStackTrace();
