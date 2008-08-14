@@ -115,11 +115,11 @@ public class TelaJogo extends JFrame {
 		if (chatJPanel == null) {
 			chatJPanel = new JPanel();
 			chatJPanel.setLayout(null);
-			chatJPanel.setBounds(new Rectangle(341, 332, 347, 203));
+			chatJPanel.setBounds(new Rectangle(237, 314, 347, 243));
 			chatJPanel.setBorder(BorderFactory.createTitledBorder(null, "Chat",
 					TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION,
 					new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
-			//chatJPanel.add(getChatTextArea(), null);
+			chatJPanel.add(getChatTextArea(), null);
 			chatJPanel.add(getInputTextField(), null);
 			chatJPanel.add(getChatScrollPane(), null);
 		}
@@ -312,7 +312,7 @@ public class TelaJogo extends JFrame {
 	private JPanel getPainelControleJPanel() {
 		if (painelControleJPanel == null) {
 			painelControleJPanel = new PainelControle();
-			painelControleJPanel.setSize(new Dimension(308, 254));
+			painelControleJPanel.setSize(new Dimension(210, 250));
 			painelControleJPanel.setLocation(new Point(5, 310));
 		}
 		return painelControleJPanel;
