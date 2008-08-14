@@ -111,6 +111,7 @@ public class Servidor extends Thread {
 								+ socket.getInetAddress().getHostAddress()
 								+ "] ["+ dateFormat.format(date)+ "]");
 				// ainda não remove...
+
 				(((DefaultListModel) clientList.getModel())).addElement("> ["
 						+ socket.getInetAddress().getHostAddress() + "]");
 			} catch (IOException e) {
