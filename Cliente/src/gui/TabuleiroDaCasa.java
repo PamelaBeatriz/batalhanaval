@@ -83,7 +83,7 @@ public class TabuleiroDaCasa extends JPanel {
 	}
 
 	/**
-	 * Metodo para pintar na tela
+	 * Metodo para pintar na tela o tabuleiro e os navios
 	 */
 	protected void paintComponent(Graphics g) {
 
@@ -161,7 +161,7 @@ public class TabuleiroDaCasa extends JPanel {
 		public void mousePressed(MouseEvent me) {
 
 			// Posiciona uma imagem no tabuleiro
-			if (me.getButton() == me.BUTTON1) {
+			if (me.getButton() == MouseEvent.BUTTON1) {
 
 				if (painelControle.lastShipName == null
 						&& painelControle.posicaoLastShip == -1) {
@@ -193,7 +193,7 @@ public class TabuleiroDaCasa extends JPanel {
 			}
 
 			// Altera o modo em que a imagem será colocada
-			if (me.getButton() == me.BUTTON3) {
+			if (me.getButton() == MouseEvent.BUTTON3) {
 
 				painelControle.verticalShip = !painelControle.verticalShip;
 				repaint();
@@ -282,7 +282,7 @@ public class TabuleiroDaCasa extends JPanel {
 							null,
 							"SEU NAVIO NÃO PODE SER COLOCADO NESTA POSIÇÃO. TENTE NOVAMENTE",
 							"ERRO DE POSICIONAMENTO DO NAVIO",
-							JOptionPane.WARNING_MESSAGE);
+							JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

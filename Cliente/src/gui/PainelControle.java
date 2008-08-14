@@ -62,7 +62,7 @@ public class PainelControle extends JPanel {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(new Dimension(300, 200));
+		this.setSize(new Dimension(200, 250));
 		this.setLayout(null);
 		this.setBorder(BorderFactory.createTitledBorder(null, "Navios",
 				TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION, new Font(
@@ -82,8 +82,8 @@ public class PainelControle extends JPanel {
 	private JButton getNavio1() {
 		if (navio1 == null) {
 			navio1 = new JButton();
-			navio1.setBounds(new Rectangle(15, 16, 218, 40));
-			navio1.setText("Navio 1");
+			navio1.setBounds(new Rectangle(15, 20, 180, 35));
+			navio1.setText("");
 			navio1.setToolTipText("O Triturador");
 			navio1.addActionListener(actionHandler);
 			navio1.setIcon(this.shipImages.get(0));
@@ -99,8 +99,8 @@ public class PainelControle extends JPanel {
 	private JButton getNavio2() {
 		if (navio2 == null) {
 			navio2 = new JButton();
-			navio2.setBounds(new Rectangle(14, 65, 218, 40));
-			navio2.setText("Navio 2");
+			navio2.setBounds(new Rectangle(15, 65, 180, 35));
+			navio2.setText("");
 			navio2.setToolTipText("ze Goiaba");
 			navio2.addActionListener(this.actionHandler);
 			navio2.setIcon(this.shipImages.get(1));
@@ -116,8 +116,8 @@ public class PainelControle extends JPanel {
 	private JButton getNavio3() {
 		if (navio3 == null) {
 			navio3 = new JButton();
-			navio3.setBounds(new Rectangle(13, 113, 218, 40));
-			navio3.setText("Navio 3");
+			navio3.setBounds(new Rectangle(15, 110, 180, 35));
+			navio3.setText("");
 			navio3.setToolTipText("Xanxe o fracote");
 			navio3.addActionListener(this.actionHandler);
 			navio3.setIcon(this.shipImages.get(2));
@@ -133,8 +133,8 @@ public class PainelControle extends JPanel {
 	private JButton getNavio4() {
 		if (navio4 == null) {
 			navio4 = new JButton();
-			navio4.setBounds(new Rectangle(11, 155, 218, 40));
-			navio4.setText("Navio 4");
+			navio4.setBounds(new Rectangle(15, 155, 180, 35));
+			navio4.setText("");
 			navio4.setToolTipText("Chris o Andrew");
 			navio4.addActionListener(this.actionHandler);
 			navio4.setIcon(this.shipImages.get(3));
@@ -150,8 +150,8 @@ public class PainelControle extends JPanel {
 	private JButton getNavio5() {
 		if (navio5 == null) {
 			navio5 = new JButton();
-			navio5.setBounds(new Rectangle(11, 203, 218, 40));
-			navio5.setText("navio5");
+			navio5.setBounds(new Rectangle(14, 200, 180, 35));
+			navio5.setText("");
 			navio5.setToolTipText("Ultima Esperança");
 			navio5.addActionListener(this.actionHandler);
 			navio5.setIcon(this.shipImages.get(4));
@@ -222,4 +222,4 @@ public class PainelControle extends JPanel {
 		}
 	}
 
-}
+}  //  @jve:decl-index=0:visual-constraint="6,10"
