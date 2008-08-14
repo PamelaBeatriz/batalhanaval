@@ -6,25 +6,13 @@ public class Packet implements Serializable{
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = -177285901285284008L;
-	private String from = null;
-	private String to = null;
+	private static final long serialVersionUID = -1771872414183857331L;
 	private String type = null;
 	private String data = null;
 
-	public Packet(String from, String to, String type, String data) {
-		this.from = from;
-		this.to = to;
+	public Packet(String type, String data) {
 		this.type = type;
 		this.data = data;
-	}
-
-	public String getFrom(){
-		return this.from;
-	}
-
-	public String getTo(){
-		return this.to;
 	}
 
 	public String getType(){

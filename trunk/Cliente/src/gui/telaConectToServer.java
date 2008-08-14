@@ -17,9 +17,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
 
 import logica.Cliente;
+import logica.DataOutput;
+import logica.Packet;
 import util.MD5;
 
 public class telaConectToServer extends JFrame {
@@ -181,6 +185,7 @@ public class telaConectToServer extends JFrame {
 							try {
 								if (cliente.tentarConexaoServer()) {
 									frame.setVisible(false);
+									new DataOutput(cliente).SendPacket(new Packet("setNick", cliente.getNick()));
 									new TelaJogo(nickField.getText(), cliente);
 								} else {
 									frame.setVisible(true);
