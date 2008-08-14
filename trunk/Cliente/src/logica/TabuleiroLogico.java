@@ -1,6 +1,6 @@
 package logica;
 
-public class TabuleiroLogico extends Thread{
+public class TabuleiroLogico extends Thread {
 
 	private String[][] tabuleiro = null;
 
@@ -40,6 +40,59 @@ public class TabuleiroLogico extends Thread{
 				this.tabuleiro[i][j] = "water";
 			}
 		}
+	}
+
+	/**
+	 * Verifica se a posição de clique do mouse pode conter o navio selecionado
+	 *
+	 * @param nomeDoNavio
+	 *            nome do navio a ser posicionado larguraNavio largura do navio
+	 *            a ser posicionado alturaNavio altura do navio a ser
+	 *            posicionado x posição x a ser colocado o navio y posição y a
+	 *            ser colocado o navio
+	 * @param verticalShip
+	 */
+	public boolean validaPosicaoInsercao(String nomeDoNavio, int larguraNavio,
+			int alturaNavio, int x, int y, boolean verticalShip) {
+
+		if (verticalShip) {
+
+			int xInicialMatriz = (int) (x / 25);
+			int yInicialMatriz = (int) (y / 25);
+			int yFinalMatriz = (int) ((y + alturaNavio) / 25);
+
+			if (yInicialMatriz + (yFinalMatriz - yInicialMatriz) - 1 > 9)
+				return false;
+
+			for (int i = yInicialMatriz; i < yFinalMatriz; i++) {
+				if (!this.tabuleiro[xInicialMatriz][i]
+						.equalsIgnoreCase("water"))
+					return false;
+			}
+
+			for (int i = yInicialMatriz; i < yFinalMatriz; i++) {
+				this.tabuleiro[xInicialMatriz][i] = nomeDoNavio;
+			}
+
+			return true;
+		}
+
+		int xInicialMatriz = (int) (x / 25);
+		int yInicialMatriz = (int) (y / 25);
+		int xFinalMatriz = (int) ((x + larguraNavio) / 25);
+
+		if (xInicialMatriz + (xFinalMatriz - xInicialMatriz) - 1 > 9)
+			return false;
+
+		for (int i = xInicialMatriz; i < xFinalMatriz; i++) {
+			if (!this.tabuleiro[i][yInicialMatriz].equalsIgnoreCase("water"))
+				return false;
+		}
+
+		for (int i = xInicialMatriz; i < xFinalMatriz; i++) {
+			this.tabuleiro[i][yInicialMatriz] = nomeDoNavio;
+		}
+		return true;
 	}
 
 	public String[][] getTabuleiro() {

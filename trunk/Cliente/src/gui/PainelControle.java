@@ -41,7 +41,6 @@ public class PainelControle extends JPanel {
 		super();
 		// this.tabuleiroDoInimigo = tabuleiroDoInimigo;
 		this.shipImages = new Vector<ImageIcon>(5);
-		this.shipImages = new Vector<ImageIcon>(5);
 		this.actionHandler = new ActionHandler();
 		this.inicializeImagesShip();
 		initialize();
@@ -161,6 +160,28 @@ public class PainelControle extends JPanel {
 	}
 
 	/**
+	 * Desabilita o último navio selecionado, caso sua configuração ocorreu com
+	 * sucesso. Serviço oferecido para a classe TabuleiroJogo (@see
+	 * TabuleiroJogo.java).
+	 */
+	protected void desativarLastShipSelected() {
+
+		if (this.posicaoLastShip == 0) {
+			this.navio1.setEnabled(false);
+		} else if (this.posicaoLastShip == 1) {
+			this.navio2.setEnabled(false);
+		} else if (this.posicaoLastShip == 2) {
+			this.navio3.setEnabled(false);
+		} else if (this.posicaoLastShip == 3) {
+			this.navio4.setEnabled(false);
+		} else if (this.posicaoLastShip == 4) {
+			this.navio5.setEnabled(false);
+		}
+		repaint();
+
+	}
+
+	/**
 	 * Handler de evento de clique sobre um botão.
 	 */
 	private class ActionHandler implements ActionListener {
@@ -178,7 +199,6 @@ public class PainelControle extends JPanel {
 				larguraLastShip = 50;
 				posicaoLastShip = 0;
 			} else if (ae.getSource() == navio2) {
-
 				lastShipName = "Navio2";
 				imagemLastShip = (shipImages.get(1)).getImage();
 				larguraLastShip = 75;
@@ -188,12 +208,12 @@ public class PainelControle extends JPanel {
 				imagemLastShip = (shipImages.get(2)).getImage();
 				larguraLastShip = 100;
 				posicaoLastShip = 2;
-			} else if (ae.getSource() == navio3) {
+			} else if (ae.getSource() == navio4) {
 				lastShipName = "Navio4";
 				imagemLastShip = (shipImages.get(3)).getImage();
 				larguraLastShip = 100;
 				posicaoLastShip = 3;
-			} else {
+			} else if (ae.getSource() == navio5) {
 				lastShipName = "Navio5";
 				imagemLastShip = (shipImages.get(4)).getImage();
 				larguraLastShip = 125;

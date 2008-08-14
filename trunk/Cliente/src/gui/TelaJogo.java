@@ -99,8 +99,9 @@ public class TelaJogo extends JFrame {
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
 			jContentPane.add(getChatJPanel(), null);
-			jContentPane.add(getTabuleiroPanel(), null);
 			jContentPane.add(getPainelControleJPanel(), null);
+			jContentPane.add(getTabuleiroPanel(), null);
+
 		}
 		return jContentPane;
 	}
@@ -156,7 +157,7 @@ public class TelaJogo extends JFrame {
 	 */
 	private JPanel getCasaTabuleiroPanel() {
 		if (casaTabuleiroPanel == null) {
-			casaTabuleiroPanel = new TabuleiroDaCasa();
+			casaTabuleiroPanel = new TabuleiroDaCasa((PainelControle) this.painelControleJPanel);
 			casaTabuleiroPanel.setLocation(new Point(9, 13));
 			casaTabuleiroPanel.setSize(new Dimension(250, 250));
 		}
