@@ -12,21 +12,13 @@ public class TabuleiroLogico extends Thread {
 
 	private int contadorMovimentosAteErrar = 0;
 
-	private static final int ACERTOU_AGUA = 0;
+	private static final int ACERTOU_NA_AGUA = 0;
 
-	private static final int ACERTOU_NAVIO = 1;
+	private static final int ACERTOU_NO_NAVIO = 1;
 
 	private static final int ACERTOU_POSICAO_USADA = 2;
 
 	private int naviosDestruidos = 0;
-
-	public int getNaviosDestruidos() {
-		return naviosDestruidos;
-	}
-
-	public void setNaviosDestruidos(int naviosDestruidos) {
-		this.naviosDestruidos = naviosDestruidos;
-	}
 
 	public TabuleiroLogico() {
 		this.tabuleiro = new String[10][10];
@@ -93,6 +85,22 @@ public class TabuleiroLogico extends Thread {
 			this.tabuleiro[i][yInicialMatriz] = nomeDoNavio;
 		}
 		return true;
+	}
+
+	public void clearTabuleiro() {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				this.tabuleiro[i][j] = "water";
+			}
+		}
+	}
+
+	public int getNaviosDestruidos() {
+		return naviosDestruidos;
+	}
+
+	public void setNaviosDestruidos(int naviosDestruidos) {
+		this.naviosDestruidos = naviosDestruidos;
 	}
 
 	public String[][] getTabuleiro() {

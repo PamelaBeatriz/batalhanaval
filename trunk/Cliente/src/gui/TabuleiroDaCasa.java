@@ -23,15 +23,16 @@ import logica.TabuleiroLogico;
 public class TabuleiroDaCasa extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+
 	private TabuleiroLogico tabuleiroLogico = null; // @jve:decl-index=0:
 
 	private ArrayList<PictureTabuleiro> picturesList = null;
 
 	private PainelControle painelControle = null;
 
-	private MouseHandler mouseHandler = null;
+	private AdaptadorDoMouse adaptadorDoMouse = null; // @jve:decl-index=0:
 
-	private MouseMotionHandler mouseMotionHandler = null; // @jve:decl-index=0:
+	private AdptadorDoMouseMovimento adptadorDoMouseMovimento = null; // @jve:decl-index=0:
 
 	private Vector<PictureTabuleiro> pictureTabuleiro = null;
 
@@ -48,7 +49,7 @@ public class TabuleiroDaCasa extends JPanel {
 	private int naviosPosicionadosParaJogar = 0;
 
 	/**
-	 * Construtor
+	 * Default Construtor
 	 *
 	 * @param painelControle
 	 */
@@ -75,10 +76,10 @@ public class TabuleiroDaCasa extends JPanel {
 		this.pictureTabuleiro = new Vector<PictureTabuleiro>(5);
 		this.pictureTabuleiro.setSize(5);
 		this.handlerOFF = false;
-		this.mouseHandler = new MouseHandler();
-		this.mouseMotionHandler = new MouseMotionHandler();
-		this.addMouseListener(this.mouseHandler);
-		this.addMouseMotionListener(this.mouseMotionHandler);
+		this.adaptadorDoMouse = new AdaptadorDoMouse();
+		this.adptadorDoMouseMovimento = new AdptadorDoMouseMovimento();
+		this.addMouseListener(this.adaptadorDoMouse);
+		this.addMouseMotionListener(this.adptadorDoMouseMovimento);
 		this.posicaoDoCursor = new Point();
 	}
 
@@ -125,7 +126,7 @@ public class TabuleiroDaCasa extends JPanel {
 			return;
 		}
 
-		Point p = normalizaPonto(this.posicaoDoCursor.x, this.posicaoDoCursor.y);
+		Point p = corrigirPoint(this.posicaoDoCursor.x, this.posicaoDoCursor.y);
 
 		if (this.painelControle.verticalShip) {
 			g2.fill3DRect(p.x, p.y, 25, this.painelControle.larguraLastShip,
@@ -138,15 +139,14 @@ public class TabuleiroDaCasa extends JPanel {
 	}
 
 	/**
-	 * Retorna um ponto normalizado para desenhar
-	 * o navio na tela
+	 * Retorna um ponto "corrido" para desenhar o navio na tela corretamente
 	 */
-	private Point normalizaPonto(int x, int y) {
+	private Point corrigirPoint(int x, int y) {
 
-		int xNormalizado = (int) (x / 25);
-		int yNormalizado = (int) (y / 25);
+		int pointXcorrigido = (int) (x / 25);
+		int pointYcorrigido = (int) (y / 25);
 
-		return new Point(xNormalizado * 25, yNormalizado * 25);
+		return new Point(pointXcorrigido * 25, pointYcorrigido * 25);
 	}
 
 	/**
@@ -156,11 +156,24 @@ public class TabuleiroDaCasa extends JPanel {
 	 * O propósito desta classe é lidar com eventos de mouse sobre o tabuleiro,
 	 * de forma a saber em qual posição será inserida a imagem
 	 */
-	private class MouseHandler extends MouseAdapter {
 
+	/**
+	 * Classe interna para realizar os eventos do Mouse.
+	 */
+	private class AdaptadorDoMouse extends MouseAdapter {
+
+		/**
+		 * Metodo para o evento do mouse precionado. Se for botao Esquerdo do
+		 * mouse, posiciona o navio no tabuleiro Se for botao Direito rotaciona
+		 * o navio para vertical e horizontal
+		 *
+		 * @param MouseEvent
+		 */
 		public void mousePressed(MouseEvent me) {
 
-			// Posiciona uma imagem no tabuleiro
+			/*
+			 * Botao Esquerdo do Mouse
+			 */
 			if (me.getButton() == MouseEvent.BUTTON1) {
 
 				if (painelControle.lastShipName == null
@@ -186,13 +199,15 @@ public class TabuleiroDaCasa extends JPanel {
 						larguraShip = painelControle.larguraLastShip;
 					}
 
-					configuraImagem(me.getX(), me.getY());
+					addNavioTabuleiro(me.getX(), me.getY());
 					painelControle.verticalShip = false;
 				}
 				return;
 			}
 
-			// Altera o modo em que a imagem será colocada
+			/*
+			 * Botao Direito do Mouse
+			 */
 			if (me.getButton() == MouseEvent.BUTTON3) {
 
 				painelControle.verticalShip = !painelControle.verticalShip;
@@ -203,16 +218,17 @@ public class TabuleiroDaCasa extends JPanel {
 	}
 
 	/**
-	 * MouseMotionHandler.java
-	 *
-	 * Criado em 12 de Agosto de 2007, 22:08
-	 *
-	 * O propósito desta classe é lidar com eventos de mouse sobre o tabuleiro,
-	 * de forma a ajustar o ponto atual do cursor e orientar o usuário a saber
-	 * se o navio está na vertical ou horizontal.
+	 * Classe interna para tratar o evento do Mouse, em relacao ao deslocamento
+	 * do mesmo
 	 */
-	private class MouseMotionHandler extends MouseMotionAdapter {
+	private class AdptadorDoMouseMovimento extends MouseMotionAdapter {
 
+		/**
+		 * Metodo para tratar o evento do movimento do Mouse e ao mesmo tempo
+		 * ajsta o ponto atual do cursor
+		 *
+		 * @param MouseEvent
+		 */
 		public void mouseMoved(MouseEvent me) {
 
 			posicaoDoCursor.setLocation(me.getPoint());
@@ -222,13 +238,12 @@ public class TabuleiroDaCasa extends JPanel {
 	}
 
 	/**
-	 * Configura a imagem no tabuleiro do jogador
+	 * Insere o navio no tabuleiro nas coordenadas X e Y do evento do mouseMoved
 	 *
-	 * @param x
-	 *            coordenada x do evento do mouse y coordenada y do evento do
-	 *            mouse
+	 * @see AdptadorDoMouseMovimento
+	 * @param x,y
 	 */
-	private void configuraImagem(int x, int y) {
+	private void addNavioTabuleiro(int x, int y) {
 
 		boolean checkPosicao = this.tabuleiroLogico.validaPosicaoInsercao(
 				this.shipName, this.larguraShip, this.alturaShip, x, y,
@@ -244,15 +259,19 @@ public class TabuleiroDaCasa extends JPanel {
 				this.pictureTabuleiro.setElementAt(new PictureTabuleiro(
 						new ImageIcon(PainelControle.DIRETORIO_IMAGES
 								+ this.shipName + ".gif").getImage(), this
-								.normalizaPonto(x, y)),
+								.corrigirPoint(x, y)),
 						this.painelControle.posicaoLastShip);
 
-			} else
-
-				this.pictureTabuleiro.add(this.painelControle.posicaoLastShip,
-						new PictureTabuleiro(
-								this.painelControle.imagemLastShip, this
-										.normalizaPonto(x, y)));
+			} else {
+				this.pictureTabuleiro.setElementAt(new PictureTabuleiro(
+						this.painelControle.imagemLastShip, this.corrigirPoint(
+								x, y)), this.painelControle.posicaoLastShip);
+				/*
+				 * this.pictureTabuleiro.add(this.painelControle.posicaoLastShip,
+				 * new PictureTabuleiro( this.painelControle.imagemLastShip,
+				 * this .corrigirPoint(x, y)));
+				 */
+			}
 
 			// Reconfigura a área de navio
 			this.painelControle.desativarLastShipSelected();
@@ -268,12 +287,9 @@ public class TabuleiroDaCasa extends JPanel {
 				this.turnOFFHandlers();
 				// painelDoJogo.trocarPaineis();
 				// areaCentral.habilitaBotaoOk();
-				JOptionPane
-						.showMessageDialog(
-								null,
-								"Pecas Posicionadas!!!\n\nPronto para Jogar!",
-								"Ao Ataque!",
-								JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(null,
+						"Pecas Posicionadas!!!\n\nPronto para Jogar!",
+						"Ao Ataque!", JOptionPane.INFORMATION_MESSAGE);
 			}
 			repaint();
 		} else {
@@ -287,14 +303,14 @@ public class TabuleiroDaCasa extends JPanel {
 	}
 
 	/**
-	 * Remove o listener de evento do mouse, depois que o tabuleiro já estiver
-	 * configurado
+	 * Metodo para retirar os Eventos do mouse, depois que o tabuleiro estiver
+	 * Pronto
 	 */
 	public void turnOFFHandlers() {
 
 		if (!this.handlerOFF) {
-			removeMouseListener(this.mouseHandler);
-			removeMouseMotionListener(this.mouseMotionHandler);
+			removeMouseListener(this.adaptadorDoMouse);
+			removeMouseMotionListener(this.adptadorDoMouseMovimento);
 			setEnabled(false);
 			this.handlerOFF = true;
 		}
@@ -302,17 +318,30 @@ public class TabuleiroDaCasa extends JPanel {
 	}
 
 	/**
-	 * Adiciona o listener de evento do mouse, caso seja necessário reconfigurar
-	 * o tabuleiro
+	 * Metodo para ativar os Eventos do Mouse
 	 */
 	public void ligarHandlers() {
 
 		if (this.handlerOFF) {
-			addMouseListener(this.mouseHandler);
-			addMouseMotionListener(this.mouseMotionHandler);
+			addMouseListener(this.adaptadorDoMouse);
+			addMouseMotionListener(this.adptadorDoMouseMovimento);
 			setEnabled(true);
 			this.handlerOFF = false;
 		}
+	}
+
+	/**
+	 * Metodo para Limpar o tabuleiro
+	 */
+	public void clearPictureTabuleiro() {
+		/*
+		 * for (int i = 0; i < this.pictureTabuleiro.size(); i++) {
+		 * this.pictureTabuleiro.add(i, null); }
+		 */
+		this.pictureTabuleiro.clear();
+		this.picturesList.clear();
+		repaint();
+		this.naviosPosicionadosParaJogar = 0;
 	}
 
 	public int getNaviosPosicionadosParaJogar() {

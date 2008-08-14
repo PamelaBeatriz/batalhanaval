@@ -79,7 +79,7 @@ public class TelaJogo extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setSize(721, 622);
+		this.setSize(637, 622);
 		this.setJMenuBar(getJJMenuBar());
 		this.setContentPane(getJContentPane());
 		this.setTitle("Batalha Naval - O Jogo");
@@ -115,7 +115,7 @@ public class TelaJogo extends JFrame {
 		if (chatJPanel == null) {
 			chatJPanel = new JPanel();
 			chatJPanel.setLayout(null);
-			chatJPanel.setBounds(new Rectangle(237, 314, 347, 243));
+			chatJPanel.setBounds(new Rectangle(237, 314, 385, 243));
 			chatJPanel.setBorder(BorderFactory.createTitledBorder(null, "Chat",
 					TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION,
 					new Font("Dialog", Font.BOLD, 12), new Color(51, 51, 51)));
@@ -138,7 +138,7 @@ public class TelaJogo extends JFrame {
 			tabuleiroCasaLabel.setText("Capitão: " + this.nickName);
 			tabuleiroPanel = new JPanel();
 			tabuleiroPanel.setLayout(null);
-			tabuleiroPanel.setBounds(new Rectangle(5, 4, 686, 301));
+			tabuleiroPanel.setBounds(new Rectangle(5, 4, 616, 301));
 			tabuleiroPanel.setBorder(BorderFactory.createTitledBorder(null,
 					"Tabuleiros", TitledBorder.CENTER,
 					TitledBorder.DEFAULT_POSITION, new Font("Dialog",
@@ -171,15 +171,9 @@ public class TelaJogo extends JFrame {
 	 */
 	private JPanel getAdversarioTabuleiroPanel() {
 		if (adversarioTabuleiroPanel == null) {
-			adversarioTabuleiroPanel = new JPanel();
-			adversarioTabuleiroPanel.setLayout(null);
-			adversarioTabuleiroPanel
-					.setBounds(new Rectangle(327, 20, 236, 227));
-			adversarioTabuleiroPanel.setBorder(BorderFactory
-					.createTitledBorder(null, "Adversário",
-							TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION,
-							new Font("Dialog", Font.BOLD, 12), new Color(51,
-									51, 51)));
+			adversarioTabuleiroPanel = new TabuleiroDoInimigo();
+			adversarioTabuleiroPanel.setLocation(new Point(356, 13));
+			adversarioTabuleiroPanel.setSize(new Dimension(250, 250));
 		}
 		return adversarioTabuleiroPanel;
 	}
