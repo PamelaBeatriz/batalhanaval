@@ -68,7 +68,7 @@ public class ThreadCliente extends Thread {
 					+ "] Novo Cliente conectado: "
 					+ this.nick
 					+ " ["
-					+ this.conexao.getInetAddress().getHostAddress()
+					+ this.conexao.getInetAddress().getHostName()
 					+ "]");
 			this.clientList.setListData(this.cListing);
         	BufferedReader entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
