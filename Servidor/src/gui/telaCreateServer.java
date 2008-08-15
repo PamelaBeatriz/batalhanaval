@@ -35,14 +35,22 @@ public class telaCreateServer extends JFrame {
 	private JLabel ipLabel = null;
 	private JTextField ipField = null;
 	private Servidor servidor = null;
+	private javax.swing.UIManager.LookAndFeelInfo looks[];
 
 
 	/**
 	 * This is the default constructor
 	 */
-	public telaCreateServer() {
+	public telaCreateServer(int index) {
 		super();
 		this.servidor = new Servidor();
+		looks = javax.swing.UIManager.getInstalledLookAndFeels();
+		try {
+			javax.swing.UIManager.setLookAndFeel( looks[index].getClassName() );
+			javax.swing.SwingUtilities.updateComponentTreeUI( this );
+			} catch (Exception e) {
+			e.printStackTrace();
+			}
 		initialize();
 	}
 
