@@ -59,7 +59,7 @@ public class ThreadCliente extends Thread {
         	input = new ObjectInputStream( conexao.getInputStream() );
         	packet = (Packet) input.readObject();
         	if(packet.getType().equals("setNick")) {
-        		this.nick = packet.getData();
+        		this.nick = packet.getData() + " [" + this.conexao.getInetAddress().getHostAddress() + "]";
         		this.cListing.add(this.nick);
         	}
 			logTextArea.append("\n"

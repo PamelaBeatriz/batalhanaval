@@ -108,7 +108,7 @@ public class Servidor extends Thread {
 				clients.add(new Socket());
 
 				clients.setElementAt(this.serverSocket.accept(), clients.size()-1);
-
+				new DataOutput(clients.lastElement()).SendPacket(new Packet("OK","OK"));
 				new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea).start();
 
 			} catch (Exception e) {
