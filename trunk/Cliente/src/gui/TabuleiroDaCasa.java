@@ -34,7 +34,7 @@ public class TabuleiroDaCasa extends JPanel {
 
 	private AdptadorDoMouseMovimento adptadorDoMouseMovimento = null; // @jve:decl-index=0:
 
-	private Vector<PictureTabuleiro> pictureTabuleiro = null;
+	private Vector<PictureTabuleiro> pictureTabuleiro = null;  //  @jve:decl-index=0:
 
 	private Point posicaoDoCursor = null; // @jve:decl-index=0:
 
@@ -129,11 +129,11 @@ public class TabuleiroDaCasa extends JPanel {
 		Point p = corrigirPoint(this.posicaoDoCursor.x, this.posicaoDoCursor.y);
 
 		if (this.painelControle.verticalShip) {
-			g2.fill3DRect(p.x, p.y, 25, this.painelControle.larguraLastShip,
-					false);
+			g2.fill3DRect(p.x, p.y, 25 + 1,
+					this.painelControle.larguraLastShip + 1, true);
 		} else {
-			g2.fill3DRect(p.x, p.y, this.painelControle.larguraLastShip, 25,
-					false);
+			g2.fill3DRect(p.x, p.y, this.painelControle.larguraLastShip + 1,
+					25 + 1, true);
 		}
 
 	}
@@ -320,7 +320,7 @@ public class TabuleiroDaCasa extends JPanel {
 	/**
 	 * Metodo para ativar os Eventos do Mouse
 	 */
-	public void ligarHandlers() {
+	public void turnONHandlers() {
 
 		if (this.handlerOFF) {
 			addMouseListener(this.adaptadorDoMouse);
@@ -333,7 +333,7 @@ public class TabuleiroDaCasa extends JPanel {
 	/**
 	 * Metodo para Limpar o tabuleiro
 	 */
-	public void clearPictureTabuleiro() {
+	public void clearPicture() {
 		/*
 		 * for (int i = 0; i < this.pictureTabuleiro.size(); i++) {
 		 * this.pictureTabuleiro.add(i, null); }
@@ -342,6 +342,86 @@ public class TabuleiroDaCasa extends JPanel {
 		this.picturesList.clear();
 		repaint();
 		this.naviosPosicionadosParaJogar = 0;
+	}
+
+
+	/**
+	 * Configura a Jogada
+	 *
+	 * @param posicaoX
+	 * @param posicaoY
+	 */
+	public void configuraJogada(int posicaoX, int posicaoY) {
+
+		int verificaJogada = this.checkJogada(posicaoX, posicaoY);
+		Point point = this.corrigirPoint(posicaoX, posicaoY);
+		posicaoX = posicaoX / 25;
+		posicaoY = posicaoY / 25;
+
+		/*
+		 * Se acertou na agua, configura o tabuleiro
+		 */
+		if (verificaJogada == TabuleiroLogico.ACERTOU_NA_AGUA) {
+			this.tabuleiroLogico.setPosicaoTabuleiro(posicaoX, posicaoY, "A");
+			this.picturesList.add(new PictureTabuleiro(new ImageIcon(
+					PainelControle.DIRETORIO_IMAGES + "splash.gif").getImage(),
+					point));
+			// Som.playAudio(Som.ERRO);
+			repaint();
+
+		}
+
+		/*
+		 * Se acertou no navio, configura o tabuleiro
+		 */
+		else if (verificaJogada == TabuleiroLogico.ACERTOU_NO_NAVIO) {
+			this.tabuleiroLogico.setPosicaoTabuleiro(posicaoX, posicaoY, "N");
+			this.tabuleiroLogico.navioDestruidosPlusPlus();
+
+			this.picturesList.add(new PictureTabuleiro(new ImageIcon(
+					PainelControle.DIRETORIO_IMAGES + "explodido.gif")
+					.getImage(), point));
+
+			//Som.playAudio(Som.ACERTO);
+
+			repaint();
+		}
+	}
+
+	/**
+	 * Check a jogada
+	 *
+	 * @param x
+	 * @param y
+	 * @return int
+	 */
+	public int checkJogada(int x, int y) {
+		int jogadaX = (int) x / 25;
+		int jogadaY = (int) y / 25;
+
+		/*
+		 * se acertou na agua
+		 */
+		if (this.tabuleiroLogico.getPosicaoTabuleiro(jogadaX, jogadaY)
+				.equalsIgnoreCase("water")) {
+			return TabuleiroLogico.ACERTOU_NA_AGUA;
+		}
+
+		/*
+		 * se acertou em alguma posicao ja acertada
+		 */
+		else if (this.tabuleiroLogico.getPosicaoTabuleiro(jogadaX, jogadaY)
+				.equalsIgnoreCase("A")
+				|| this.tabuleiroLogico.getPosicaoTabuleiro(jogadaX, jogadaY)
+						.equalsIgnoreCase("N")) {
+
+			return TabuleiroLogico.ACERTOU_POSICAO_USADA;
+		}
+
+		/*
+		 * se acertou na agua
+		 */
+		return TabuleiroLogico.ACERTOU_NA_AGUA;
 	}
 
 	public int getNaviosPosicionadosParaJogar() {
