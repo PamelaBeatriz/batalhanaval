@@ -5,6 +5,7 @@ import java.awt.ComponentOrientation;
 import java.awt.Font;
 import java.awt.Rectangle;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.ConnectException;
 import java.net.UnknownHostException;
 
@@ -185,8 +186,23 @@ public class telaConectToServer extends JFrame {
 							try {
 								if (cliente.tentarConexaoServer()) {
 									frame.setVisible(false);
-									new DataOutput(cliente).SendPacket(new Packet("setNick", cliente.getNick()));
-									new TelaJogo(nickField.getText(), cliente);
+						    		Packet packet = null;
+						    		ObjectInputStream input = new ObjectInputStream( cliente.getSocket().getInputStream() );
+						        	try {
+										packet = (Packet) input.readObject();
+									} catch (ClassNotFoundException e1) {
+										e1.printStackTrace();
+									}
+						        	if(packet.getType().equals("OK")) {
+										new DataOutput(cliente).SendPacket(new Packet("setNick", cliente.getNick()));
+										new TelaJogo(nickField.getText(), cliente);
+						        	} else if(packet.getType().equals("ServerFull")) {
+										JOptionPane.showMessageDialog(null,
+												packet.getData(),
+												"Batalha Naval - Erro",
+												JOptionPane.ERROR_MESSAGE);
+										frame.setVisible(true);
+						        	}
 								} else {
 									frame.setVisible(true);
 								}
