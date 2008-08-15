@@ -27,7 +27,7 @@ public class PainelControle extends JPanel {
 	private ActionHandler actionHandler = null;
 	private TabuleiroDoInimigo tabuleiroDoInimigo = null;
 
-	protected static final String DIRETORIO_IMAGES = "src/images/";
+	protected static final String DIRETORIO_IMAGES = "src/images/";  //  @jve:decl-index=0:
 	protected String lastShipName = null;
 	protected Image imagemLastShip = null;
 	protected int larguraLastShip = 0;
@@ -37,7 +37,7 @@ public class PainelControle extends JPanel {
 	/**
 	 * This is the default constructor
 	 */
-	public PainelControle(/* TabuleiroDoInimigo tabuleiroDoInimigo */) {
+	public PainelControle( /*TabuleiroDoInimigo tabuleiroDoInimigo */) {
 		super();
 		// this.tabuleiroDoInimigo = tabuleiroDoInimigo;
 		this.shipImages = new Vector<ImageIcon>(5);
