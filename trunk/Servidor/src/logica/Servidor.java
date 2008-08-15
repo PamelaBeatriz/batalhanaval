@@ -28,6 +28,8 @@ public class Servidor extends Thread {
 
 	private ServerSocket serverSocket;
 
+	private Vector<Socket> clients;
+
 	private JTextArea logTextArea = null;
 
 	private JList clientList = null;
@@ -92,10 +94,17 @@ public class Servidor extends Thread {
 				.append("** Servidor inicializado com sucesso **\n> Esperando Conexões ...");
 		modelo = new DefaultListModel();
 		clientList.setModel(modelo);
-		Vector<Socket> clients = new Vector<Socket>();
+		clients = new Vector<Socket>();
 		Vector<String> cListing = new Vector<String>();
 		while (true) {
 			try {
+				if(clients.size()>=2) {
+					Socket temp = this.serverSocket.accept();
+					new DataOutput(temp).SendPacket(new Packet("ServerFull",
+							"O servidor está cheio\ntente novamente mais tarde"));
+					continue;
+				}
+
 				clients.add(new Socket());
 
 				clients.setElementAt(this.serverSocket.accept(), clients.size()-1);
@@ -117,8 +126,12 @@ public class Servidor extends Thread {
 	@Override
 	protected void finalize() {
 		try {
-			// Encerro o ServerSocket
 			this.serverSocket.close();
+			while(!this.clients.isEmpty()){
+				this.clients.lastElement().close();
+				this.clients.remove(this.clients.size()-1);
+			}
+			// Encerro o ServerSocket
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
