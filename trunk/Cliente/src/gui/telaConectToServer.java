@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
-
+import javax.swing.SwingUtilities;
 import logica.Cliente;
 import logica.DataOutput;
 import logica.Packet;
@@ -43,13 +43,21 @@ public class telaConectToServer extends JFrame {
 	private JLabel IP = null;
 	private JTextField IPfield = null;
 	private Cliente cliente = null;
+	private javax.swing.UIManager.LookAndFeelInfo looks[];
 
 	/**
 	 * This is the default constructor
 	 */
-	public telaConectToServer() {
+	public telaConectToServer(int index) {
 		super();
 		this.cliente = new Cliente();
+		looks = javax.swing.UIManager.getInstalledLookAndFeels();
+		try {
+		javax.swing.UIManager.setLookAndFeel( looks[index].getClassName() );
+		javax.swing.SwingUtilities.updateComponentTreeUI( this );
+		} catch (Exception e) {
+		e.printStackTrace();
+		}
 		initialize();
 	}
 
@@ -58,6 +66,7 @@ public class telaConectToServer extends JFrame {
 	 *
 	 * @return void
 	 */
+
 	private void initialize() {
 		this.setIconImage(new ImageIcon("src/images/icon.gif").getImage());
 		this.setSize(306, 237);
