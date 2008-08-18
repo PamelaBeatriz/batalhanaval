@@ -98,19 +98,24 @@ public class Servidor extends Thread {
 		Vector<String> cListing = new Vector<String>();
 		while (true) {
 			try {
+				Socket temp = this.serverSocket.accept();
 				if(clients.size()>=2) {
-					Socket temp = this.serverSocket.accept();
 					new DataOutput(temp).SendPacket(new Packet("ServerFull",
 							"O servidor está cheio\ntente novamente mais tarde"));
+					temp.close();
 					continue;
+				} else if(clients.size()==1) {
+					clients.add(temp);
+
+					new DataOutput(clients.lastElement()).SendPacket(new Packet("OK","OK"));
+					new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea).start();
+					new Game();
+				} else {
+					clients.add(temp);
+
+					new DataOutput(clients.lastElement()).SendPacket(new Packet("OK","OK"));
+					new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea).start();
 				}
-
-				clients.add(new Socket());
-
-				clients.setElementAt(this.serverSocket.accept(), clients.size()-1);
-				new DataOutput(clients.lastElement()).SendPacket(new Packet("OK","OK"));
-				new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea).start();
-
 			} catch (Exception e) {
 				e.printStackTrace();
 				try {
