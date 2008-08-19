@@ -222,4 +222,12 @@ public class PainelControle extends JPanel {
 		}
 	}
 
+	public TabuleiroDoInimigo getTabuleiroDoInimigo() {
+		return tabuleiroDoInimigo;
+	}
+
+	public void setTabuleiroDoInimigo(TabuleiroDoInimigo tabuleiroDoInimigo) {
+		this.tabuleiroDoInimigo = tabuleiroDoInimigo;
+	}
+
 }  //  @jve:decl-index=0:visual-constraint="6,10"
