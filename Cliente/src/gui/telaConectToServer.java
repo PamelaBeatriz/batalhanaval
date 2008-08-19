@@ -53,10 +53,10 @@ public class telaConectToServer extends JFrame {
 		this.cliente = new Cliente();
 		looks = javax.swing.UIManager.getInstalledLookAndFeels();
 		try {
-		javax.swing.UIManager.setLookAndFeel( looks[index].getClassName() );
-		javax.swing.SwingUtilities.updateComponentTreeUI( this );
+			javax.swing.UIManager.setLookAndFeel(looks[index].getClassName());
+			javax.swing.SwingUtilities.updateComponentTreeUI(this);
 		} catch (Exception e) {
-		e.printStackTrace();
+			e.printStackTrace();
 		}
 		initialize();
 	}
@@ -195,23 +195,30 @@ public class telaConectToServer extends JFrame {
 							try {
 								if (cliente.tentarConexaoServer()) {
 									frame.setVisible(false);
-						    		Packet packet = null;
-						    		ObjectInputStream input = new ObjectInputStream( cliente.getSocket().getInputStream() );
-						        	try {
+									Packet packet = null;
+									ObjectInputStream input = new ObjectInputStream(
+											cliente.getSocket()
+													.getInputStream());
+									try {
 										packet = (Packet) input.readObject();
 									} catch (ClassNotFoundException e1) {
 										e1.printStackTrace();
 									}
-						        	if(packet.getType().equals("OK")) {
-										new DataOutput(cliente).SendPacket(new Packet("setNick", cliente.getNick()));
-										new TelaJogo(nickField.getText(), cliente);
-						        	} else if(packet.getType().equals("ServerFull")) {
+									if (packet.getType().equals("OK")) {
+										new DataOutput(cliente)
+												.SendPacket(new Packet(
+														"setNick", cliente
+																.getNick()));
+										new TelaJogo(nickField.getText(),
+												cliente);
+									} else if (packet.getType().equals(
+											"ServerFull")) {
 										JOptionPane.showMessageDialog(null,
 												packet.getData(),
 												"Batalha Naval - Erro",
 												JOptionPane.ERROR_MESSAGE);
 										frame.setVisible(true);
-						        	}
+									}
 								} else {
 									frame.setVisible(true);
 								}

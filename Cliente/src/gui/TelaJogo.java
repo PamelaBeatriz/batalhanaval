@@ -24,7 +24,6 @@ import javax.swing.border.TitledBorder;
 import logica.Cliente;
 import logica.DataOutput;
 import logica.Packet;
-import javax.swing.JScrollPane;
 
 public class TelaJogo extends JFrame {
 
@@ -33,8 +32,8 @@ public class TelaJogo extends JFrame {
         private String nickName = ""; // @jve:decl-index=0:
         private JPanel chatJPanel = null;
         private JPanel tabuleiroPanel = null;
-        private JPanel casaTabuleiroPanel = null;
-        private JPanel adversarioTabuleiroPanel = null;
+        private TabuleiroDaCasa tabuleiroDaCasa = null;
+        private TabuleiroDoInimigo tabuleiroDoInimigo = null;
         private JMenuBar jJMenuBar = null;
         private JMenu fileJMenu = null;
         private JMenuItem novoJogoJMenuItem = null;
@@ -42,7 +41,7 @@ public class TelaJogo extends JFrame {
         private JMenu helpJMenu = null;
         private JMenuItem comoJogarJMenuItem = null;
         private JMenuItem sobreJMenuItem = null;
-        private JPanel painelControleJPanel = null;
+        private PainelControle painelControle = null;
         private Cliente client;
         private JLabel tabuleiroCasaLabel = null;
         private JTextArea chatTextArea = null;
@@ -102,7 +101,8 @@ public class TelaJogo extends JFrame {
                         jContentPane.add(getChatJPanel(), null);
                         jContentPane.add(getPainelControleJPanel(), null);
                         jContentPane.add(getTabuleiroPanel(), null);
-
+                        this.tabuleiroDaCasa.setPainelControle(this.painelControle);
+                        this.painelControle.setTabuleiroDoInimigo(this.tabuleiroDoInimigo);
                 }
                 return jContentPane;
         }
@@ -156,12 +156,12 @@ public class TelaJogo extends JFrame {
          * @return javax.swing.JPanel
          */
         private JPanel getCasaTabuleiroPanel() {
-                if (casaTabuleiroPanel == null) {
-                        casaTabuleiroPanel = new TabuleiroDaCasa((PainelControle) this.painelControleJPanel);
-                        casaTabuleiroPanel.setLocation(new Point(9, 13));
-                        casaTabuleiroPanel.setSize(new Dimension(250, 250));
+                if (tabuleiroDaCasa == null) {
+                        tabuleiroDaCasa = new TabuleiroDaCasa();
+                        tabuleiroDaCasa.setLocation(new Point(9, 13));
+                        tabuleiroDaCasa.setSize(new Dimension(250, 250));
                 }
-                return casaTabuleiroPanel;
+                return tabuleiroDaCasa;
         }
 
         /**
@@ -170,12 +170,12 @@ public class TelaJogo extends JFrame {
          * @return javax.swing.JPanel
          */
         private JPanel getAdversarioTabuleiroPanel() {
-                if (adversarioTabuleiroPanel == null) {
-                        adversarioTabuleiroPanel = new TabuleiroDoInimigo();
-                        adversarioTabuleiroPanel.setLocation(new Point(356, 13));
-                        adversarioTabuleiroPanel.setSize(new Dimension(250, 250));
+                if (tabuleiroDoInimigo == null) {
+                        tabuleiroDoInimigo = new TabuleiroDoInimigo();
+                        tabuleiroDoInimigo.setLocation(new Point(356, 13));
+                        tabuleiroDoInimigo.setSize(new Dimension(250, 250));
                 }
-                return adversarioTabuleiroPanel;
+                return tabuleiroDoInimigo;
         }
 
         /**
@@ -305,12 +305,12 @@ public class TelaJogo extends JFrame {
          * @return javax.swing.JPanel
          */
         private JPanel getPainelControleJPanel() {
-                if (painelControleJPanel == null) {
-                        painelControleJPanel = new PainelControle();
-                        painelControleJPanel.setSize(new Dimension(210, 250));
-                        painelControleJPanel.setLocation(new Point(5, 310));
+                if (painelControle == null) {
+                        painelControle = new PainelControle();
+                        painelControle.setSize(new Dimension(210, 250));
+                        painelControle.setLocation(new Point(5, 310));
                 }
-                return painelControleJPanel;
+                return painelControle;
         }
 
 

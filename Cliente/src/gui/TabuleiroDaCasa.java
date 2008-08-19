@@ -59,6 +59,15 @@ public class TabuleiroDaCasa extends JPanel {
 		this.painelControle = painelControle;
 	}
 
+
+	/**
+	 * Default Construtor
+	 */
+	public TabuleiroDaCasa() {
+		super();
+		initialize();
+	}
+
 	/**
 	 * This method initializes this
 	 *
@@ -470,6 +479,14 @@ public class TabuleiroDaCasa extends JPanel {
 
 	public void setHandlerOFF(boolean handlerOFF) {
 		this.handlerOFF = handlerOFF;
+	}
+
+	public PainelControle getPainelControle() {
+		return painelControle;
+	}
+
+	public void setPainelControle(PainelControle painelControle) {
+		this.painelControle = painelControle;
 	}
 
 }
