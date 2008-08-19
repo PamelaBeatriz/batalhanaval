@@ -18,6 +18,9 @@ public class Cliente extends Thread {
 
 	private String senhaCriptografada = "";
 
+	/**
+	 * This is the default constructor
+	 */
 	public Cliente() {
 		this.nick = "";
 		this.porta = "";
@@ -26,18 +29,41 @@ public class Cliente extends Thread {
 		this.senhaCriptografada = "";
 	}
 
+	/**
+	 *Tenta a conexao com o servidor
+	 *
+	 * @return True se o cliente esta conectado
+	 * @throws NumberFormatException
+	 * @throws UnknownHostException
+	 * @throws ConnectException
+	 * @throws IOException
+	 */
 	public boolean tentarConexaoServer() throws NumberFormatException,
 			UnknownHostException, ConnectException, IOException {
 		this.socket = new Socket(this.ipServer, Integer.parseInt(this.porta));
 		return this.socket.isConnected();
 	}
 
+	/**
+	 *Seta os atributos do cliente
+	 *
+	 * @param nick
+	 * @param ipServer
+	 * @param porta
+	 * @param senhaCriptografada
+	 */
 	public void setCliente(String nick, String ipServer, String porta,
 			String senhaCriptografada) {
 		this.nick = nick;
 		this.ipServer = ipServer;
 		this.porta = porta;
 		this.senhaCriptografada = senhaCriptografada;
+	}
+
+
+
+	@Override
+	public void run() {
 	}
 
 	public Socket getSocket() {

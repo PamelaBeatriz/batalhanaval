@@ -7,6 +7,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -14,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -36,6 +39,8 @@ public class TelaJogo extends JFrame {
 	private TabuleiroDoInimigo tabuleiroDoInimigo = null;
 	private JMenuBar jJMenuBar = null;
 	private JMenu fileJMenu = null;
+	private JMenu settingJMenu = null;
+	private JMenuItem cheatJMenuItem = null;
 	private JMenuItem novoJogoJMenuItem = null;
 	private JMenuItem sairJMenuItem = null;
 	private JMenu helpJMenu = null;
@@ -48,14 +53,7 @@ public class TelaJogo extends JFrame {
 	private DataOutput output;
 	private JScrollPane chatScrollPane = null;
 	private JTextField chatTextField = null;
-
-	public String getNickName() {
-		return nickName;
-	}
-
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
+	private String cheat = null;
 
 	/**
 	 * This is the default constructor
@@ -188,10 +186,27 @@ public class TelaJogo extends JFrame {
 			jJMenuBar = new JMenuBar();
 			jJMenuBar.setLocation(new Point(0, 0));
 			jJMenuBar.add(getFileJMenu());
+			jJMenuBar.add(getSettingJMenu());
 			jJMenuBar.add(getHelpJMenu());
 
 		}
 		return jJMenuBar;
+	}
+
+	/**
+	 * This method initializes fileJMenu
+	 *
+	 * @return javax.swing.JMenu
+	 */
+	private JMenu getSettingJMenu() {
+		if (settingJMenu == null) {
+			settingJMenu = new JMenu();
+			settingJMenu.setText("Setting");
+			settingJMenu.setMnemonic(KeyEvent.VK_S);
+			settingJMenu.add(getCheatJMenuItem());
+			settingJMenu.addSeparator();
+		}
+		return settingJMenu;
 	}
 
 	/**
@@ -209,6 +224,30 @@ public class TelaJogo extends JFrame {
 			fileJMenu.add(getSairJMenuItem());
 		}
 		return fileJMenu;
+	}
+
+	/**
+	 * This method initializes fileJMenu
+	 *
+	 * @return javax.swing.JMenu
+	 */
+	private JMenuItem getCheatJMenuItem() {
+		if (cheatJMenuItem == null) {
+			cheatJMenuItem = new JMenuItem();
+			cheatJMenuItem.setText("Cheat");
+			cheatJMenuItem.setMnemonic(KeyEvent.VK_C);
+			KeyStroke F10 = KeyStroke.getKeyStroke("F10");
+			cheatJMenuItem.setAccelerator(F10);
+			cheatJMenuItem
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+							cheat = JOptionPane.showInputDialog(null,
+									"Cheat: ", "Batalha Naval",
+									JOptionPane.QUESTION_MESSAGE);
+						}
+					});
+		}
+		return cheatJMenuItem;
 	}
 
 	/**
@@ -320,6 +359,7 @@ public class TelaJogo extends JFrame {
 	private JTextArea getChatTextArea() {
 		if (chatTextArea == null) {
 			chatTextArea = new JTextArea();
+			chatTextArea.setEditable(false);
 		}
 		return chatTextArea;
 	}
@@ -339,7 +379,11 @@ public class TelaJogo extends JFrame {
 							Packet packet = new Packet("CHAT", chatTextField
 									.getText());
 							output.SendPacket(packet);
-							chatTextArea.append(chatTextField.getText() + "\n");
+							chatTextArea.append(" ["
+									+ new SimpleDateFormat("HH:mm:ss")
+											.format(new Date()) + "]"
+									+ nickName + "diz: "
+									+ chatTextField.getText() + "\n");
 							chatTextField.setText("");
 						}
 					});
@@ -359,6 +403,22 @@ public class TelaJogo extends JFrame {
 			chatScrollPane.setViewportView(getChatTextArea());
 		}
 		return chatScrollPane;
+	}
+
+	public String getCheat() {
+		return cheat;
+	}
+
+	public void setCheat(String cheat) {
+		this.cheat = cheat;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
 	/**
