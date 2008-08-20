@@ -12,7 +12,7 @@ public class DataOutput{
 
 	//private Cliente client;
 
-	private Packet packet;
+	private String packet;
 
 	public DataOutput(Socket socket) {
 		this.socket = socket;
@@ -26,7 +26,7 @@ public class DataOutput{
 		}
 	}
 
-	public void SendPacket(Packet packet) {
+	public void SendPacket(String packet) {
 		try {
 			saida.writeObject(packet);
 			saida.flush();

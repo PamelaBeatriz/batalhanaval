@@ -5,6 +5,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.swing.DefaultListModel;
@@ -88,7 +90,8 @@ public class Servidor extends Thread {
 
 	public void esperaConexaoCliente() {
 		this.logTextArea
-				.append("** Servidor inicializado com sucesso **\n> Esperando Conexões ...");
+				.append("["	+ new SimpleDateFormat("HH:mm:ss").format(new Date())
+								+ "] " + "** Servidor inicializado com sucesso **\n> Esperando Conexões ...");
 		modelo = new DefaultListModel();
 		clientList.setModel(modelo);
 		clients = new Vector<Socket>();
@@ -99,18 +102,19 @@ public class Servidor extends Thread {
 				Socket temp = this.serverSocket.accept();
 				if (clients.size() >= 2) {
 					new DataOutput(temp)
-							.SendPacket(new Packet("ServerFull",
-									"O servidor está cheio\ntente novamente mais tarde"));
+							.SendPacket(new String("SF"+"O servidor está cheio\ntente novamente mais tarde"));
 					temp.close();
 					continue;
 				} else if (clients.size() == 1) {
 					clients.add(temp);
 
 					new DataOutput(clients.lastElement())
-							.SendPacket(new Packet("OK", "OK"));
+							.SendPacket(new String("OK"));
 					tc.add(new ThreadCliente(clients, clients.size() - 1,
 							cListing, clientList, this.logTextArea));
-					this.logTextArea.append("\n > Partida iniciada entre "
+					this.logTextArea.append("\n " + "["
+							+ new SimpleDateFormat("HH:mm:ss").format(new Date())
+							+ "] " + "Partida iniciada: "
 							+ cListing.get(clients.size() - 2) + " VS "
 							+ cListing.get(clients.size() - 1));
 					tc.firstElement().startGame(clients.size() - 1);
@@ -119,7 +123,7 @@ public class Servidor extends Thread {
 					clients.add(temp);
 
 					new DataOutput(clients.lastElement())
-							.SendPacket(new Packet("OK", "OK"));
+							.SendPacket(new String("OK"));
 					tc.add(new ThreadCliente(clients, clients.size() - 1,
 							cListing, clientList, this.logTextArea));
 				}
