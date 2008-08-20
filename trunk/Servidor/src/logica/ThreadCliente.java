@@ -22,6 +22,8 @@ public class ThreadCliente extends Thread {
 
 	private int index;
 
+	private int c2;
+
 	private JList clientList;
 
 	private JTextArea logTextArea;
@@ -34,6 +36,10 @@ public class ThreadCliente extends Thread {
 
 	private String nick = null;
 
+	private Packet packet = null;
+
+	private boolean isGameRunning = false;
+
 	public ThreadCliente(Vector<Socket> clients, int index, Vector<String> cListing, JList clientList, JTextArea logTextArea) {
 		this.clients = clients;
 		this.cListing = cListing;
@@ -42,7 +48,6 @@ public class ThreadCliente extends Thread {
 		this.clientList = clientList;
 		this.logTextArea = logTextArea;
         try {
-    		Packet packet = null;
         	input = new ObjectInputStream( conexao.getInputStream() );
         	packet = (Packet) input.readObject();
         	if(packet.getType().equals("setNick")) {
@@ -76,9 +81,17 @@ public class ThreadCliente extends Thread {
 	@Override
 	public void run() {
         try {
-        	BufferedReader entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
-        	String alive;
-        	while((alive = entrada.readLine()) != null);
+        	input = new ObjectInputStream( conexao.getInputStream() );
+        	while( (packet = (Packet) input.readObject()) != null ) {
+	        	if(this.isGameRunning) {
+	        		if(packet.getType().equals("CHAT")) {
+						new DataOutput(clients.lastElement()).SendPacket(new Packet("CHAT",this.cListing.get(this.index)
+								+ " diz:" + packet.getData() ));
+						this.logTextArea.append("\n" + this.cListing.get(this.index) + " diz para "
+								+ this.cListing.get(this.c2) + ": " + packet.getData() );
+		        	}
+	        	}
+        	}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -104,6 +117,15 @@ public class ThreadCliente extends Thread {
 
 	public void setConexao(Socket conexao) {
 		this.conexao = conexao;
+	}
+
+	public ObjectInputStream getImput() {
+		return this.input;
+	}
+
+	public void startGame(int c2) {
+		this.c2 = c2;
+		this.isGameRunning = true;
 	}
 
 }
