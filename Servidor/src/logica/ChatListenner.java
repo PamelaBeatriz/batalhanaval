@@ -19,35 +19,27 @@ public class ChatListenner extends Thread {
 
 	private JTextArea logTextArea;
 
-	private ObjectOutputStream cout2 = null;
-
-	private ObjectInputStream cout1 = null;
+	private ObjectInputStream input = null;
 
 	private Vector<String> cListing;
 
 	private String nick = null;
 
-	public ChatListenner(Vector<Socket> clients, int c1, int c2, Vector<String> cListing, JTextArea logTextArea) {
+	public ChatListenner(Vector<Socket> clients, int c1, int c2, Vector<String> cListing, ObjectInputStream input, JTextArea logTextArea) {
 		this.clients = clients;
 		this.cListing = cListing;
+		this.input = input;
 		this.c1 = c1;
 		this.c2 = c2;
 		this.logTextArea = logTextArea;
-		this.start();
 	}
 
 	@Override
 	public void run() {
     	try {
     		Packet packet = null;
-    		ObjectInputStream  input = new ObjectInputStream( this.clients.get(this.c1).getInputStream() );
-        	while( true ) {
-
-	    		try {
-					packet = (Packet) input.readObject();
-				} catch (ClassNotFoundException e) {
-					e.printStackTrace();
-				}
+    		//ObjectInputStream input = new ObjectInputStream( this.clients.get(this.c1).getInputStream() );
+        	while( (packet = (Packet) input.readObject()) != null ) {
 	        	if(packet.getType().equals("CHAT")) {
 					new DataOutput(clients.lastElement()).SendPacket(new Packet("CHAT",this.cListing.get(this.c1)
 							+ " diz:" + packet.getData() ));
@@ -57,6 +49,9 @@ public class ChatListenner extends Thread {
 
         	}
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

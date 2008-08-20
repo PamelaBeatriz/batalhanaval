@@ -96,6 +96,7 @@ public class Servidor extends Thread {
 		clientList.setModel(modelo);
 		clients = new Vector<Socket>();
 		Vector<String> cListing = new Vector<String>();
+		Vector<ThreadCliente> tc = new Vector<ThreadCliente>();
 		while (true) {
 			try {
 				Socket temp = this.serverSocket.accept();
@@ -108,13 +109,16 @@ public class Servidor extends Thread {
 					clients.add(temp);
 
 					new DataOutput(clients.lastElement()).SendPacket(new Packet("OK","OK"));
-					new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea);
-					new Game(clients,clients.size()-2,clients.size()-1,cListing,this.logTextArea);
+					tc.add(new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea));
+					this.logTextArea.append("\nPartida iniciada entre " + cListing.get(clients.size()-2)
+							+ " e " + cListing.get(clients.size()-1));
+					tc.firstElement().startGame(clients.size()-1);
+					tc.lastElement().startGame(clients.size()-2);
 				} else {
 					clients.add(temp);
 
 					new DataOutput(clients.lastElement()).SendPacket(new Packet("OK","OK"));
-					new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea);
+					tc.add(new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
