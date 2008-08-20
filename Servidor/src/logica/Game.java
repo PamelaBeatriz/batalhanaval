@@ -34,6 +34,8 @@ public class Game extends Thread {
 		this.c1 = c1;
 		this.c2 = c2;
 		this.logTextArea = logTextArea;
+		this.logTextArea.append("\nPartida iniciada entre " + this.cListing.get(this.c1)
+				+ " e " + this.cListing.get(this.c2));
 		this.start();
 		/*        try {
     		Packet packet = null;
@@ -58,8 +60,6 @@ public class Game extends Thread {
 	public void run() {
 		new ChatListenner(this.clients,this.c1,this.c2,this.cListing,this.logTextArea);
 		new ChatListenner(this.clients,this.c2,this.c1,this.cListing,this.logTextArea);
-		this.logTextArea.append("Partida iniciada entre " + this.cListing.get(this.c1)
-				+ " e " + this.cListing.get(this.c2));
 	}
 
 }

@@ -41,19 +41,6 @@ public class ThreadCliente extends Thread {
 		this.conexao = clients.get(index);
 		this.clientList = clientList;
 		this.logTextArea = logTextArea;
-	}
-
-	@Override
-	protected void finalize() {
-		try {
-			this.conexao.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@Override
-	public void run() {
         try {
     		Packet packet = null;
         	input = new ObjectInputStream( conexao.getInputStream() );
@@ -71,6 +58,24 @@ public class ThreadCliente extends Thread {
 					+ this.conexao.getInetAddress().getHostName()
 					+ "]");
 			this.clientList.setListData(this.cListing);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		this.start();
+	}
+
+	@Override
+	protected void finalize() {
+		try {
+			this.conexao.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void run() {
+        try {
         	BufferedReader entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
         	String alive;
         	while((alive = entrada.readLine()) != null);

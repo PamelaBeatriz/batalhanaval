@@ -108,13 +108,13 @@ public class Servidor extends Thread {
 					clients.add(temp);
 
 					new DataOutput(clients.lastElement()).SendPacket(new Packet("OK","OK"));
-					new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea).start();
+					new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea);
 					new Game(clients,clients.size()-2,clients.size()-1,cListing,this.logTextArea);
 				} else {
 					clients.add(temp);
 
 					new DataOutput(clients.lastElement()).SendPacket(new Packet("OK","OK"));
-					new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea).start();
+					new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
