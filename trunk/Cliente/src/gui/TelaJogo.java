@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -68,7 +70,9 @@ public class TelaJogo extends JFrame {
 		this.nickName = nickName;
 		this.client = cliente;
 		this.output = new DataOutput(this.client);
+		this.client.setChatArea(this.chatTextArea);
 		initialize();
+		this.client.start();
 	}
 
 	/**
