@@ -109,7 +109,7 @@ public class Servidor extends Thread {
 
 					new DataOutput(clients.lastElement()).SendPacket(new Packet("OK","OK"));
 					new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea).start();
-					new Game();
+					new Game(clients,clients.size()-2,clients.size()-1,cListing,this.logTextArea);
 				} else {
 					clients.add(temp);
 

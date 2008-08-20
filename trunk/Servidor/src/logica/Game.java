@@ -2,17 +2,39 @@ package logica;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
+
+import javax.swing.JTextArea;
 
 public class Game extends Thread {
 
-	private ThreadCliente c1;
+	private Vector<Socket> clients;
 
-	private ThreadCliente c2;
+	private int c1;
 
-	public Game(/*Cliente c1, Cliente c2*/) {
-		// TODO Auto-generated constructor stub
+	private int c2;
+
+	private JTextArea logTextArea;
+
+	private ObjectOutputStream cout2 = null;
+
+	private ObjectInputStream cout1 = null;
+
+	private Vector<String> cListing;
+
+	private String nick = null;
+
+	public Game(Vector<Socket> clients, int c1, int c2, Vector<String> cListing, JTextArea logTextArea) {
+		this.clients = clients;
+		this.cListing = cListing;
+		this.c1 = c1;
+		this.c2 = c2;
+		this.logTextArea = logTextArea;
+		this.start();
 		/*        try {
     		Packet packet = null;
         	input = new ObjectInputStream( conexao.getInputStream() );
@@ -30,6 +52,14 @@ public class Game extends Thread {
 			e.printStackTrace();
 		}*/
 		//this.start();
+	}
+
+	@Override
+	public void run() {
+		new ChatListenner(this.clients,this.c1,this.c2,this.cListing,this.logTextArea);
+		new ChatListenner(this.clients,this.c2,this.c1,this.cListing,this.logTextArea);
+		this.logTextArea.append("Partida iniciada entre " + this.cListing.get(this.c1)
+				+ " e " + this.cListing.get(this.c2));
 	}
 
 }
