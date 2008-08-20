@@ -91,7 +91,6 @@ public class TabuleiroDaCasa extends JPanel {
 		this.addMouseMotionListener(this.adptadorDoMouseMovimento);
 		this.posicaoDoCursor = new Point();
 	}
-
 	/**
 	 * Metodo para pintar na tela o tabuleiro e os navios
 	 */
