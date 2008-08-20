@@ -6,8 +6,6 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -380,14 +378,14 @@ public class TelaJogo extends JFrame {
 			chatTextField
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
-							Packet packet = new Packet("CHAT", chatTextField
-									.getText());
-							output.SendPacket(packet);
-							chatTextArea.append(" ["
+							String texto = "\n["
 									+ new SimpleDateFormat("HH:mm:ss")
 											.format(new Date()) + "]"
 									+ nickName + " diz: "
-									+ chatTextField.getText() + "\n");
+									+ chatTextField.getText();
+							Packet packet = new Packet("CHAT", texto);
+							output.SendPacket(packet);
+							chatTextArea.append(texto);
 							chatTextField.setText("");
 						}
 					});
