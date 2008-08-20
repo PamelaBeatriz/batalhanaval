@@ -378,11 +378,11 @@ public class TelaJogo extends JFrame {
 			chatTextField
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
-							String texto = "\n["
+							String texto = "["
 									+ new SimpleDateFormat("HH:mm:ss")
 											.format(new Date()) + "]"
 									+ nickName + " diz: "
-									+ chatTextField.getText();
+									+ chatTextField.getText()+"\n";
 							Packet packet = new Packet("CHAT", texto);
 							output.SendPacket(packet);
 							chatTextArea.append(texto);

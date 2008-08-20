@@ -74,7 +74,7 @@ public class Cliente extends Thread {
         	Packet packet = null;
 			while( (packet = (Packet) input.readObject()) != null ) {
 	        		if(packet.getType().equals("CHAT")) {
-						this.chatTextArea.append("\n" + packet.getData() );
+						this.chatTextArea.append(packet.getData()+"\n");
 		        	}
         	}
 		} catch (Exception e) {
