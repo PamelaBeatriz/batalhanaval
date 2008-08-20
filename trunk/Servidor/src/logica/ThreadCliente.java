@@ -94,8 +94,11 @@ public class ThreadCliente extends Thread {
 		}
 	    try {
 	    	this.logTextArea.append("\n> " + this.nick + " desconectou [" + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + "]");
-	    	this.clients.setElementAt(null, this.index);
-	    	this.cListing.setElementAt(null,this.index);
+	    	//this.clients.setElementAt(null, this.index);
+	    	this.clients.removeElement(this.conexao);
+	    	//this.cListing.setElementAt(null,this.index);
+	    	this.cListing.removeElement(this.nick);
+	    	
 	    	this.clientList.setListData(this.cListing);
 	    	this.conexao.close();
 		} catch (IOException e) {
