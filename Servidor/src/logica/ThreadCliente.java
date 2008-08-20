@@ -1,12 +1,9 @@
 package logica;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
@@ -97,8 +94,8 @@ public class ThreadCliente extends Thread {
 		}
 	    try {
 	    	this.logTextArea.append("\n> " + this.nick + " desconectou [" + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + "]");
-	    	this.clients.remove(this.index);
-	    	this.cListing.remove(this.index);
+	    	this.clients.setElementAt(null, this.index);
+	    	this.cListing.setElementAt(null,this.index);
 	    	this.clientList.setListData(this.cListing);
 	    	this.conexao.close();
 		} catch (IOException e) {

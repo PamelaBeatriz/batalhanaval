@@ -100,25 +100,31 @@ public class Servidor extends Thread {
 		while (true) {
 			try {
 				Socket temp = this.serverSocket.accept();
-				if(clients.size()>=2) {
-					new DataOutput(temp).SendPacket(new Packet("ServerFull",
-							"O servidor está cheio\ntente novamente mais tarde"));
+				if (clients.size() >= 2) {
+					new DataOutput(temp)
+							.SendPacket(new Packet("ServerFull",
+									"O servidor está cheio\ntente novamente mais tarde"));
 					temp.close();
 					continue;
-				} else if(clients.size()==1) {
+				} else if (clients.size() == 1) {
 					clients.add(temp);
 
-					new DataOutput(clients.lastElement()).SendPacket(new Packet("OK","OK"));
-					tc.add(new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea));
-					this.logTextArea.append("\nPartida iniciada entre " + cListing.get(clients.size()-2)
-							+ " e " + cListing.get(clients.size()-1));
-					tc.firstElement().startGame(clients.size()-1);
-					tc.lastElement().startGame(clients.size()-2);
+					new DataOutput(clients.lastElement())
+							.SendPacket(new Packet("OK", "OK"));
+					tc.add(new ThreadCliente(clients, clients.size() - 1,
+							cListing, clientList, this.logTextArea));
+					this.logTextArea.append("\n > Partida iniciada entre "
+							+ cListing.get(clients.size() - 2) + " VS "
+							+ cListing.get(clients.size() - 1));
+					tc.firstElement().startGame(clients.size() - 1);
+					tc.lastElement().startGame(clients.size() - 2);
 				} else {
 					clients.add(temp);
 
-					new DataOutput(clients.lastElement()).SendPacket(new Packet("OK","OK"));
-					tc.add(new ThreadCliente(clients, clients.size()-1, cListing, clientList, this.logTextArea));
+					new DataOutput(clients.lastElement())
+							.SendPacket(new Packet("OK", "OK"));
+					tc.add(new ThreadCliente(clients, clients.size() - 1,
+							cListing, clientList, this.logTextArea));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -136,9 +142,9 @@ public class Servidor extends Thread {
 	protected void finalize() {
 		try {
 			this.serverSocket.close();
-			while(!this.clients.isEmpty()){
+			while (!this.clients.isEmpty()) {
 				this.clients.lastElement().close();
-				this.clients.remove(this.clients.size()-1);
+				this.clients.remove(this.clients.size() - 1);
 			}
 			// Encerro o ServerSocket
 		} catch (IOException e) {
