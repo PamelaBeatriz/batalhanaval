@@ -22,7 +22,6 @@ import javax.swing.border.TitledBorder;
 
 import logica.Cliente;
 import logica.DataOutput;
-import logica.Packet;
 import util.MD5;
 
 public class telaConectToServer extends JFrame {
@@ -193,26 +192,23 @@ public class telaConectToServer extends JFrame {
 							try {
 								if (cliente.tentarConexaoServer()) {
 									frame.setVisible(false);
-									Packet packet = null;
+									String packet = null;
 									ObjectInputStream input = new ObjectInputStream(
 											cliente.getSocket()
 													.getInputStream());
 									try {
-										packet = (Packet) input.readObject();
+										packet = (String) input.readObject();
 									} catch (ClassNotFoundException e1) {
 										e1.printStackTrace();
 									}
-									if (packet.getType().equals("OK")) {
+									if (packet.substring(0,2).equals("OK")) {
 										new DataOutput(cliente)
-												.SendPacket(new Packet(
-														"setNick", cliente
-																.getNick()));
+												.SendPacket(new String("NK"+cliente.getNick()));
 										new TelaJogo(nickField.getText(),
 												cliente);
-									} else if (packet.getType().equals(
-											"ServerFull")) {
+									} else if (packet.substring(0,2).equals("ServerFull")) {
 										JOptionPane.showMessageDialog(null,
-												packet.getData(),
+												packet.substring(2),
 												"Batalha Naval - Erro",
 												JOptionPane.ERROR_MESSAGE);
 										frame.setVisible(true);

@@ -26,7 +26,6 @@ import javax.swing.border.TitledBorder;
 
 import logica.Cliente;
 import logica.DataOutput;
-import logica.Packet;
 
 public class TelaJogo extends JFrame {
 
@@ -67,7 +66,6 @@ public class TelaJogo extends JFrame {
 		super();
 		this.nickName = nickName;
 		this.client = cliente;
-		this.output = new DataOutput(this.client);
 		initialize();
 		this.client.setChatArea(this.chatTextArea);
 		this.client.start();
@@ -378,14 +376,16 @@ public class TelaJogo extends JFrame {
 			chatTextField
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
-							String texto = "["
+							/*String texto = "["
 									+ new SimpleDateFormat("HH:mm:ss")
 											.format(new Date()) + "]"
 									+ nickName + " diz: "
-									+ chatTextField.getText()+"\n";
-							Packet packet = new Packet("CHAT", texto);
-							output.SendPacket(packet);
-							chatTextArea.append(texto);
+									+ chatTextField.getText()+"\n";*/
+							new DataOutput(client).SendPacket(new String("CH"+chatTextField.getText()));
+							chatTextArea.append("["
+									+ new SimpleDateFormat("HH:mm:ss")
+											.format(new Date()) + "] "
+									+ nickName + " diz: " + chatTextField.getText() + "\n");
 							chatTextField.setText("");
 						}
 					});

@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.JTextArea;
 
@@ -22,6 +24,10 @@ public class Cliente extends Thread {
 	private String senhaCriptografada = "";
 
 	private JTextArea chatTextArea;
+
+	private ObjectInputStream input = null;
+
+	private String packet = null;
 
 	/**
 	 * This is the default constructor
@@ -70,13 +76,16 @@ public class Cliente extends Thread {
 	@Override
 	public void run() {
         try {
-        	ObjectInputStream input = new ObjectInputStream( this.socket.getInputStream() );
-        	Packet packet = null;
-			while( (packet = (Packet) input.readObject()) != null ) {
-	        		if(packet.getType().equals("CHAT")) {
-						this.chatTextArea.append(packet.getData()+"\n");
+           	input = new ObjectInputStream( this.socket.getInputStream() );
+        	while( (packet = (String) input.readObject()) != null ) {
+	        		if(packet.substring(0,2).equals("CH")) {
+						this.chatTextArea.append("["
+								+ new SimpleDateFormat("HH:mm:ss").format(new Date())
+								+ "] " + packet.substring(2) + "\n");
 		        	}
-        	}
+	        		packet = null;
+	               	input = new ObjectInputStream( this.socket.getInputStream() );
+       	}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
