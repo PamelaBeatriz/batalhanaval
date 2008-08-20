@@ -382,7 +382,7 @@ public class TelaJogo extends JFrame {
 							chatTextArea.append(" ["
 									+ new SimpleDateFormat("HH:mm:ss")
 											.format(new Date()) + "]"
-									+ nickName + "diz: "
+									+ nickName + " diz: "
 									+ chatTextField.getText() + "\n");
 							chatTextField.setText("");
 						}
