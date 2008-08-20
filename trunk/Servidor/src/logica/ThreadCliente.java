@@ -82,8 +82,7 @@ public class ThreadCliente extends Thread {
         	while( (packet = (Packet) input.readObject()) != null ) {
 	        	if(this.isGameRunning) {
 	        		if(packet.getType().equals("CHAT")) {
-						new DataOutput(clients.lastElement()).SendPacket(new Packet("CHAT",this.cListing.get(this.index)
-								+ " diz:" + packet.getData() ));
+						new DataOutput(clients.elementAt(1 - this.index)).SendPacket(new Packet("CHAT", packet.getData() ));
 						this.logTextArea.append("\n" + this.cListing.get(this.index) + " diz para "
 								+ this.cListing.get(this.c2) + ": " + packet.getData() );
 		        	}
@@ -98,7 +97,7 @@ public class ThreadCliente extends Thread {
 	    	this.clients.removeElement(this.conexao);
 	    	//this.cListing.setElementAt(null,this.index);
 	    	this.cListing.removeElement(this.nick);
-	    	
+
 	    	this.clientList.setListData(this.cListing);
 	    	this.conexao.close();
 		} catch (IOException e) {
