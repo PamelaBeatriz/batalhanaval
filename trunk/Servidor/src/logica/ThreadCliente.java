@@ -33,7 +33,7 @@ public class ThreadCliente extends Thread {
 
 	private String nick = null;
 
-	private Packet packet = null;
+	private String packet = null;
 
 	private boolean isGameRunning = false;
 
@@ -46,14 +46,14 @@ public class ThreadCliente extends Thread {
 		this.logTextArea = logTextArea;
         try {
         	input = new ObjectInputStream( conexao.getInputStream() );
-        	packet = (Packet) input.readObject();
-        	if(packet.getType().equals("setNick")) {
-        		this.nick = packet.getData() + " [" + this.conexao.getInetAddress().getHostAddress() + "]";
+        	packet = (String) input.readObject();
+        	if(packet.substring(0,2).equals("NK")) {
+        		this.nick = packet.substring(2) + " [" + this.conexao.getInetAddress().getHostAddress() + "]";
         		this.cListing.add(this.nick);
         	}
 			logTextArea.append("\n"
 					+ " ["
-					+ new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date())
+					+ new SimpleDateFormat("HH:mm:ss").format(new Date())
 					+ "] Novo Cliente conectado: "
 					+ this.nick
 					+ " ["
@@ -79,14 +79,18 @@ public class ThreadCliente extends Thread {
 	public void run() {
         try {
         	input = new ObjectInputStream( conexao.getInputStream() );
-        	while( (packet = (Packet) input.readObject()) != null ) {
+        	while( (packet = (String) input.readObject()) != null ) {
 	        	if(this.isGameRunning) {
-	        		if(packet.getType().equals("CHAT")) {
-						new DataOutput(clients.elementAt(1 - this.index)).SendPacket(new Packet("CHAT", packet.getData() ));
-						this.logTextArea.append("\n" + this.cListing.get(this.index) + " diz para "
-								+ this.cListing.get(this.c2) + ": " + packet.getData() );
+	        		if(packet.substring(0,2).equals("CH")) {
+						new DataOutput(clients.elementAt(this.c2)).SendPacket(new String("CH"+this.cListing.get(this.index)
+								+ " diz: " + packet.substring(2) ));
+						this.logTextArea.append("\n" + "["
+								+ new SimpleDateFormat("HH:mm:ss").format(new Date())
+								+ "] " + this.cListing.get(this.index) + " diz para "
+								+ this.cListing.get(this.c2) + ": " + packet.substring(2) );
 		        	}
 	        	}
+	        	input = new ObjectInputStream( conexao.getInputStream() );
         	}
 		} catch (Exception e) {
 			e.printStackTrace();
