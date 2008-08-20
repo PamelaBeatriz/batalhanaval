@@ -1,9 +1,12 @@
 package logica;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+import javax.swing.JTextArea;
 
 
 public class Cliente extends Thread {
@@ -17,6 +20,8 @@ public class Cliente extends Thread {
 	private String ipServer = "";
 
 	private String senhaCriptografada = "";
+
+	private JTextArea chatTextArea;
 
 	/**
 	 * This is the default constructor
@@ -64,6 +69,17 @@ public class Cliente extends Thread {
 
 	@Override
 	public void run() {
+        try {
+        	ObjectInputStream input = new ObjectInputStream( this.socket.getInputStream() );
+        	Packet packet;
+			while( (packet = (Packet) input.readObject()) != null ) {
+	        		if(packet.getType().equals("CHAT")) {
+						this.chatTextArea.append("\n" + packet.getData() );
+		        	}
+        	}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Socket getSocket() {
@@ -114,4 +130,7 @@ public class Cliente extends Thread {
 		 }
 	}
 
+	public void setChatArea(JTextArea chatTextArea) {
+		this.chatTextArea = chatTextArea;
+	}
 }
