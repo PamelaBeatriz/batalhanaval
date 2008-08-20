@@ -71,7 +71,7 @@ public class Cliente extends Thread {
 	public void run() {
         try {
         	ObjectInputStream input = new ObjectInputStream( this.socket.getInputStream() );
-        	Packet packet;
+        	Packet packet = null;
 			while( (packet = (Packet) input.readObject()) != null ) {
 	        		if(packet.getType().equals("CHAT")) {
 						this.chatTextArea.append("\n" + packet.getData() );

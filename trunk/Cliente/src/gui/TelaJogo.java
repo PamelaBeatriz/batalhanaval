@@ -70,8 +70,8 @@ public class TelaJogo extends JFrame {
 		this.nickName = nickName;
 		this.client = cliente;
 		this.output = new DataOutput(this.client);
-		this.client.setChatArea(this.chatTextArea);
 		initialize();
+		this.client.setChatArea(this.chatTextArea);
 		this.client.start();
 	}
 
