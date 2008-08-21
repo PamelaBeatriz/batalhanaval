@@ -117,8 +117,8 @@ public class Servidor extends Thread {
 							+ "] " + "Partida iniciada: "
 							+ cListing.get(clients.size() - 2) + " VS "
 							+ cListing.get(clients.size() - 1));
-					tc.firstElement().startGame(clients.size() - 1);
-					tc.lastElement().startGame(clients.size() - 2);
+					tc.firstElement().startGame(tc.lastElement().getIndex());
+					tc.lastElement().startGame(tc.firstElement().getIndex());
 				} else {
 					clients.add(temp);
 
