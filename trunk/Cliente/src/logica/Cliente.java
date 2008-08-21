@@ -113,7 +113,7 @@ public class Cliente extends Thread {
 
 			if (telaJogo.isTurn()) {
 				String packet = new String();
-				packet += "DJ";
+				packet += "TI";
 				packet += me.getX();
 				packet += ",";
 				packet += me.getY();
@@ -131,7 +131,7 @@ public class Cliente extends Thread {
 				if (resultadoDaJogada == TabuleiroLogico.ACERTOU_NA_AGUA) {
 
 					new DataOutput(telaJogo.getClient()).SendPacket(new String(
-							"DJwater"));
+							"TIwater"));
 					telaJogo.setTurn(false);
 				}
 
@@ -150,7 +150,7 @@ public class Cliente extends Thread {
 						 * avisa o adversario que perdeu
 						 */
 						new DataOutput(telaJogo.getClient())
-								.SendPacket(new String("DJlose"));
+								.SendPacket(new String("TIlose"));
 						JOptionPane.showMessageDialog(null,
 								"Congratulations , You Kill your enemy", "Win",
 								JOptionPane.INFORMATION_MESSAGE);

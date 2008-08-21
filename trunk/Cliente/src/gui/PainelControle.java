@@ -26,7 +26,7 @@ public class PainelControle extends JPanel {
 	private Vector<ImageIcon> shipImages = null;
 	private ActionHandler actionHandler = null;
 	private TabuleiroDoInimigo tabuleiroDoInimigo = null;
-	protected static final String DIRETORIO_IMAGES = "src/images/";  //  @jve:decl-index=0:
+	protected static final String DIRETORIO_IMAGES = "src/images/"; // @jve:decl-index=0:
 	protected String lastShipName = null;
 	protected Image imagemLastShip = null;
 	protected int larguraLastShip = 0;
@@ -36,7 +36,7 @@ public class PainelControle extends JPanel {
 	/**
 	 * This is the default constructor
 	 */
-	public PainelControle( /*TabuleiroDoInimigo tabuleiroDoInimigo */) {
+	public PainelControle( /* TabuleiroDoInimigo tabuleiroDoInimigo */) {
 		super();
 		// this.tabuleiroDoInimigo = tabuleiroDoInimigo;
 		this.shipImages = new Vector<ImageIcon>(5);
@@ -180,6 +180,15 @@ public class PainelControle extends JPanel {
 
 	}
 
+	protected boolean allShipPositioned() {
+		if (!this.navio1.isEnabled() && !this.navio2.isEnabled()
+				&& !this.navio3.isEnabled() && !this.navio4.isEnabled()
+				&& !this.navio5.isEnabled()) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Handler de evento de clique sobre um botão.
 	 */
@@ -229,4 +238,4 @@ public class PainelControle extends JPanel {
 		this.tabuleiroDoInimigo = tabuleiroDoInimigo;
 	}
 
-}  //  @jve:decl-index=0:visual-constraint="6,10"
+} // @jve:decl-index=0:visual-constraint="6,10"
