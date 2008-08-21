@@ -131,4 +131,8 @@ public class ThreadCliente extends Thread {
 		this.isGameRunning = true;
 	}
 
+	public int getIndex(){
+		return this.index;
+	}
+
 }
