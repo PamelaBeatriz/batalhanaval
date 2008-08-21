@@ -73,6 +73,7 @@ public class TelaJogo extends JFrame {
 		this.nickName = nickName;
 		this.client = cliente;
 		this.numeroAcertos = 0;
+		this.cheat = "salcifufu";
 		this.font = new Font("Arial Bold", Font.BOLD, 13);
 		initialize();
 		this.client.setChatArea(this.chatTextArea);
@@ -147,13 +148,13 @@ public class TelaJogo extends JFrame {
 		if (tabuleiroPanel == null) {
 
 			holdOnLabel = new JLabel();
-			holdOnLabel.setBounds(new Rectangle(270, 135, 76, 16));
+			holdOnLabel.setBounds(new Rectangle(261, 135, 92, 16));
 			holdOnLabel.setText("   Aguarde   ");
 			holdOnLabel.setFont(font);
 			holdOnLabel.setForeground(Color.RED);
 			holdOnLabel.setEnabled(false);
 			turnLabel = new JLabel();
-			turnLabel.setBounds(new Rectangle(267, 83, 82, 16));
+			turnLabel.setBounds(new Rectangle(261, 83, 93, 16));
 			turnLabel.setText("   Sua Vez   ");
 			turnLabel.setFont(font);
 			turnLabel.setForeground(Color.RED);
@@ -265,6 +266,7 @@ public class TelaJogo extends JFrame {
 	 */
 	private JMenuItem getCheatJMenuItem() {
 		if (cheatJMenuItem == null) {
+			final JFrame frame = this;
 			cheatJMenuItem = new JMenuItem();
 			cheatJMenuItem.setText("Cheat");
 			cheatJMenuItem.setMnemonic(KeyEvent.VK_C);
@@ -273,9 +275,21 @@ public class TelaJogo extends JFrame {
 			cheatJMenuItem
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
-							cheat = JOptionPane.showInputDialog(null,
+							String chit = JOptionPane.showInputDialog(null,
 									"Cheat: ", "Batalha Naval",
 									JOptionPane.QUESTION_MESSAGE);
+							if (chit.trim().equals(cheat)) {
+								frame.setVisible(false);
+								JOptionPane.showMessageDialog(null,
+										"Mamao Robando!!!", "Cheat",
+										JOptionPane.WARNING_MESSAGE);
+							} else {
+								frame.setVisible(false);
+								JOptionPane.showMessageDialog(null,
+										"É mamao mesmo", "Cheat",
+										JOptionPane.ERROR_MESSAGE);
+							}
+							frame.setVisible(true);
 						}
 					});
 		}
