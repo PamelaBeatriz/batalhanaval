@@ -201,7 +201,7 @@ public class TabuleiroDoInimigo extends JPanel {
 					System.out.println("\nCoordenada X: " + i
 							+ " Coordenada Y: " + j);
 
-					switch (this.checkJogada(i * 25, j * 25)) {
+					switch (this.getCheckJogada(i * 25, j * 25)) {
 
 					case TabuleiroLogico.ACERTOU_NA_AGUA:
 						this.tabuleiroLogico.setPosicaoTabuleiro(i, j, "A");
@@ -226,7 +226,7 @@ public class TabuleiroDoInimigo extends JPanel {
 			this.turn = false;
 
 		} else {
-			int checkJogada = this.checkJogada(posicaoX, posicaoY);
+			int checkJogada = this.getCheckJogada(posicaoX, posicaoY);
 			Point point = this.corrigirPoint(posicaoX, posicaoY);
 
 			/*
@@ -305,7 +305,7 @@ public class TabuleiroDoInimigo extends JPanel {
 		for (int i = point.x / 25; i < posicaoXFinal / 25; i++) {
 			for (int j = point.y / 25; j < posicaoYFinal / 25; j++) {
 
-				switch (this.checkJogada(i * 25, j * 25)) {
+				switch (this.getCheckJogada(i * 25, j * 25)) {
 				case TabuleiroLogico.ACERTOU_NA_AGUA:
 					resultado[i][j] = TabuleiroLogico.ACERTOU_NA_AGUA;
 					break;
@@ -326,7 +326,7 @@ public class TabuleiroDoInimigo extends JPanel {
 	 * @param y
 	 * @return int
 	 */
-	public int checkJogada(int x, int y) {
+	public int getCheckJogada(int x, int y) {
 
 		int jogadaX = (int) x / 25;
 		int jogadaY = (int) y / 25;
