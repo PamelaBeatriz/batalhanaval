@@ -26,7 +26,6 @@ public class PainelControle extends JPanel {
 	private Vector<ImageIcon> shipImages = null;
 	private ActionHandler actionHandler = null;
 	private TabuleiroDoInimigo tabuleiroDoInimigo = null;
-
 	protected static final String DIRETORIO_IMAGES = "src/images/";  //  @jve:decl-index=0:
 	protected String lastShipName = null;
 	protected Image imagemLastShip = null;

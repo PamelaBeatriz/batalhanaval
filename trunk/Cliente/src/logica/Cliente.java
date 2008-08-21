@@ -1,5 +1,9 @@
 package logica;
 
+import gui.TelaJogo;
+
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ConnectException;
@@ -8,8 +12,8 @@ import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
-
 
 public class Cliente extends Thread {
 
@@ -29,6 +33,10 @@ public class Cliente extends Thread {
 
 	private String packet = null;
 
+	private TelaJogo telaJogo = null;
+
+	private TabuleiroDoInimigoListener tabuleiroDoInimigoListener = null;
+
 	/**
 	 * This is the default constructor
 	 */
@@ -38,10 +46,11 @@ public class Cliente extends Thread {
 		this.ipServer = "";
 		this.socket = null;
 		this.senhaCriptografada = "";
+		this.tabuleiroDoInimigoListener = new TabuleiroDoInimigoListener();
 	}
 
 	/**
-	 *Tenta a conexao com o servidor
+	 * Tenta a conexao com o servidor
 	 *
 	 * @return True se o cliente esta conectado
 	 * @throws NumberFormatException
@@ -56,7 +65,7 @@ public class Cliente extends Thread {
 	}
 
 	/**
-	 *Seta os atributos do cliente
+	 * Seta os atributos do cliente
 	 *
 	 * @param nick
 	 * @param ipServer
@@ -71,23 +80,88 @@ public class Cliente extends Thread {
 		this.senhaCriptografada = senhaCriptografada;
 	}
 
-
-
 	@Override
 	public void run() {
-        try {
-           	input = new ObjectInputStream( this.socket.getInputStream() );
-        	while( (packet = (String) input.readObject()) != null ) {
-	        		if(packet.substring(0,2).equals("CH")) {
-						this.chatTextArea.append("["
-								+ new SimpleDateFormat("HH:mm:ss").format(new Date())
-								+ "] " + packet.substring(2) + "\n");
-		        	}
-	        		packet = null;
-	               	input = new ObjectInputStream( this.socket.getInputStream() );
-       	}
+
+		this.telaJogo.getTabuleiroDoInimigo().addMouseListener(
+				this.tabuleiroDoInimigoListener);
+		try {
+			input = new ObjectInputStream(this.socket.getInputStream());
+			while ((packet = (String) input.readObject()) != null) {
+				if (packet.substring(0, 2).equals("CH")) {
+					this.chatTextArea.append("["
+							+ new SimpleDateFormat("HH:mm:ss")
+									.format(new Date()) + "] "
+							+ packet.substring(2) + "\n");
+				}
+				packet = null;
+				input = new ObjectInputStream(this.socket.getInputStream());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Classe private para dedicar ao MouseListener do tabuleiro do Inimigo
+	 *
+	 * @author Thiago A. L. Genez
+	 *
+	 */
+	private class TabuleiroDoInimigoListener extends MouseAdapter {
+		public void mousePressed(MouseEvent me) {
+
+			if (telaJogo.isTurn()) {
+				String packet = new String();
+				packet += "DJ";
+				packet += me.getX();
+				packet += ",";
+				packet += me.getY();
+				packet += ",";
+
+				new DataOutput(telaJogo.getClient()).SendPacket(packet);
+
+				int resultadoDaJogada = telaJogo.getTabuleiroDoInimigo()
+						.getCheckJogada(me.getX(), me.getY());
+
+				/*
+				 * acertou na agua, logo perde a vez e avisa q eh a vez do
+				 * adversario
+				 */
+				if (resultadoDaJogada == TabuleiroLogico.ACERTOU_NA_AGUA) {
+
+					new DataOutput(telaJogo.getClient()).SendPacket(new String(
+							"DJwater"));
+					telaJogo.setTurn(false);
+				}
+
+				/*
+				 * Acertou no navio, mamao esperto!, ++ no placar!
+				 */
+				else if (resultadoDaJogada == TabuleiroLogico.ACERTOU_NO_NAVIO) {
+					telaJogo.numeroAcertosPlusPlus();
+
+					/*
+					 * jogo termina quando numero de acertos forem 18
+					 */
+					if (telaJogo.getNumeroAcertos() == 18) {
+
+						/*
+						 * avisa o adversario que perdeu
+						 */
+						new DataOutput(telaJogo.getClient())
+								.SendPacket(new String("DJlose"));
+						JOptionPane.showMessageDialog(null,
+								"Congratulations , You Kill your enemy", "Win",
+								JOptionPane.INFORMATION_MESSAGE);
+
+						// Som.playAudio(Som.VITORIA);
+						// reinicia o jogo
+						// EnviaDado("*", "Jogada");
+						// ReinciaJogo();
+					}
+				}
+			}
 		}
 	}
 
@@ -132,14 +206,23 @@ public class Cliente extends Thread {
 	}
 
 	public void finalize() {
-		 try {
-			 this.socket.close();
-		 } catch (IOException e) {
-		 	 e.printStackTrace();
-		 }
+		try {
+			this.socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void setChatArea(JTextArea chatTextArea) {
 		this.chatTextArea = chatTextArea;
 	}
+
+	public TelaJogo getTelaJogo() {
+		return telaJogo;
+	}
+
+	public void setTelaJogo(TelaJogo telaJogo) {
+		this.telaJogo = telaJogo;
+	}
+
 }

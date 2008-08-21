@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
 import logica.Cliente;
@@ -49,10 +50,15 @@ public class TelaJogo extends JFrame {
 	private Cliente client;
 	private JLabel tabuleiroCasaLabel = null;
 	private JTextArea chatTextArea = null;
-	private DataOutput output;
+	// private DataOutput output;
 	private JScrollPane chatScrollPane = null;
 	private JTextField chatTextField = null;
-	private String cheat = null;
+	private String cheat = null; // @jve:decl-index=0:
+	private boolean turn;
+	private int numeroAcertos = 0;
+	private JLabel turnLabel = null;
+	private JLabel holdOnLabel = null;
+	private Font font = null;
 
 	/**
 	 * This is the default constructor
@@ -66,8 +72,16 @@ public class TelaJogo extends JFrame {
 		super();
 		this.nickName = nickName;
 		this.client = cliente;
+		this.numeroAcertos = 0;
+		this.font = new Font("Arial Bold", Font.BOLD, 13);
 		initialize();
 		this.client.setChatArea(this.chatTextArea);
+		/*
+		 * this.client.setTabuleiroDoInimigo(this.tabuleiroDoInimigo);
+		 * this.client.setTabuleiroDaCasa(this.tabuleiroDaCasa);
+		 * this.client.setPainelControle(this.painelControle);
+		 */
+		this.client.setTelaJogo(this);
 		this.client.start();
 	}
 
@@ -131,9 +145,25 @@ public class TelaJogo extends JFrame {
 	 */
 	private JPanel getTabuleiroPanel() {
 		if (tabuleiroPanel == null) {
+
+			holdOnLabel = new JLabel();
+			holdOnLabel.setBounds(new Rectangle(270, 135, 76, 16));
+			holdOnLabel.setText("   Aguarde   ");
+			holdOnLabel.setFont(font);
+			holdOnLabel.setForeground(Color.RED);
+			holdOnLabel.setEnabled(false);
+			turnLabel = new JLabel();
+			turnLabel.setBounds(new Rectangle(267, 83, 82, 16));
+			turnLabel.setText("   Sua Vez   ");
+			turnLabel.setFont(font);
+			turnLabel.setForeground(Color.RED);
+			turnLabel.setEnabled(false);
 			tabuleiroCasaLabel = new JLabel();
-			tabuleiroCasaLabel.setBounds(new Rectangle(16, 276, 108, 16));
-			tabuleiroCasaLabel.setText("Capitão: " + this.nickName);
+			tabuleiroCasaLabel.setBounds(new Rectangle(8, 273, 250, 16));
+			tabuleiroCasaLabel.setText("Capitão: " + this.nickName
+					+ " => Pontos: " + String.valueOf(this.numeroAcertos));
+			tabuleiroCasaLabel.setFont(font);
+			tabuleiroCasaLabel.setForeground(Color.BLACK);
 			tabuleiroPanel = new JPanel();
 			tabuleiroPanel.setLayout(null);
 			tabuleiroPanel.setBounds(new Rectangle(5, 4, 616, 301));
@@ -144,6 +174,8 @@ public class TelaJogo extends JFrame {
 			tabuleiroPanel.add(getCasaTabuleiroPanel(), null);
 			tabuleiroPanel.add(getAdversarioTabuleiroPanel(), null);
 			tabuleiroPanel.add(tabuleiroCasaLabel, null);
+			tabuleiroPanel.add(turnLabel, null);
+			tabuleiroPanel.add(holdOnLabel, null);
 		}
 		return tabuleiroPanel;
 	}
@@ -262,6 +294,12 @@ public class TelaJogo extends JFrame {
 			novoJogoJMenuItem.setMnemonic(KeyEvent.VK_N);
 			KeyStroke F2 = KeyStroke.getKeyStroke("F2");
 			novoJogoJMenuItem.setAccelerator(F2);
+			novoJogoJMenuItem
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+
+						}
+					});
 		}
 		return novoJogoJMenuItem;
 	}
@@ -376,16 +414,13 @@ public class TelaJogo extends JFrame {
 			chatTextField
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
-							/*String texto = "["
-									+ new SimpleDateFormat("HH:mm:ss")
-											.format(new Date()) + "]"
-									+ nickName + " diz: "
-									+ chatTextField.getText()+"\n";*/
-							new DataOutput(client).SendPacket(new String("CH"+chatTextField.getText()));
+							new DataOutput(client).SendPacket(new String("CH"
+									+ chatTextField.getText()));
 							chatTextArea.append("["
 									+ new SimpleDateFormat("HH:mm:ss")
 											.format(new Date()) + "] "
-									+ nickName + " diz: " + chatTextField.getText() + "\n");
+									+ nickName + " diz: "
+									+ chatTextField.getText() + "\n");
 							chatTextField.setText("");
 						}
 					});
@@ -407,6 +442,51 @@ public class TelaJogo extends JFrame {
 		return chatScrollPane;
 	}
 
+	public void numeroAcertosPlusPlus() {
+		this.numeroAcertos++;
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				tabuleiroCasaLabel.setText("Capitão: " + nickName
+						+ " => Pontos: " + String.valueOf(numeroAcertos));
+				tabuleiroCasaLabel.setFont(font);
+				tabuleiroCasaLabel.setForeground(Color.BLACK);
+			}
+		});
+	}
+
+	public TabuleiroDaCasa getTabuleiroDaCasa() {
+		return tabuleiroDaCasa;
+	}
+
+	public void setTabuleiroDaCasa(TabuleiroDaCasa tabuleiroDaCasa) {
+		this.tabuleiroDaCasa = tabuleiroDaCasa;
+	}
+
+	public TabuleiroDoInimigo getTabuleiroDoInimigo() {
+		return tabuleiroDoInimigo;
+	}
+
+	public void setTabuleiroDoInimigo(TabuleiroDoInimigo tabuleiroDoInimigo) {
+		this.tabuleiroDoInimigo = tabuleiroDoInimigo;
+	}
+
+	public PainelControle getPainelControle() {
+		return painelControle;
+	}
+
+	public void setPainelControle(PainelControle painelControle) {
+		this.painelControle = painelControle;
+	}
+
+	public Cliente getClient() {
+		return client;
+	}
+
+	public void setClient(Cliente client) {
+		this.client = client;
+	}
+
 	public String getCheat() {
 		return cheat;
 	}
@@ -423,13 +503,40 @@ public class TelaJogo extends JFrame {
 		this.nickName = nickName;
 	}
 
-	/**
-	 * Get a tela do Jogo
-	 *
-	 * @return JFrame this
-	 */
-	public JFrame getTelaJogo() {
-		return this;
+	public boolean isTurn() {
+		return turn;
+	}
+
+	public void setTurn(final boolean vez) {
+		this.turn = vez;
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				turnLabel.setFont(font);
+				holdOnLabel.setFont(font);
+				if (turn) {
+					turnLabel.setText("<< Sua Vez   ");
+					holdOnLabel.setText("   Aguarde >>");
+					turnLabel.setForeground(Color.GREEN);
+					holdOnLabel.setForeground(Color.RED);
+				} else {
+					turnLabel.setText("   Sua Vez  >>");
+					holdOnLabel.setText("<< Aguarde   ");
+					turnLabel.setForeground(Color.GREEN);
+					holdOnLabel.setForeground(Color.RED);
+				}
+
+			}
+		});
+
+	}
+
+	public int getNumeroAcertos() {
+		return numeroAcertos;
+	}
+
+	public void setNumeroAcertos(int numeroAcertos) {
+		this.numeroAcertos = numeroAcertos;
 	}
 
 } // @jve:decl-index=0:visual-constraint="10,17"
