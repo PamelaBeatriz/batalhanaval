@@ -428,14 +428,16 @@ public class TelaJogo extends JFrame {
 			chatTextField
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
-							new DataOutput(client).SendPacket(new String("CH"
-									+ chatTextField.getText()));
-							chatTextArea.append("["
-									+ new SimpleDateFormat("HH:mm:ss")
-											.format(new Date()) + "] "
-									+ nickName + " diz: "
-									+ chatTextField.getText() + "\n");
-							chatTextField.setText("");
+							if (!chatTextField.getText().trim().equals("")) {
+								new DataOutput(client).SendPacket(new String(
+										"CH" + chatTextField.getText().trim()));
+								chatTextArea.append("["
+										+ new SimpleDateFormat("HH:mm:ss")
+												.format(new Date()) + "] "
+										+ nickName + " diz: "
+										+ chatTextField.getText().trim() + "\n");
+								chatTextField.setText("");
+							}
 						}
 					});
 		}
