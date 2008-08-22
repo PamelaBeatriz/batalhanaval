@@ -2,6 +2,8 @@ package logica;
 
 import gui.TelaJogo;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -37,6 +39,8 @@ public class Cliente extends Thread {
 
 	private TabuleiroDoInimigoListener tabuleiroDoInimigoListener = null;
 
+	private PainelControleListener painelControleListener = null;
+
 	/**
 	 * This is the default constructor
 	 */
@@ -47,6 +51,7 @@ public class Cliente extends Thread {
 		this.socket = null;
 		this.senhaCriptografada = "";
 		this.tabuleiroDoInimigoListener = new TabuleiroDoInimigoListener();
+		this.painelControleListener = new PainelControleListener();
 	}
 
 	/**
@@ -85,6 +90,8 @@ public class Cliente extends Thread {
 
 		this.telaJogo.getTabuleiroDoInimigo().addMouseListener(
 				this.tabuleiroDoInimigoListener);
+		this.telaJogo.getPainelControle().getOkGost().addActionListener(
+				this.painelControleListener);
 		try {
 			input = new ObjectInputStream(this.socket.getInputStream());
 			while ((packet = (String) input.readObject()) != null) {
@@ -163,6 +170,38 @@ public class Cliente extends Thread {
 				}
 			}
 		}
+	}
+
+	private class PainelControleListener implements ActionListener {
+
+		public void actionPerformed(ActionEvent e) {
+			if (telaJogo.isConected()) {
+				telaJogo.setJogadorDaCasaPronto(true);
+				String tabuleiroLogico[][] = telaJogo.getTabuleiroLogico()
+						.getTabuleiro();
+				String packet = "";
+				packet += "TC";
+				// Habilita o tabuleiro inimigo
+				telaJogo.getTabuleiroDoInimigo().turnONHandlers();
+				// Toca o som de configuração de navio
+				// Som.stopAudio(Som.SOM_CONFIG);
+
+				// transforma a matriz em um String
+				for (int i = 0; i < 10; i++) {
+					for (int j = 0; j < 10; j++) {
+						packet = packet + tabuleiroLogico[i][j];
+						packet = packet + ",";
+					}
+				}
+				new DataOutput(telaJogo.getClient()).SendPacket(new String(
+						"MA" + packet));
+			} else {
+				JOptionPane.showMessageDialog(null,
+						"AGUARDE A CONEXÃO SER ESTABELECIDA E TENTE NOVAMENTE",
+						"ERRO DE CONEXÃO", JOptionPane.WARNING_MESSAGE);
+			}
+		}
+
 	}
 
 	public Socket getSocket() {

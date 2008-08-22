@@ -12,6 +12,7 @@ import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
@@ -23,6 +24,7 @@ public class PainelControle extends JPanel {
 	private JButton navio3 = null;
 	private JButton navio4 = null;
 	private JButton navio5 = null;
+	private JButton okGost = null;
 	private Vector<ImageIcon> shipImages = null;
 	private ActionHandler actionHandler = null;
 	private TabuleiroDoInimigo tabuleiroDoInimigo = null;
@@ -32,6 +34,7 @@ public class PainelControle extends JPanel {
 	protected int larguraLastShip = 0;
 	protected int posicaoLastShip = -1;
 	protected boolean verticalShip = false;
+	protected boolean conected = false;
 
 	/**
 	 * This is the default constructor
@@ -71,6 +74,9 @@ public class PainelControle extends JPanel {
 		this.add(getNavio3(), null);
 		this.add(getNavio4(), null);
 		this.add(getNavio5(), null);
+		this.okGost = new JButton();
+		this.okGost.setEnabled(true);
+		this.conected = false;
 	}
 
 	/**
@@ -176,17 +182,9 @@ public class PainelControle extends JPanel {
 		} else if (this.posicaoLastShip == 4) {
 			this.navio5.setEnabled(false);
 		}
+
 		repaint();
 
-	}
-
-	protected boolean allShipPositioned() {
-		if (!this.navio1.isEnabled() && !this.navio2.isEnabled()
-				&& !this.navio3.isEnabled() && !this.navio4.isEnabled()
-				&& !this.navio5.isEnabled()) {
-			return true;
-		}
-		return false;
 	}
 
 	/**
@@ -227,7 +225,23 @@ public class PainelControle extends JPanel {
 				larguraLastShip = 125;
 				posicaoLastShip = 4;
 			}
+
 		}
+	}
+
+	/**
+	 * Funcao para avisar q o tabuleiro da casa esta pronto para isso clica no
+	 * botao fantasma!=D
+	 *
+	 * Gambi para add um ActionLister na thread da classe Cliente
+	 */
+	public void tabuleiroDaCasaPronto() {
+		this.okGost.setEnabled(true);
+		JOptionPane.showMessageDialog(null,
+				"Pecas Posicionadas!!!\n\nPronto para Jogar!", "Ao Ataque!",
+				JOptionPane.INFORMATION_MESSAGE);
+		this.okGost.doClick();
+		this.okGost.setEnabled(false);
 	}
 
 	public TabuleiroDoInimigo getTabuleiroDoInimigo() {
@@ -236,6 +250,22 @@ public class PainelControle extends JPanel {
 
 	public void setTabuleiroDoInimigo(TabuleiroDoInimigo tabuleiroDoInimigo) {
 		this.tabuleiroDoInimigo = tabuleiroDoInimigo;
+	}
+
+	public JButton getOkGost() {
+		return okGost;
+	}
+
+	public void setOkGost(JButton okGost) {
+		this.okGost = okGost;
+	}
+
+	public boolean isConected() {
+		return conected;
+	}
+
+	public void setConected(boolean conected) {
+		this.conected = conected;
 	}
 
 } // @jve:decl-index=0:visual-constraint="6,10"
