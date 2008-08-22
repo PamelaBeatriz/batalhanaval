@@ -293,11 +293,7 @@ public class TabuleiroDaCasa extends JPanel {
 			if (++this.naviosPosicionadosParaJogar == 5) {
 
 				this.turnOFFHandlers();
-				// painelDoJogo.trocarPaineis();
-				// areaCentral.habilitaBotaoOk();
-				JOptionPane.showMessageDialog(null,
-						"Pecas Posicionadas!!!\n\nPronto para Jogar!",
-						"Ao Ataque!", JOptionPane.INFORMATION_MESSAGE);
+				painelControle.tabuleiroDaCasaPronto();
 			}
 			repaint();
 		} else {

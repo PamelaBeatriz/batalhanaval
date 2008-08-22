@@ -27,6 +27,7 @@ import javax.swing.border.TitledBorder;
 
 import logica.Cliente;
 import logica.DataOutput;
+import logica.TabuleiroLogico;
 
 public class TelaJogo extends JFrame {
 
@@ -55,6 +56,8 @@ public class TelaJogo extends JFrame {
 	private JTextField chatTextField = null;
 	private String cheat = null; // @jve:decl-index=0:
 	private boolean turn;
+	private boolean conected;
+	private boolean jogadorDaCasaPronto;
 	private int numeroAcertos = 0;
 	private JLabel turnLabel = null;
 	private JLabel holdOnLabel = null;
@@ -471,6 +474,10 @@ public class TelaJogo extends JFrame {
 		});
 	}
 
+	public TabuleiroLogico getTabuleiroLogico(){
+		return(this.tabuleiroDaCasa.getTabuleiroLogico());
+	}
+
 	public TabuleiroDaCasa getTabuleiroDaCasa() {
 		return tabuleiroDaCasa;
 	}
@@ -553,6 +560,23 @@ public class TelaJogo extends JFrame {
 
 	public void setNumeroAcertos(int numeroAcertos) {
 		this.numeroAcertos = numeroAcertos;
+	}
+
+	public boolean isConected() {
+		return conected;
+	}
+
+	public void setConected(boolean conected) {
+		this.painelControle.conected = conected;
+		this.conected = conected;
+	}
+
+	public boolean isJogadorDaCasaPronto() {
+		return jogadorDaCasaPronto;
+	}
+
+	public void setJogadorDaCasaPronto(boolean jogadorDaCasaPronto) {
+		this.jogadorDaCasaPronto = jogadorDaCasaPronto;
 	}
 
 } // @jve:decl-index=0:visual-constraint="10,17"
