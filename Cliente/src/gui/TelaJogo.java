@@ -237,6 +237,7 @@ public class TelaJogo extends JFrame {
 	private JMenu getSettingJMenu() {
 		if (settingJMenu == null) {
 			settingJMenu = new JMenu();
+			settingJMenu.setVisible(false);
 			settingJMenu.setText("Setting");
 			settingJMenu.setMnemonic(KeyEvent.VK_S);
 			settingJMenu.add(getCheatJMenuItem());
@@ -273,7 +274,7 @@ public class TelaJogo extends JFrame {
 			cheatJMenuItem = new JMenuItem();
 			cheatJMenuItem.setText("Cheat");
 			cheatJMenuItem.setMnemonic(KeyEvent.VK_C);
-			KeyStroke F10 = KeyStroke.getKeyStroke("F10");
+			KeyStroke F10 = KeyStroke.getKeyStroke("F9");
 			cheatJMenuItem.setAccelerator(F10);
 			cheatJMenuItem
 					.addActionListener(new java.awt.event.ActionListener() {
