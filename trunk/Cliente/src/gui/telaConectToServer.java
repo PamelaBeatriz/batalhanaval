@@ -206,7 +206,7 @@ public class telaConectToServer extends JFrame {
 												.SendPacket(new String("NK"+cliente.getNick()));
 										new TelaJogo(nickField.getText(),
 												cliente);
-									} else if (packet.substring(0,2).equals("ServerFull")) {
+									} else if (packet.substring(0,2).equals("SF")) {
 										JOptionPane.showMessageDialog(null,
 												packet.substring(2),
 												"Batalha Naval - Erro",
