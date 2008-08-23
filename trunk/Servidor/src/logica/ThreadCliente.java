@@ -31,14 +31,23 @@ public class ThreadCliente extends Thread {
 
 	private Vector<String> cListing;
 
+	private Vector<ThreadCliente> tc;
+
 	private String nick = null;
 
 	private String packet = null;
 
 	private boolean isGameRunning = false;
 
-	public ThreadCliente(Vector<Socket> clients, int index, Vector<String> cListing, JList clientList, JTextArea logTextArea) {
+	private Vector<Integer> cliCount = null;
+
+	public ThreadCliente(Vector<Socket> clients, Vector<ThreadCliente> tc, Vector<Integer> cliCount, int index, Vector<String> cListing, JList clientList, JTextArea logTextArea) {
 		this.clients = clients;
+		this.tc = tc;
+		this.cliCount = cliCount;
+		Integer temp = this.cliCount.firstElement();
+		this.cliCount.remove(0);
+		this.cliCount.add(++temp);
 		this.cListing = cListing;
 		this.index = index;
 		this.conexao = clients.get(index);
@@ -59,7 +68,12 @@ public class ThreadCliente extends Thread {
 					+ " ["
 					+ this.conexao.getInetAddress().getHostName()
 					+ "]");
-			this.clientList.setListData(this.cListing);
+	    	Vector<String> TcListing = (Vector<String>) this.cListing.clone();
+			for(int i=0;i<TcListing.size();i++) {
+				if(TcListing.remove(null))
+					i--;
+			}
+			this.clientList.setListData(TcListing);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -95,19 +109,27 @@ public class ThreadCliente extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	    try {
+		try {
 	    	this.logTextArea.append("\n> " + this.nick + " desconectou [" + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + "]");
 	    	//this.clients.setElementAt(null, this.index);
-	    	this.clients.removeElement(this.conexao);
+	    	this.clients.setElementAt(null,this.index);
 	    	//this.cListing.setElementAt(null,this.index);
-	    	this.cListing.removeElement(this.nick);
+	    	this.cListing.setElementAt(null,this.index);
 
-	    	this.clientList.setListData(this.cListing);
+	    	Vector<String> TcListing = (Vector<String>) this.cListing.clone();
+			for(int i=0;i<TcListing.size();i++) {
+				if(TcListing.remove(null))
+					i--;
+			}
+	    	this.clientList.setListData(TcListing);
 	    	this.conexao.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		this.tc.setElementAt(null,this.index);
+		Integer temp = this.cliCount.firstElement();
+		this.cliCount.remove(0);
+		this.cliCount.add(--temp);
 	}
 
 	private String getNick(){
