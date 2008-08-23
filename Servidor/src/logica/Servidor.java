@@ -95,36 +95,41 @@ public class Servidor extends Thread {
 		modelo = new DefaultListModel();
 		clientList.setModel(modelo);
 		clients = new Vector<Socket>();
+		Vector<Integer> cliCount = new Vector<Integer>();
+		cliCount.add(0);
 		Vector<String> cListing = new Vector<String>();
 		Vector<ThreadCliente> tc = new Vector<ThreadCliente>();
 		while (true) {
 			try {
 				Socket temp = this.serverSocket.accept();
-				if (clients.size() >= 2) {
+				if (cliCount.firstElement() >= 2) {
 					new DataOutput(temp)
 							.SendPacket(new String("SF"+"O servidor está cheio\ntente novamente mais tarde"));
 					temp.close();
 					continue;
-				} else if (clients.size() == 1) {
+				} else if (cliCount.firstElement() == 1) {
 					clients.add(temp);
-
+					int i;
+					for(i=0;tc.get(i)==null;i++);
 					new DataOutput(clients.lastElement())
 							.SendPacket(new String("OK"));
-					tc.add(new ThreadCliente(clients, clients.size() - 1,
+					tc.add(new ThreadCliente(clients, tc, cliCount, clients.size() - 1,
 							cListing, clientList, this.logTextArea));
 					this.logTextArea.append("\n " + "["
 							+ new SimpleDateFormat("HH:mm:ss").format(new Date())
 							+ "] " + "Partida iniciada: "
-							+ cListing.get(clients.size() - 2) + " VS "
-							+ cListing.get(clients.size() - 1));
-					tc.firstElement().startGame(tc.lastElement().getIndex());
-					tc.lastElement().startGame(tc.firstElement().getIndex());
+							+ cListing.get(tc.get(i).getIndex()) + " VS "
+							+ cListing.get(tc.lastElement().getIndex()));
+
+
+					tc.get(i).startGame(tc.lastElement().getIndex());
+					tc.lastElement().startGame(tc.get(i).getIndex());
 				} else {
 					clients.add(temp);
 
 					new DataOutput(clients.lastElement())
 							.SendPacket(new String("OK"));
-					tc.add(new ThreadCliente(clients, clients.size() - 1,
+					tc.add(new ThreadCliente(clients, tc, cliCount, clients.size() - 1,
 							cListing, clientList, this.logTextArea));
 				}
 			} catch (Exception e) {
