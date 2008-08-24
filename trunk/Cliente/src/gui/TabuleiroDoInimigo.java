@@ -374,9 +374,9 @@ public class TabuleiroDoInimigo extends JPanel {
 	 */
 	public void turnONHandlers() {
 
-		setEnabled(true);
-		addMouseListener(this.adaptadorDoMouse);
-		addMouseMotionListener(this.adptadorDoMouseMovimento);
+		this.setEnabled(true);
+		this.addMouseListener(this.adaptadorDoMouse);
+		this.addMouseMotionListener(this.adptadorDoMouseMovimento);
 		this.posicaoDoCursor = new Point(-1, -1);
 		repaint();
 	}

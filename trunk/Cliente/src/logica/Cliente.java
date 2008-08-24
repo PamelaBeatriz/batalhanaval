@@ -95,11 +95,108 @@ public class Cliente extends Thread {
 		try {
 			input = new ObjectInputStream(this.socket.getInputStream());
 			while ((packet = (String) input.readObject()) != null) {
+
+				/*
+				 * verifica se o pacote eh do chat
+				 */
 				if (packet.substring(0, 2).equals("CH")) {
 					this.chatTextArea.append("["
 							+ new SimpleDateFormat("HH:mm:ss")
 									.format(new Date()) + "] "
 							+ packet.substring(2) + "\n");
+				}
+
+				/*
+				 * verifica se o pacote eh do jogo, vem da classe
+				 * TabuleiroDoInimigoListener, ou seja, vem so inimigo para
+				 * configurar o tabuleiro da casa, dependendo da jogada do
+				 * inimigo
+				 *
+				 * desenhar a imagem jogada no tabuleiro do jogador
+				 *
+				 * TI = Tabuleiro Inimigo
+				 */
+
+				else if (packet.substring(0, 2).equals("TI")) {
+					String temp = "";
+					String mensagem = packet.substring(2);
+					char caracter;
+					int posicao = 0;
+					// recebe a coordenada x
+					do {
+						caracter = mensagem.charAt(posicao++);
+						temp += caracter;
+					} while (caracter != ',');
+					int posicaoX = Integer.parseInt(temp.substring(0, temp
+							.length() - 1));
+					// recebe a coordenada y
+					temp = "";
+					do {
+						caracter = mensagem.charAt(posicao++);
+						temp += caracter;
+					} while (caracter != ',');
+					int posicaoY = Integer.parseInt(temp.substring(0, temp
+							.length() - 1));
+					telaJogo.getTabuleiroDaCasa().configuraJogada(posicaoX,
+							posicaoY);
+					/*
+					 * if (painel.getMeuTabuleiro().getNaviosDestruidos() == 15)
+					 * painel.getPainelCentral().habilitaPatada();
+					 */
+				}
+
+				/*
+				 * O inimigo errou, acertou na agua, e perde a vez. Vez da casa
+				 * PJ = Perdeu a Jogada
+				 */
+				else if (packet.substring(0, 2).equals("PJ")) {
+					this.telaJogo.setTurn(true);
+					this.telaJogo.getTabuleiroDoInimigo().setTurn(true);
+				}
+
+				/*
+				 * Jogo Acabou e jogador da casa perdeu
+				 *
+				 * PE = Perdeu
+				 */
+				else if (packet.substring(0, 2).equals("PE")) {
+					JOptionPane.showMessageDialog(null, "Voce Perdeu!=/",
+							"Game Over!", JOptionPane.WARNING_MESSAGE);
+				}
+
+				/*
+				 * Tabuleiro do adversario esta pronto!configurado para jogar MA =
+				 * Matriz
+				 */
+				else if (packet.substring(0, 2).equals("MA")) {
+
+					String[][] tabuleiroLogico = new String[10][10];
+					String mensagem = packet.substring(2);
+					String temp = "";
+					char caracter;
+					int posicao = 0;
+					for (int i = 0; i < 10; i++) {
+						for (int j = 0; j < 10; j++) {
+							do {
+								caracter = mensagem.charAt(posicao++);
+								temp = temp += caracter;
+							} while (caracter != ',');
+							tabuleiroLogico[i][j] = temp.substring(0, temp
+									.length() - 1);
+							temp = "";
+						}
+					}
+					telaJogo.getTabuleiroDoInimigo().getTabuleiroLogico()
+							.setTabuleiro(tabuleiroLogico);
+
+					if (this.telaJogo.isJogadorDaCasaPronto()) {
+						JOptionPane.showMessageDialog(null,
+								"VOCÊ COMEÇA JOGANDO", "AVISO",
+								JOptionPane.WARNING_MESSAGE);
+						this.telaJogo.setTurn(true);
+						this.telaJogo.getTabuleiroDoInimigo().setTurn(true);
+					}
+
 				}
 				packet = null;
 				input = new ObjectInputStream(this.socket.getInputStream());
@@ -119,7 +216,7 @@ public class Cliente extends Thread {
 		public void mousePressed(MouseEvent me) {
 
 			if (telaJogo.isTurn()) {
-				String packet = new String();
+				String packet = new String("");
 				packet += "TI";
 				packet += me.getX();
 				packet += ",";
@@ -138,7 +235,7 @@ public class Cliente extends Thread {
 				if (resultadoDaJogada == TabuleiroLogico.ACERTOU_NA_AGUA) {
 
 					new DataOutput(telaJogo.getClient()).SendPacket(new String(
-							"TIwater"));
+							"PJ"));
 					telaJogo.setTurn(false);
 				}
 
@@ -157,7 +254,7 @@ public class Cliente extends Thread {
 						 * avisa o adversario que perdeu
 						 */
 						new DataOutput(telaJogo.getClient())
-								.SendPacket(new String("TIlose"));
+								.SendPacket(new String("PE"));
 						JOptionPane.showMessageDialog(null,
 								"Congratulations , You Kill your enemy", "Win",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -175,12 +272,11 @@ public class Cliente extends Thread {
 	private class PainelControleListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			if (telaJogo.isConected()) {
+			if (/* telaJogo.isConected() */true) {
 				telaJogo.setJogadorDaCasaPronto(true);
 				String tabuleiroLogico[][] = telaJogo.getTabuleiroLogico()
 						.getTabuleiro();
 				String packet = "";
-				packet += "TC";
 				// Habilita o tabuleiro inimigo
 				telaJogo.getTabuleiroDoInimigo().turnONHandlers();
 				// Toca o som de configuração de navio
@@ -193,8 +289,7 @@ public class Cliente extends Thread {
 						packet = packet + ",";
 					}
 				}
-				new DataOutput(telaJogo.getClient()).SendPacket(new String(
-						"MA" + packet));
+				new DataOutput(telaJogo.getClient()).SendPacket("MA"+packet);
 			} else {
 				JOptionPane.showMessageDialog(null,
 						"AGUARDE A CONEXÃO SER ESTABELECIDA E TENTE NOVAMENTE",

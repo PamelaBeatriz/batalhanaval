@@ -237,7 +237,7 @@ public class TelaJogo extends JFrame {
 	private JMenu getSettingJMenu() {
 		if (settingJMenu == null) {
 			settingJMenu = new JMenu();
-			settingJMenu.setVisible(false);
+			settingJMenu.setVisible(true);
 			settingJMenu.setText("Setting");
 			settingJMenu.setMnemonic(KeyEvent.VK_S);
 			settingJMenu.add(getCheatJMenuItem());
