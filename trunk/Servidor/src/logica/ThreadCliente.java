@@ -41,7 +41,9 @@ public class ThreadCliente extends Thread {
 
 	private Vector<Integer> cliCount = null;
 
-	public ThreadCliente(Vector<Socket> clients, Vector<ThreadCliente> tc, Vector<Integer> cliCount, int index, Vector<String> cListing, JList clientList, JTextArea logTextArea) {
+	public ThreadCliente(Vector<Socket> clients, Vector<ThreadCliente> tc,
+			Vector<Integer> cliCount, int index, Vector<String> cListing,
+			JList clientList, JTextArea logTextArea) {
 		this.clients = clients;
 		this.tc = tc;
 		this.cliCount = cliCount;
@@ -53,24 +55,21 @@ public class ThreadCliente extends Thread {
 		this.conexao = clients.get(index);
 		this.clientList = clientList;
 		this.logTextArea = logTextArea;
-        try {
-        	input = new ObjectInputStream( conexao.getInputStream() );
-        	packet = (String) input.readObject();
-        	if(packet.substring(0,2).equals("NK")) {
-        		this.nick = packet.substring(2) + " [" + this.conexao.getInetAddress().getHostAddress() + "]";
-        		this.cListing.add(this.nick);
-        	}
-			logTextArea.append("\n"
-					+ " ["
+		try {
+			input = new ObjectInputStream(conexao.getInputStream());
+			packet = (String) input.readObject();
+			if (packet.substring(0, 2).equals("NK")) {
+				this.nick = packet.substring(2) + " ["
+						+ this.conexao.getInetAddress().getHostAddress() + "]";
+				this.cListing.add(this.nick);
+			}
+			logTextArea.append("\n" + " ["
 					+ new SimpleDateFormat("HH:mm:ss").format(new Date())
-					+ "] Novo Cliente conectado: "
-					+ this.nick
-					+ " ["
-					+ this.conexao.getInetAddress().getHostName()
-					+ "]");
-	    	Vector<String> TcListing = (Vector<String>) this.cListing.clone();
-			for(int i=0;i<TcListing.size();i++) {
-				if(TcListing.remove(null))
+					+ "] Novo Cliente conectado: " + this.nick + " ["
+					+ this.conexao.getInetAddress().getHostName() + "]");
+			Vector<String> TcListing = (Vector<String>) this.cListing.clone();
+			for (int i = 0; i < TcListing.size(); i++) {
+				if (TcListing.remove(null))
 					i--;
 			}
 			this.clientList.setListData(TcListing);
@@ -91,48 +90,70 @@ public class ThreadCliente extends Thread {
 
 	@Override
 	public void run() {
-        try {
-        	input = new ObjectInputStream( conexao.getInputStream() );
-        	while( (packet = (String) input.readObject()) != null ) {
-	        	if(this.isGameRunning) {
-	        		if(packet.substring(0,2).equals("CH")) {
-						new DataOutput(clients.elementAt(this.c2)).SendPacket(new String("CH"+this.cListing.get(this.index)
-								+ " diz: " + packet.substring(2) ));
-						this.logTextArea.append("\n" + "["
-								+ new SimpleDateFormat("HH:mm:ss").format(new Date())
-								+ "] " + this.cListing.get(this.index) + " diz para "
-								+ this.cListing.get(this.c2) + ": " + packet.substring(2) );
-		        	}
-	        	}
-	        	input = new ObjectInputStream( conexao.getInputStream() );
-        	}
+		try {
+			input = new ObjectInputStream(conexao.getInputStream());
+			while ((packet = (String) input.readObject()) != null) {
+				if (this.isGameRunning) {
+
+					/*
+					 * se o pacote for do chat
+					 */
+					if (packet.substring(0, 2).equals("CH")) {
+						new DataOutput(clients.elementAt(this.c2))
+								.SendPacket(new String("CH"
+										+ this.cListing.get(this.index)
+										+ " diz: " + packet.substring(2)));
+						this.logTextArea.append("\n"
+								+ "["
+								+ new SimpleDateFormat("HH:mm:ss")
+										.format(new Date()) + "] "
+								+ this.cListing.get(this.index) + " diz para "
+								+ this.cListing.get(this.c2) + ": "
+								+ packet.substring(2));
+					}
+
+					/*
+					 * se o pacote for do jogo
+					 */
+					else {
+
+						new DataOutput(this.clients.elementAt(this.c2))
+								.SendPacket(this.packet);
+					}
+				}
+				input = new ObjectInputStream(conexao.getInputStream());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		try {
-	    	this.logTextArea.append("\n> " + this.nick + " desconectou [" + new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date()) + "]");
-	    	//this.clients.setElementAt(null, this.index);
-	    	this.clients.setElementAt(null,this.index);
-	    	//this.cListing.setElementAt(null,this.index);
-	    	this.cListing.setElementAt(null,this.index);
+			this.logTextArea.append("\n> "
+					+ this.nick
+					+ " desconectou ["
+					+ new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+							.format(new Date()) + "]");
+			// this.clients.setElementAt(null, this.index);
+			this.clients.setElementAt(null, this.index);
+			// this.cListing.setElementAt(null,this.index);
+			this.cListing.setElementAt(null, this.index);
 
-	    	Vector<String> TcListing = (Vector<String>) this.cListing.clone();
-			for(int i=0;i<TcListing.size();i++) {
-				if(TcListing.remove(null))
+			Vector<String> TcListing = (Vector<String>) this.cListing.clone();
+			for (int i = 0; i < TcListing.size(); i++) {
+				if (TcListing.remove(null))
 					i--;
 			}
-	    	this.clientList.setListData(TcListing);
-	    	this.conexao.close();
+			this.clientList.setListData(TcListing);
+			this.conexao.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		this.tc.setElementAt(null,this.index);
+		this.tc.setElementAt(null, this.index);
 		Integer temp = this.cliCount.firstElement();
 		this.cliCount.remove(0);
 		this.cliCount.add(--temp);
 	}
 
-	private String getNick(){
+	private String getNick() {
 		return this.nick;
 	}
 
@@ -153,7 +174,7 @@ public class ThreadCliente extends Thread {
 		this.isGameRunning = true;
 	}
 
-	public int getIndex(){
+	public int getIndex() {
 		return this.index;
 	}
 
