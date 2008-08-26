@@ -160,6 +160,7 @@ public class telaCreateServer extends JFrame {
 		if (passwordField == null) {
 			passwordField = new JPasswordField();
 			passwordField.setBounds(new Rectangle(90, 86, 161, 20));
+			passwordField.setText("");
 		}
 		return passwordField;
 	}
