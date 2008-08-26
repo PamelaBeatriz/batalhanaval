@@ -28,6 +28,7 @@ import javax.swing.border.TitledBorder;
 import logica.Cliente;
 import logica.DataOutput;
 import logica.TabuleiroLogico;
+import java.awt.GridBagLayout;
 
 public class TelaJogo extends JFrame {
 
@@ -62,6 +63,7 @@ public class TelaJogo extends JFrame {
 	private JLabel turnLabel = null;
 	private JLabel holdOnLabel = null;
 	private Font font = null;
+	private JPanel quemEhVez = null;
 
 	/**
 	 * This is the default constructor
@@ -151,16 +153,16 @@ public class TelaJogo extends JFrame {
 		if (tabuleiroPanel == null) {
 
 			holdOnLabel = new JLabel();
-			holdOnLabel.setBounds(new Rectangle(261, 135, 92, 16));
 			holdOnLabel.setText("   Aguarde   ");
 			holdOnLabel.setFont(font);
 			holdOnLabel.setForeground(Color.RED);
+			holdOnLabel.setBounds(new Rectangle(2, 42, 92, 16));
 			holdOnLabel.setEnabled(false);
 			turnLabel = new JLabel();
-			turnLabel.setBounds(new Rectangle(261, 83, 93, 16));
 			turnLabel.setText("   Sua Vez   ");
 			turnLabel.setFont(font);
 			turnLabel.setForeground(Color.RED);
+			turnLabel.setBounds(new Rectangle(1, 3, 93, 16));
 			turnLabel.setEnabled(false);
 			tabuleiroCasaLabel = new JLabel();
 			tabuleiroCasaLabel.setBounds(new Rectangle(8, 273, 250, 16));
@@ -178,8 +180,7 @@ public class TelaJogo extends JFrame {
 			tabuleiroPanel.add(getCasaTabuleiroPanel(), null);
 			tabuleiroPanel.add(getAdversarioTabuleiroPanel(), null);
 			tabuleiroPanel.add(tabuleiroCasaLabel, null);
-			tabuleiroPanel.add(turnLabel, null);
-			tabuleiroPanel.add(holdOnLabel, null);
+			tabuleiroPanel.add(getQuemEhVez(), null);
 		}
 		return tabuleiroPanel;
 	}
@@ -435,11 +436,16 @@ public class TelaJogo extends JFrame {
 							if (!chatTextField.getText().trim().equals("")) {
 								new DataOutput(client).SendPacket(new String(
 										"CH" + chatTextField.getText().trim()));
-								chatTextArea.append("["
-										+ new SimpleDateFormat("HH:mm:ss")
-												.format(new Date()) + "] "
-										+ nickName + " diz: "
-										+ chatTextField.getText().trim() + "\n");
+								chatTextArea
+										.append("["
+												+ new SimpleDateFormat(
+														"HH:mm:ss")
+														.format(new Date())
+												+ "] "
+												+ nickName
+												+ " diz: "
+												+ chatTextField.getText()
+														.trim() + "\n");
 								chatTextField.setText("");
 							}
 						}
@@ -475,8 +481,8 @@ public class TelaJogo extends JFrame {
 		});
 	}
 
-	public TabuleiroLogico getTabuleiroLogico(){
-		return(this.tabuleiroDaCasa.getTabuleiroLogico());
+	public TabuleiroLogico getTabuleiroLogico() {
+		return (this.tabuleiroDaCasa.getTabuleiroLogico());
 	}
 
 	public TabuleiroDaCasa getTabuleiroDaCasa() {
@@ -533,7 +539,8 @@ public class TelaJogo extends JFrame {
 
 	public void setTurn(final boolean vez) {
 		this.turn = vez;
-
+		this.holdOnLabel.setEnabled(true);
+		this.turnLabel.setEnabled(true);
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				turnLabel.setFont(font);
@@ -555,6 +562,9 @@ public class TelaJogo extends JFrame {
 
 	}
 
+	public void configurarPanelTurn(){
+
+	}
 	public int getNumeroAcertos() {
 		return numeroAcertos;
 	}
@@ -578,6 +588,22 @@ public class TelaJogo extends JFrame {
 
 	public void setJogadorDaCasaPronto(boolean jogadorDaCasaPronto) {
 		this.jogadorDaCasaPronto = jogadorDaCasaPronto;
+	}
+
+	/**
+	 * This method initializes quemEhVez
+	 *
+	 * @return javax.swing.JPanel
+	 */
+	private JPanel getQuemEhVez() {
+		if (quemEhVez == null) {
+			quemEhVez = new JPanel();
+			quemEhVez.setLayout(null);
+			quemEhVez.setBounds(new Rectangle(260, 94, 95, 61));
+			quemEhVez.add(holdOnLabel, null);
+			quemEhVez.add(turnLabel, null);
+		}
+		return quemEhVez;
 	}
 
 } // @jve:decl-index=0:visual-constraint="10,17"

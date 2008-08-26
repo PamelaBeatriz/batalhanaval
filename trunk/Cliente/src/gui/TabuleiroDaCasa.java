@@ -423,9 +423,9 @@ public class TabuleiroDaCasa extends JPanel {
 		}
 
 		/*
-		 * se acertou na agua
+		 * se acertou no navio
 		 */
-		return TabuleiroLogico.ACERTOU_NA_AGUA;
+		return TabuleiroLogico.ACERTOU_NO_NAVIO;
 	}
 
 	public int getNaviosPosicionadosParaJogar() {
