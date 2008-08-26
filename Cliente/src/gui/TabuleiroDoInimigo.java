@@ -67,6 +67,7 @@ public class TabuleiroDoInimigo extends JPanel {
 				+ "cursor.gif").getImage();
 		this.setEnabled(false);
 		this.setTabuleiroLogico(null);
+		this.tabuleiroLogico = new TabuleiroLogico();
 		this.turn = false;
 	}
 
@@ -387,6 +388,7 @@ public class TabuleiroDoInimigo extends JPanel {
 	 * @return TabuleiroLogico
 	 */
 	public TabuleiroLogico getTabuleiroLogico() {
+		System.out.println("merda");
 		return tabuleiroLogico;
 	}
 
