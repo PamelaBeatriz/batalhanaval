@@ -201,7 +201,10 @@ public class Cliente extends Thread {
 				input = new ObjectInputStream(this.socket.getInputStream());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+					"Conexão com o servidor terminada",
+					"Batalha Naval - Erro",
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
