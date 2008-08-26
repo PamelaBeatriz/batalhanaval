@@ -173,7 +173,7 @@ public class Cliente extends Thread {
 					String[][] tabuleiroLogico = new String[10][10];
 					String mensagem = packet.substring(2);
 					String temp = "";
-					char caracter;
+					char caracter = ' ';
 					int posicao = 0;
 					for (int i = 0; i < 10; i++) {
 						for (int j = 0; j < 10; j++) {

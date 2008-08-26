@@ -141,6 +141,7 @@ public class TabuleiroLogico extends Thread {
 	}
 
 	public void setTabuleiro(String[][] tabuleiro) {
+		System.out.println("merda");
 		this.tabuleiro = tabuleiro;
 	}
 
