@@ -183,36 +183,78 @@ public class telaConectToServer extends JFrame {
 			final JFrame frame = this;
 			connectButton
 					.addActionListener(new java.awt.event.ActionListener() {
+
+						@SuppressWarnings("deprecation")
 						public void actionPerformed(java.awt.event.ActionEvent e) {
 							frame.setVisible(false);
 							cliente.setCliente(nickField.getText(), IPfield
 									.getText(), portaField.getText(), MD5
-									.getHash(passwordField.getPassword()
-											.toString().getBytes()));
+									.getHash(passwordField.getText().getBytes()));
 							try {
 								if (cliente.tentarConexaoServer()) {
 									frame.setVisible(false);
 									String packet = null;
+
+									/*
+									 * manda a senha para o server
+									 */
+									new DataOutput(cliente)
+											.SendPacket(new String("**"
+													+ MD5.getHash(passwordField
+															.getText()
+															.toString()
+															.getBytes())));
+
 									ObjectInputStream input = new ObjectInputStream(
 											cliente.getSocket()
 													.getInputStream());
+
 									try {
 										packet = (String) input.readObject();
 									} catch (ClassNotFoundException e1) {
 										e1.printStackTrace();
 									}
-									if (packet.substring(0,2).equals("OK")) {
-										new DataOutput(cliente)
-												.SendPacket(new String("NK"+cliente.getNick()));
-										new TelaJogo(nickField.getText(),
-												cliente);
-									} else if (packet.substring(0,2).equals("SF")) {
+
+									/*
+									 * se a senha nao for valida
+									 */
+									if (packet.substring(0, 2).equals("##")) {
 										JOptionPane.showMessageDialog(null,
 												packet.substring(2),
 												"Batalha Naval - Erro",
 												JOptionPane.ERROR_MESSAGE);
 										frame.setVisible(true);
 									}
+
+									/*
+									 * se a senha for valida, simbora!
+									 */
+									else {
+										/*input = new ObjectInputStream(cliente
+												.getSocket().getInputStream());
+
+										try {
+											packet = (String) input
+													.readObject();
+										} catch (ClassNotFoundException e1) {
+											e1.printStackTrace();
+										}*/
+										if (packet.substring(0, 2).equals("OK")) {
+											new DataOutput(cliente)
+													.SendPacket(new String("NK"
+															+ cliente.getNick()));
+											new TelaJogo(nickField.getText(),
+													cliente);
+										} else if (packet.substring(0, 2)
+												.equals("SF")) {
+											JOptionPane.showMessageDialog(null,
+													packet.substring(2),
+													"Batalha Naval - Erro",
+													JOptionPane.ERROR_MESSAGE);
+											frame.setVisible(true);
+										}
+									}
+
 								} else {
 									frame.setVisible(true);
 								}
