@@ -176,10 +176,11 @@ public class telaCreateServer extends JFrame {
 			startButton.setBounds(new Rectangle(66, 169, 128, 27));
 			startButton.setText("Start Server");
 			startButton.addActionListener(new java.awt.event.ActionListener() {
+				@SuppressWarnings("deprecation")
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					if (servidor.startServidor(nomeServerField.getText(),
 							portaField.getText(), MD5.getHash(passwordField
-									.getPassword().toString().getBytes()))) {
+									.getText().getBytes()))) {
 						setVisible(false);
 						new TelaGerenciaServer(nomeServerField.getText(),
 								portaField.getText(), ipField.getText(),servidor);

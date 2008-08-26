@@ -1,6 +1,7 @@
 package logica;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -90,8 +91,10 @@ public class Servidor extends Thread {
 
 	public void esperaConexaoCliente() {
 		this.logTextArea
-				.append("["	+ new SimpleDateFormat("HH:mm:ss").format(new Date())
-								+ "] " + "** Servidor inicializado com sucesso **\n> Esperando Conexões ...");
+				.append("["
+						+ new SimpleDateFormat("HH:mm:ss").format(new Date())
+						+ "] "
+						+ "** Servidor inicializado com sucesso **\n> Esperando Conexões ...");
 		modelo = new DefaultListModel();
 		clientList.setModel(modelo);
 		clients = new Vector<Socket>();
@@ -103,34 +106,63 @@ public class Servidor extends Thread {
 			try {
 				Socket temp = this.serverSocket.accept();
 				if (cliCount.firstElement() >= 2) {
-					new DataOutput(temp)
-							.SendPacket(new String("SF"+"O servidor está cheio\ntente novamente mais tarde"));
-					temp.close();
-					continue;
+					if (this.checkPassword(temp)) {
+						new DataOutput(temp)
+								.SendPacket(new String(
+										"SF"
+												+ "O servidor está cheio\ntente novamente mais tarde"));
+						temp.close();
+						continue;
+					} else {
+						new DataOutput(temp).SendPacket(new String("##"
+								+ "Senha Inválida"));
+						temp.close();
+						continue;
+					}
+
 				} else if (cliCount.firstElement() == 1) {
-					clients.add(temp);
-					int i;
-					for(i=0;tc.get(i)==null;i++);
-					new DataOutput(clients.lastElement())
-							.SendPacket(new String("OK"));
-					tc.add(new ThreadCliente(clients, tc, cliCount, clients.size() - 1,
-							cListing, clientList, this.logTextArea));
-					this.logTextArea.append("\n " + "["
-							+ new SimpleDateFormat("HH:mm:ss").format(new Date())
-							+ "] " + "Partida iniciada: "
-							+ cListing.get(tc.get(i).getIndex()) + " VS "
-							+ cListing.get(tc.lastElement().getIndex()));
 
+					if (this.checkPassword(temp)) {
+						clients.add(temp);
+						int i;
+						for (i = 0; tc.get(i) == null; i++)
+							;
+						new DataOutput(clients.lastElement())
+								.SendPacket(new String("OK"));
+						tc.add(new ThreadCliente(clients, tc, cliCount, clients
+								.size() - 1, cListing, clientList,
+								this.logTextArea));
+						this.logTextArea.append("\n "
+								+ "["
+								+ new SimpleDateFormat("HH:mm:ss")
+										.format(new Date()) + "] "
+								+ "Partida iniciada: "
+								+ cListing.get(tc.get(i).getIndex()) + " VS "
+								+ cListing.get(tc.lastElement().getIndex()));
 
-					tc.get(i).startGame(tc.lastElement().getIndex());
-					tc.lastElement().startGame(tc.get(i).getIndex());
+						tc.get(i).startGame(tc.lastElement().getIndex());
+						tc.lastElement().startGame(tc.get(i).getIndex());
+					} else {
+						new DataOutput(temp).SendPacket(new String("##"
+								+ "Senha Inválida"));
+						temp.close();
+					}
+
 				} else {
-					clients.add(temp);
 
-					new DataOutput(clients.lastElement())
-							.SendPacket(new String("OK"));
-					tc.add(new ThreadCliente(clients, tc, cliCount, clients.size() - 1,
-							cListing, clientList, this.logTextArea));
+					if (this.checkPassword(temp)) {
+						clients.add(temp);
+						new DataOutput(clients.lastElement())
+								.SendPacket(new String("OK"));
+						tc.add(new ThreadCliente(clients, tc, cliCount, clients
+								.size() - 1, cListing, clientList,
+								this.logTextArea));
+					} else {
+						new DataOutput(temp).SendPacket(new String("##"
+								+ "Senha Inválida"));
+						temp.close();
+					}
+
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -156,6 +188,22 @@ public class Servidor extends Thread {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public boolean checkPassword(Socket socket) throws IOException {
+		String packet = null;
+		ObjectInputStream input = new ObjectInputStream(socket.getInputStream());
+		try {
+			packet = (String) input.readObject();
+		} catch (ClassNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		if (packet.substring(0, 2).equals("**")) {
+			if (this.senhaCriptografada.equals(packet.substring(2))) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public String getIpLocal() {
