@@ -191,12 +191,11 @@ public class Cliente extends Thread {
 
 					if (this.telaJogo.isJogadorDaCasaPronto()) {
 						JOptionPane.showMessageDialog(null,
-								"VOCÊ COMEÇA JOGANDO", "AVISO",
-								JOptionPane.WARNING_MESSAGE);
+								"Você Começa Jogando!", "Let`s Go!",
+								JOptionPane.INFORMATION_MESSAGE);
 						this.telaJogo.setTurn(true);
 						this.telaJogo.getTabuleiroDoInimigo().setTurn(true);
 					}
-
 				}
 				packet = null;
 				input = new ObjectInputStream(this.socket.getInputStream());
@@ -289,7 +288,7 @@ public class Cliente extends Thread {
 						packet = packet + ",";
 					}
 				}
-				new DataOutput(telaJogo.getClient()).SendPacket("MA"+packet);
+				new DataOutput(telaJogo.getClient()).SendPacket("MA" + packet);
 			} else {
 				JOptionPane.showMessageDialog(null,
 						"AGUARDE A CONEXÃO SER ESTABELECIDA E TENTE NOVAMENTE",
