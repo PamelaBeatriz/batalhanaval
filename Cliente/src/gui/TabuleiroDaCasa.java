@@ -383,6 +383,14 @@ public class TabuleiroDaCasa extends JPanel {
 			this.tabuleiroLogico.navioDestruidosPlusPlus();
 
 			this.picturesList.add(new PictureTabuleiro(new ImageIcon(
+					PainelControle.DIRETORIO_IMAGES + "explosaoanim.gif")
+					.getImage(), point));
+
+			try{
+				Thread.sleep (1000);
+			} catch (Exception e){};
+
+			this.picturesList.add(new PictureTabuleiro(new ImageIcon(
 					PainelControle.DIRETORIO_IMAGES + "explodido.gif")
 					.getImage(), point));
 
