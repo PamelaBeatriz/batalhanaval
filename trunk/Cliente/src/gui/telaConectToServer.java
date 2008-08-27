@@ -70,6 +70,9 @@ public class telaConectToServer extends JFrame {
 		this.setContentPane(getJContentPane());
 		this.setTitle("Connect to Server - Batalha Naval");
 		this.setVisible(true);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
+		this.setLocationRelativeTo(null);
 
 	}
 

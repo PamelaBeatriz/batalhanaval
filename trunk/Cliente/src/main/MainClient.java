@@ -23,10 +23,7 @@ public class MainClient {
 		// TODO Auto-generated method stub
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				telaConectToServer client = new telaConectToServer(2);
-				client.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				client.setResizable(false);
-				client.setLocationRelativeTo(null);
+				new telaConectToServer(2);
 			}
 		});
 	}

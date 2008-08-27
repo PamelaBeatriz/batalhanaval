@@ -1,6 +1,7 @@
 package logica;
 
 import gui.TelaJogo;
+import gui.WaitingEnemy;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -93,6 +94,17 @@ public class Cliente extends Thread {
 		this.telaJogo.getPainelControle().getOkGost().addActionListener(
 				this.painelControleListener);
 		try {
+			this.telaJogo.setEnabled(false);
+			WaitingEnemy wait = new WaitingEnemy();
+			input = new ObjectInputStream(this.socket.getInputStream());
+			packet = (String) input.readObject();
+			if (packet.substring(0, 2).equals(">>")) {
+				this.telaJogo.setEnabled(true);
+				wait.setVisible(false);
+			}
+			else {
+				return;
+			}
 			input = new ObjectInputStream(this.socket.getInputStream());
 			while ((packet = (String) input.readObject()) != null) {
 
