@@ -36,16 +36,9 @@ public class WaitingEnemy extends JDialog {
 	/**
 	 * @param owner
 	 */
-	public WaitingEnemy(Frame owner) {
-		super(owner);
-		initialize();
-	}
-
-	public WaitingEnemy(String nickName, Cliente cliente) {
+	public WaitingEnemy() {
 		super();
 		initialize();
-		this.nickName = nickName;
-		this.client = cliente;
 	}
 
 	/**
@@ -54,6 +47,7 @@ public class WaitingEnemy extends JDialog {
 	 * @return void
 	 */
 	private void initialize() {
+		this.setLocationRelativeTo(null);
 		this.setSize(300, 101);
 		this.setTitle("Waiting Enemy");
 		this.setContentPane(getJContentPane());
@@ -88,6 +82,11 @@ public class WaitingEnemy extends JDialog {
 			cancelButton = new JButton();
 			cancelButton.setBounds(new Rectangle(107, 40, 73, 26));
 			cancelButton.setText("Cancel");
+			cancelButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent e) {
+					System.exit(0);
+				}
+			});
 		}
 		return cancelButton;
 	}
