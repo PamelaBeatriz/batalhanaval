@@ -127,11 +127,11 @@ public class ThreadCliente extends Thread {
 			e.printStackTrace();
 		}
 		try {
-			this.logTextArea.append("\n> "
+			this.logTextArea.append("\n ["
+					+ new SimpleDateFormat("HH:mm:ss")
+					.format(new Date()) + "] "
 					+ this.nick
-					+ " desconectou ["
-					+ new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-							.format(new Date()) + "]");
+					+ " desconectou");
 			// this.clients.setElementAt(null, this.index);
 			this.clients.setElementAt(null, this.index);
 			// this.cListing.setElementAt(null,this.index);
@@ -172,6 +172,8 @@ public class ThreadCliente extends Thread {
 	public void startGame(int c2) {
 		this.c2 = c2;
 		this.isGameRunning = true;
+		new DataOutput(clients.elementAt(this.index))
+		.SendPacket(new String(">>"));
 	}
 
 	public int getIndex() {

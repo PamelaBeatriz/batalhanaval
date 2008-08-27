@@ -116,6 +116,10 @@ public class Servidor extends Thread {
 					} else {
 						new DataOutput(temp).SendPacket(new String("##"
 								+ "Senha Inválida"));
+						logTextArea.append("\n" + " ["
+								+ new SimpleDateFormat("HH:mm:ss").format(new Date())
+								+ "] Tentativa de conexão inválida vinda do IP "
+								+ temp.getInetAddress().getHostAddress());
 						temp.close();
 						continue;
 					}
@@ -145,6 +149,10 @@ public class Servidor extends Thread {
 					} else {
 						new DataOutput(temp).SendPacket(new String("##"
 								+ "Senha Inválida"));
+						logTextArea.append("\n" + " ["
+								+ new SimpleDateFormat("HH:mm:ss").format(new Date())
+								+ "] Tentativa de conexão inválida vinda do IP "
+								+ temp.getInetAddress().getHostAddress());
 						temp.close();
 					}
 
@@ -160,6 +168,10 @@ public class Servidor extends Thread {
 					} else {
 						new DataOutput(temp).SendPacket(new String("##"
 								+ "Senha Inválida"));
+						logTextArea.append("\n" + " ["
+								+ new SimpleDateFormat("HH:mm:ss").format(new Date())
+								+ "] Tentativa de conexão inválida vinda do IP "
+								+ temp.getInetAddress().getHostAddress());
 						temp.close();
 					}
 
