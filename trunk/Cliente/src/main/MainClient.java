@@ -1,16 +1,7 @@
 package main;
 import gui.telaConectToServer;
 
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.JOptionPane;
-import javax.swing.JFrame;
-import javax.swing.JButton;
-import javax.swing.SwingUtilities;
-
-import java.awt.Container;
-import java.awt.GridLayout;
 
 public class MainClient {
 
