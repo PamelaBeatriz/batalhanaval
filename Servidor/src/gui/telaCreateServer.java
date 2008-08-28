@@ -37,20 +37,21 @@ public class telaCreateServer extends JFrame {
 	private Servidor servidor = null;
 	private javax.swing.UIManager.LookAndFeelInfo looks[];
 
-
 	/**
 	 * This is the default constructor
 	 */
-	public telaCreateServer(int index) {
+	public telaCreateServer() {
 		super();
 		this.servidor = new Servidor();
-		looks = javax.swing.UIManager.getInstalledLookAndFeels();
+
 		try {
-			javax.swing.UIManager.setLookAndFeel( looks[index].getClassName() );
-			javax.swing.SwingUtilities.updateComponentTreeUI( this );
-			} catch (Exception e) {
+			javax.swing.UIManager
+					.setLookAndFeel("com.birosoft.liquid.LiquidLookAndFeel");
+			javax.swing.SwingUtilities.updateComponentTreeUI(this);
+		} catch (Exception e) {
 			e.printStackTrace();
-			}
+		}
+
 		initialize();
 	}
 
@@ -183,7 +184,8 @@ public class telaCreateServer extends JFrame {
 									.getText().getBytes()))) {
 						setVisible(false);
 						new TelaGerenciaServer(nomeServerField.getText(),
-								portaField.getText(), ipField.getText(),servidor);
+								portaField.getText(), ipField.getText(),
+								servidor);
 
 					} else {
 						JOptionPane.showMessageDialog(null,
