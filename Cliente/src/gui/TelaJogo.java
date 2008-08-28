@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -97,6 +99,7 @@ public class TelaJogo extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
+	    this.setIconImage(new ImageIcon("src/images/icon.gif").getImage());
 		this.setSize(637, 622);
 		this.setJMenuBar(getJJMenuBar());
 		this.setContentPane(getJContentPane());

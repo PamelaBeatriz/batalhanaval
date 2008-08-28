@@ -19,11 +19,17 @@ public class MainClient {
 	 */
 	public static void main(String[] args) {
 
-		//UIManager.setLookAndFeel("com.birosoft.liquid.LiquidLookAndFeel");
+
 		// TODO Auto-generated method stub
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				new telaConectToServer(2);
+				try {
+					javax.swing.UIManager.setLookAndFeel( "com.birosoft.liquid.LiquidLookAndFeel");
+				} catch (Exception e) {
+				e.printStackTrace();
+				}
+
+				new telaConectToServer();
 			}
 		});
 	}
