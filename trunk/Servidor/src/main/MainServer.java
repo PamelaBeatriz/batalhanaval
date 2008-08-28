@@ -11,9 +11,11 @@ public class MainServer {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				telaCreateServer server = new telaCreateServer(2);
+
+				telaCreateServer server = new telaCreateServer();
 				server.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				server.setVisible(true);
 				server.setResizable(false);
