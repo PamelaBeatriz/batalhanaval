@@ -1,25 +1,15 @@
 package gui;
 
+import java.awt.Rectangle;
+import java.io.ObjectInputStream;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.BorderLayout;
-import javax.swing.JDialog;
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-
-import java.awt.Rectangle;
-import javax.swing.JLabel;
-import java.awt.Dimension;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Vector;
-
 import logica.Cliente;
-import logica.DataOutput;
 
 public class WaitingEnemy extends JDialog {
 
@@ -48,10 +38,11 @@ public class WaitingEnemy extends JDialog {
 	 */
 	private void initialize() {
 		this.setLocationRelativeTo(null);
-		this.setSize(300, 101);
+		this.setSize(309, 109);
 		this.setTitle("Waiting Enemy");
 		this.setContentPane(getJContentPane());
 		this.setVisible(true);
+		this.setLocationRelativeTo(null);
 	}
 
 	/**
@@ -81,7 +72,7 @@ public class WaitingEnemy extends JDialog {
 		if (cancelButton == null) {
 			cancelButton = new JButton();
 			cancelButton.setBounds(new Rectangle(107, 40, 73, 26));
-			cancelButton.setText("Cancel");
+			cancelButton.setText("Exit");
 			cancelButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent e) {
 					System.exit(0);
