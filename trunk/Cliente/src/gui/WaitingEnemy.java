@@ -8,7 +8,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import javax.swing.JFrame;
+import javax.swing.UIManager;
+import javax.swing.SwingUtilities;
+import javax.swing.LookAndFeel;
 import logica.Cliente;
 
 public class WaitingEnemy extends JDialog {
@@ -21,7 +24,7 @@ public class WaitingEnemy extends JDialog {
 	private Cliente client;
 	private ObjectInputStream input = null;
 	private String packet = null;
-
+	private ImageIcon icone = new ImageIcon("src/images/icon.gif");
 
 	/**
 	 * @param owner
@@ -37,12 +40,16 @@ public class WaitingEnemy extends JDialog {
 	 * @return void
 	 */
 	private void initialize() {
-		this.setLocationRelativeTo(null);
-		this.setSize(309, 109);
-		this.setTitle("Waiting Enemy");
-		this.setContentPane(getJContentPane());
-		this.setVisible(true);
-		this.setLocationRelativeTo(null);
+		JFrame frame = new JFrame();
+	    frame.setIconImage(new ImageIcon("src/images/icon.gif").getImage());
+	    JDialog dialog = new JDialog(frame);  //  <-- or whatever your dialog is...
+	    dialog.setVisible(true);
+		dialog.setLocationRelativeTo(null);
+		dialog.setSize(309, 109);
+		dialog.setTitle("Waiting Enemy");
+		dialog.setContentPane(getJContentPane());
+		dialog.setVisible(true);
+		dialog.setLocationRelativeTo(null);
 	}
 
 	/**

@@ -40,21 +40,13 @@ public class telaConectToServer extends JFrame {
 	private JLabel IP = null;
 	private JTextField IPfield = null;
 	private Cliente cliente = null;
-	private javax.swing.UIManager.LookAndFeelInfo looks[];
 
 	/**
 	 * This is the default constructor
 	 */
-	public telaConectToServer(int index) {
+	public telaConectToServer() {
 		super();
 		this.cliente = new Cliente();
-		looks = javax.swing.UIManager.getInstalledLookAndFeels();
-		try {
-			javax.swing.UIManager.setLookAndFeel(looks[index].getClassName());
-			javax.swing.SwingUtilities.updateComponentTreeUI(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		initialize();
 	}
 
