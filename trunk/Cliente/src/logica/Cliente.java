@@ -166,14 +166,28 @@ public class Cliente extends Thread {
 					this.telaJogo.getTabuleiroDoInimigo().setTurn(true);
 				}
 
+				/**
+				 * EO = Enemy Off, jogador ganhou pq o adversário saiu
+				 */
+				else if(packet.substring(0, 2).equals("EO")) {
+					JOptionPane.showMessageDialog(null, packet.substring(2),
+							"Parabéns!", JOptionPane.WARNING_MESSAGE);
+					this.socket.close();
+					System.exit(0);
+				}
+
 				/*
 				 * Jogo Acabou e jogador da casa perdeu
 				 *
 				 * PE = Perdeu
 				 */
 				else if (packet.substring(0, 2).equals("PE")) {
-					JOptionPane.showMessageDialog(null, "Voce Perdeu!=/",
+					JOptionPane.showMessageDialog(null, "Voce Perdeu! =/",
 							"Game Over!", JOptionPane.WARNING_MESSAGE);
+					new DataOutput(telaJogo.getClient())
+					.SendPacket(new String("EN"));
+					this.socket.close();
+					System.exit(0);
 				}
 
 				/*
@@ -272,7 +286,13 @@ public class Cliente extends Thread {
 						JOptionPane.showMessageDialog(null,
 								"Congratulations , You Kill your enemy", "Win",
 								JOptionPane.INFORMATION_MESSAGE);
-
+						try {
+							socket.close();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						System.exit(0);
 						// Som.playAudio(Som.VITORIA);
 						// reinicia o jogo
 						// EnviaDado("*", "Jogada");

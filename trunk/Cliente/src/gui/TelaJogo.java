@@ -153,15 +153,15 @@ public class TelaJogo extends JFrame {
 		if (tabuleiroPanel == null) {
 
 			holdOnLabel = new JLabel();
-			holdOnLabel.setText("   Aguarde   ");
+			holdOnLabel.setText("   Sua Vez   ");
 			holdOnLabel.setFont(font);
-			holdOnLabel.setForeground(Color.RED);
+			//holdOnLabel.setForeground(Color.RED);
 			holdOnLabel.setBounds(new Rectangle(2, 42, 92, 16));
 			holdOnLabel.setEnabled(false);
 			turnLabel = new JLabel();
-			turnLabel.setText("   Sua Vez   ");
+			turnLabel.setText("   Aguarde   ");
 			turnLabel.setFont(font);
-			turnLabel.setForeground(Color.RED);
+			//turnLabel.setForeground(Color.RED);
 			turnLabel.setBounds(new Rectangle(1, 3, 93, 16));
 			turnLabel.setEnabled(false);
 			tabuleiroCasaLabel = new JLabel();
@@ -539,22 +539,24 @@ public class TelaJogo extends JFrame {
 
 	public void setTurn(final boolean vez) {
 		this.turn = vez;
-		this.holdOnLabel.setEnabled(true);
-		this.turnLabel.setEnabled(true);
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				turnLabel.setFont(font);
 				holdOnLabel.setFont(font);
 				if (turn) {
-					turnLabel.setText("<< Sua Vez   ");
-					holdOnLabel.setText("   Aguarde >>");
-					turnLabel.setForeground(Color.GREEN);
-					holdOnLabel.setForeground(Color.RED);
+					turnLabel.setText("   Aguarde   ");
+					holdOnLabel.setText("<< Sua Vez  ");
+					//turnLabel.setForeground(Color.GREEN);
+					holdOnLabel.setForeground(Color.GREEN);
+					holdOnLabel.setEnabled(true);
+					turnLabel.setEnabled(false);
 				} else {
-					turnLabel.setText("   Sua Vez  >>");
-					holdOnLabel.setText("<< Aguarde   ");
-					turnLabel.setForeground(Color.GREEN);
+					turnLabel.setText("   Aguarde >>");
+					holdOnLabel.setText("   Sua Vez  ");
+					turnLabel.setForeground(Color.RED);
 					holdOnLabel.setForeground(Color.RED);
+					holdOnLabel.setEnabled(true);
+					turnLabel.setEnabled(true);
 				}
 
 			}
