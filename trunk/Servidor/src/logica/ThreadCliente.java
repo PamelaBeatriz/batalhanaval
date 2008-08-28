@@ -113,10 +113,19 @@ public class ThreadCliente extends Thread {
 					}
 
 					/*
+					 * corrigindo bug do fugiu depois q perdeu
+					 */
+					else if(packet.substring(0, 2).equals("EN")) {
+						this.isGameRunning = false;
+					}
+
+					/*
 					 * se o pacote for do jogo
 					 */
 					else {
-
+						if(packet.substring(0, 2).equals("PE")) {
+							this.isGameRunning = false;
+						}
 						new DataOutput(this.clients.elementAt(this.c2))
 								.SendPacket(this.packet);
 					}
@@ -125,6 +134,13 @@ public class ThreadCliente extends Thread {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		if(isGameRunning && (clients.elementAt(this.c2)) != null) {
+			new DataOutput(clients.elementAt(this.c2))
+			.SendPacket(new String("EO"
+					+ "Parabéns! "
+					+ this.cListing.get(this.index)
+					+ " fugiu da batalha, você é o vencedor!"));
 		}
 		try {
 			this.logTextArea.append("\n ["
