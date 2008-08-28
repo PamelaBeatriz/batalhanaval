@@ -388,7 +388,6 @@ public class TabuleiroDoInimigo extends JPanel {
 	 * @return TabuleiroLogico
 	 */
 	public TabuleiroLogico getTabuleiroLogico() {
-		System.out.println("merda");
 		return tabuleiroLogico;
 	}
 
