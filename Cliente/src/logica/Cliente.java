@@ -231,6 +231,13 @@ public class Cliente extends Thread {
 					"Conexão com o servidor terminada",
 					"Batalha Naval - Erro",
 					JOptionPane.ERROR_MESSAGE);
+			try {
+				this.socket.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			System.exit(0);
 		}
 	}
 
