@@ -5,13 +5,20 @@ import java.awt.Dimension;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.MediaTracker;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -100,20 +107,17 @@ public class TabuleiroDaCasa extends JPanel {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 
-		GradientPaint gp = new GradientPaint(0.0f, 0.0f, Color.BLUE, 250.0f,
-				250.0f, Color.CYAN);
-		g2.setPaint(gp);
-
-		// Desenha o tabuleiro, de acordo com o gradiente
-		g2.fillRect(0, 0, 250, 251);
-
-		g2.setColor(new Color(0, 100, 90));
-
-		// Desenha as linhas do tabuleiro
-		for (int i = 1; i < 10; i++) {
-			g2.drawLine(i * 25, 0, i * 25, 250);
-			g2.drawLine(0, i * 25, 250, i * 25);
+		BufferedImage imagem = null;
+		try {
+			imagem = ImageIO.read(new File("src/images/tabuleiro.gif"));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
+	    setSize(imagem.getWidth(null), imagem.getHeight(null));
+
+	    setVisible(true);
+		g2.drawImage(imagem, 0, 0, null);
 
 		// Desenha as imagens
 		for (int i = 0; i < pictureTabuleiro.size(); i++) {
