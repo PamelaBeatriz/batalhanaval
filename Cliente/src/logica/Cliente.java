@@ -244,14 +244,7 @@ public class Cliente extends Thread {
 		public void mousePressed(MouseEvent me) {
 
 			if (telaJogo.isTurn()) {
-				String packet = new String("");
-				packet += "TI";
-				packet += me.getX();
-				packet += ",";
-				packet += me.getY();
-				packet += ",";
 
-				new DataOutput(telaJogo.getClient()).SendPacket(packet);
 
 				int resultadoDaJogada = telaJogo.getTabuleiroDoInimigo()
 						.getCheckJogada(me.getX(), me.getY());
@@ -298,6 +291,16 @@ public class Cliente extends Thread {
 						// EnviaDado("*", "Jogada");
 						// ReinciaJogo();
 					}
+				}
+
+				if(resultadoDaJogada != TabuleiroLogico.ACERTOU_POSICAO_USADA) {
+					new DataOutput(telaJogo.getClient())
+					.SendPacket(new String("TI"
+							+ me.getX()
+							+ ","
+							+ me.getY()
+							+ ","
+							+ resultadoDaJogada));
 				}
 			}
 		}
