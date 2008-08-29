@@ -104,7 +104,7 @@ public class ThreadCliente extends Thread {
 										+ this.cListing.get(this.index)
 										+ " diz: " + packet.substring(2)));
 						this.logTextArea.append("\n"
-								+ "["
+								+ " ["
 								+ new SimpleDateFormat("HH:mm:ss")
 										.format(new Date()) + "] "
 								+ this.cListing.get(this.index) + " diz para "
@@ -125,6 +125,11 @@ public class ThreadCliente extends Thread {
 					else {
 						if(packet.substring(0, 2).equals("PE")) {
 							this.isGameRunning = false;
+							this.logTextArea.append("\n"
+									+ " ["
+									+ new SimpleDateFormat("HH:mm:ss")
+											.format(new Date()) + "] "
+									+ this.cListing.get(this.index) + " ganhou a batalha");
 						}
 						new DataOutput(this.clients.elementAt(this.c2))
 								.SendPacket(this.packet);
@@ -141,6 +146,14 @@ public class ThreadCliente extends Thread {
 					+ "Parabéns! "
 					+ this.cListing.get(this.index)
 					+ " fugiu da batalha, você é o vencedor!"));
+			this.logTextArea.append("\n"
+					+ " ["
+					+ new SimpleDateFormat("HH:mm:ss")
+							.format(new Date()) + "] "
+					+ this.cListing.get(this.c2)
+					+ " vence a batalha ("
+					+ this.cListing.get(this.index)
+					+" abandonou)");
 		}
 		try {
 			this.logTextArea.append("\n ["
