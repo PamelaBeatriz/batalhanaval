@@ -131,6 +131,47 @@ public class ThreadCliente extends Thread {
 											.format(new Date()) + "] "
 									+ this.cListing.get(this.index) + " ganhou a batalha");
 						}
+						else if (packet.substring(0, 2).equals("TI")) {
+							String temp = "";
+							String mensagem = packet.substring(2);
+							char caracter;
+							int posicao = 0;
+							// recebe a coordenada x
+							do {
+								caracter = mensagem.charAt(posicao++);
+								temp += caracter;
+							} while (caracter != ',');
+							int posicaoX = Integer.parseInt(temp.substring(0, temp
+									.length() - 1));
+							// recebe a coordenada y
+							temp = "";
+							do {
+								caracter = mensagem.charAt(posicao++);
+								temp += caracter;
+							} while (caracter != ',');
+							int posicaoY = Integer.parseInt(temp.substring(0, temp
+									.length() - 1));
+							temp = "";
+							do {
+								caracter = mensagem.charAt(posicao++);
+								temp += caracter;
+							} while (posicao<mensagem.length());
+							int result = Integer.parseInt(temp);
+
+							this.logTextArea.append("\n"
+									+ " ["
+									+ new SimpleDateFormat("HH:mm:ss")
+											.format(new Date()) + "] "
+									+ this.cListing.get(this.index) + " atirou na posição ("
+									+ posicaoX + "," + posicaoY
+									+ ") e acertou ");
+							if(result == 0) {
+								this.logTextArea.append("na água");
+							} else {
+								this.logTextArea.append("uma embarcação");
+							}
+
+						}
 						new DataOutput(this.clients.elementAt(this.c2))
 								.SendPacket(this.packet);
 					}
