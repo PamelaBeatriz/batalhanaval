@@ -111,6 +111,12 @@ public class Servidor extends Thread {
 								.SendPacket(new String(
 										"SF"
 												+ "O servidor está cheio\ntente novamente mais tarde"));
+						logTextArea.append("\n" + " ["
+								+ new SimpleDateFormat("HH:mm:ss").format(new Date())
+								+ "] Conexão recusada para o IP "
+								+ temp.getInetAddress().getHostAddress()
+								+ " (Servidor Lotado)");
+
 						temp.close();
 						continue;
 					} else {
