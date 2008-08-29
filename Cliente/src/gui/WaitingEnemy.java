@@ -20,12 +20,6 @@ public class WaitingEnemy extends JFrame {
 	private JPanel jContentPane = null;
 	private JButton cancelButton = null;
 	private JLabel jLabel = null;
-	private String nickName;  //  @jve:decl-index=0:
-	private Cliente client;
-	private ObjectInputStream input = null;
-	private String packet = null;
-	private ImageIcon icone = new ImageIcon("src/images/icon.gif");
-	private JFrame frame = null;
 
 	/**
 	 * @param owner
@@ -47,6 +41,7 @@ public class WaitingEnemy extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
+		this.setIconImage(new ImageIcon("src/images/icon.gif").getImage());
 	    this.setVisible(true);
 	    this.setLocationRelativeTo(null);
 	    this.setSize(309, 109);
