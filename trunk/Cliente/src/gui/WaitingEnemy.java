@@ -35,6 +35,12 @@ public class WaitingEnemy extends JFrame {
 		initialize();
 	}
 
+	@Override
+	protected void finalize() throws Throwable {
+		super.finalize();
+		System.exit(0);
+	}
+
 	/**
 	 * This method initializes this
 	 *
@@ -49,6 +55,7 @@ public class WaitingEnemy extends JFrame {
 	    this.setVisible(true);
 	    this.setLocationRelativeTo(null);
 	    this.setResizable(false);
+	    this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 
 	/**
