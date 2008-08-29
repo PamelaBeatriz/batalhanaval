@@ -158,13 +158,85 @@ public class ThreadCliente extends Thread {
 							} while (posicao<mensagem.length());
 							int result = Integer.parseInt(temp);
 
+							String pX = null;
+							switch ((int) posicaoX / 25) {
+							case 0:
+								pX = "A";
+								break;
+							case 1:
+								pX = "B";
+								break;
+							case 2:
+								pX = "C";
+								break;
+							case 3:
+								pX = "D";
+								break;
+							case 4:
+								pX = "E";
+								break;
+							case 5:
+								pX = "F";
+								break;
+							case 6:
+								pX = "G";
+								break;
+							case 7:
+								pX = "H";
+								break;
+							case 8:
+								pX = "I";
+								break;
+							case 9:
+								pX = "J";
+								break;
+							default:
+								break;
+							}
+
+							String pY = null;
+							switch ((int) posicaoY / 25) {
+							case 0:
+								pY = "1";
+								break;
+							case 1:
+								pY = "2";
+								break;
+							case 2:
+								pY = "3";
+								break;
+							case 3:
+								pY = "4";
+								break;
+							case 4:
+								pY = "5";
+								break;
+							case 5:
+								pY = "6";
+								break;
+							case 6:
+								pY = "7";
+								break;
+							case 7:
+								pY = "8";
+								break;
+							case 8:
+								pY = "9";
+								break;
+							case 9:
+								pY = "10";
+								break;
+							default:
+								break;
+							}
+
 							this.logTextArea.append("\n"
 									+ " ["
 									+ new SimpleDateFormat("HH:mm:ss")
 											.format(new Date()) + "] "
-									+ this.cListing.get(this.index) + " atirou na posição ("
-									+ posicaoX + "," + posicaoY
-									+ ") e acertou ");
+									+ this.cListing.get(this.index) + " atirou na posição "
+									+ pX + pY
+									+ " e acertou ");
 							if(result == 0) {
 								this.logTextArea.append("na água");
 							} else {
