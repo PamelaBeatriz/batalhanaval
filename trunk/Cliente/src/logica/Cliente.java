@@ -1,7 +1,7 @@
 package logica;
 
 import gui.TelaJogo;
-import gui.WaitingEnemy;
+import gui.CustomDialog;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -96,7 +96,7 @@ public class Cliente extends Thread {
 				this.painelControleListener);
 		try {
 			this.telaJogo.setEnabled(false);
-			WaitingEnemy wait = new WaitingEnemy();
+			CustomDialog wait = new CustomDialog("Waiting Enemy","Please, wait while your enemy don't show up...");
 			input = new ObjectInputStream(this.socket.getInputStream());
 			packet = (String) input.readObject();
 			if (packet.substring(0, 2).equals(">>")) {
@@ -104,7 +104,10 @@ public class Cliente extends Thread {
 				wait.setVisible(false);
 			}
 			else {
-				return;
+				JOptionPane.showMessageDialog(null, "Erro desconhecido",
+						"Erro", JOptionPane.WARNING_MESSAGE);
+				this.socket.close();
+				System.exit(0);
 			}
 			input = new ObjectInputStream(this.socket.getInputStream());
 			while ((packet = (String) input.readObject()) != null) {

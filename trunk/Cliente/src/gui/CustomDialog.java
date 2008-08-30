@@ -14,18 +14,22 @@ import javax.swing.SwingUtilities;
 import javax.swing.LookAndFeel;
 import logica.Cliente;
 
-public class WaitingEnemy extends JFrame {
+public class CustomDialog extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jContentPane = null;
 	private JButton cancelButton = null;
 	private JLabel jLabel = null;
+	private String msg = null;
+	private String title = null;
 
 	/**
 	 * @param owner
 	 */
-	public WaitingEnemy() {
+	public CustomDialog(String title, String msg) {
 		super();
+		this.msg = msg;
+		this.title = title;
 		initialize();
 	}
 
@@ -45,7 +49,7 @@ public class WaitingEnemy extends JFrame {
 	    this.setVisible(true);
 	    this.setLocationRelativeTo(null);
 	    this.setSize(309, 109);
-	    this.setTitle("Waiting Enemy");
+	    this.setTitle(title);
 	    this.setContentPane(getJContentPane());
 	    this.setVisible(true);
 	    this.setLocationRelativeTo(null);
@@ -62,7 +66,7 @@ public class WaitingEnemy extends JFrame {
 		if (jContentPane == null) {
 			jLabel = new JLabel();
 			jLabel.setBounds(new Rectangle(10, 7, 275, 16));
-			jLabel.setText("Please, wait while your enemy don't show up...");
+			jLabel.setText(msg);
 			jContentPane = new JPanel();
 			jContentPane.setLayout(null);
 			jContentPane.add(getCancelButton(), null);

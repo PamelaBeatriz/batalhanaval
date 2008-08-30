@@ -238,7 +238,7 @@ public class PainelControle extends JPanel {
 	public void tabuleiroDaCasaPronto() {
 		this.okGost.setEnabled(true);
 		JOptionPane.showMessageDialog(null,
-				"Pecas Posicionadas!!!\n\nPronto para Jogar!", "Ao Ataque!",
+				"Now, wait your Enemy finish...", "Ready to fight!",
 				JOptionPane.INFORMATION_MESSAGE);
 		this.okGost.doClick();
 		this.okGost.setEnabled(false);
