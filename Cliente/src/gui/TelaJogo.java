@@ -57,7 +57,6 @@ public class TelaJogo extends JFrame {
 	private JScrollPane chatScrollPane = null;
 	private JTextField chatTextField = null;
 	private String cheatString = null;// @jve:decl-index=0:
-	private Cheat cheatFrame = null;
 	private boolean turn;
 	private boolean conected;
 	private boolean jogadorDaCasaPronto;
@@ -285,15 +284,12 @@ public class TelaJogo extends JFrame {
 									JOptionPane.QUESTION_MESSAGE);
 							if (chit.trim().toLowerCase().equals(cheatString)) {
 								frame.setEnabled(false);
-								JOptionPane.showMessageDialog(null,
-										"Mamao Robando!!!", "Cheat",
-										JOptionPane.WARNING_MESSAGE);
 								new DataOutput(client).SendPacket(new String(
-										"KT"));
+										"FU"));
 							} else {
 								frame.setEnabled(false);
 								JOptionPane.showMessageDialog(null,
-										"É mamao mesmo", "Cheat",
+										"Cheat Inexistente!", "Cheat",
 										JOptionPane.ERROR_MESSAGE);
 							}
 							frame.setEnabled(true);
@@ -611,14 +607,6 @@ public class TelaJogo extends JFrame {
 			quemEhVez.add(turnLabel, null);
 		}
 		return quemEhVez;
-	}
-
-	public Cheat getCheatFrame() {
-		return cheatFrame;
-	}
-
-	public void setCheatFrame(Cheat cheatFrame) {
-		this.cheatFrame = cheatFrame;
 	}
 
 	public FileLog getPacotesRecebidos() {

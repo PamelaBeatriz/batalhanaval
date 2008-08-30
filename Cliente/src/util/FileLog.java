@@ -37,9 +37,9 @@ public class FileLog {
 
 	public void write(String s) {
 		try {
-			dataOutputStream.writeChars("Pacote "
-					+ String.valueOf(numeroPacotes) + " : " + s.trim() + "\n");
-			dataOutputStream.flush();
+			dataOutputStream.writeUTF("Pacote "
+					+ String.valueOf(numeroPacotes) + " : " + s.trim());
+			dataOutputStream.writeUTF("\n");
 			this.numeroPacotes++;
 		} catch (IOException e) {
 			System.out.println("Erro no Escrita do Arquivo");

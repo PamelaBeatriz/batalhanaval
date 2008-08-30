@@ -1,8 +1,10 @@
 package logica;
 
+import gui.Cheat;
 import gui.TelaJogo;
 import gui.CustomDialog;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -18,6 +20,7 @@ import java.util.Date;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingUtilities;
 
 public class Cliente extends Thread {
 
@@ -234,11 +237,15 @@ public class Cliente extends Thread {
 				/*
 				 * Salcifufu
 				 */
-				else if (packet.substring(0, 2).equals("KT")) {
-					ArrayList<PictureTabuleiro> list = telaJogo
-							.getTabuleiroDaCasa().getPicturesList();
-					telaJogo.getCheatFrame().setPictureTabuleiro(list.get(0));
-					telaJogo.getCheatFrame().inicializar();
+				else if (packet.substring(0, 2).equals("FU")) {
+					if (telaJogo.getTabuleiroDaCasa().getCheatPicture() != null) {
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								new Cheat(telaJogo.getTabuleiroDaCasa()
+										.getCheatPicture());
+							}
+						});
+					}
 				}
 
 				packet = null;
@@ -251,7 +258,6 @@ public class Cliente extends Thread {
 			try {
 				this.socket.close();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			telaJogo.getPacotesEnviados().close();
@@ -314,7 +320,6 @@ public class Cliente extends Thread {
 						try {
 							socket.close();
 						} catch (IOException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 						telaJogo.getPacotesRecebidos().close();
@@ -332,8 +337,10 @@ public class Cliente extends Thread {
 							"TI" + me.getX() + "," + me.getY() + ","
 									+ resultadoDaJogada));
 					telaJogo.getPacotesEnviados().write(
-							new String("TI - Informacao do click do ataque e seu resultado" + me.getX() + "," + me.getY() + ","
-									+ resultadoDaJogada));
+							new String(
+									"TI - Informacao do click do ataque e seu resultado"
+											+ me.getX() + "," + me.getY() + ","
+											+ resultadoDaJogada));
 				}
 			}
 		}
@@ -360,7 +367,8 @@ public class Cliente extends Thread {
 					}
 				}
 				new DataOutput(telaJogo.getClient()).SendPacket("MA" + packet);
-				telaJogo.getPacotesEnviados().write("MA - Informacoes da matriz antes do jogo" + packet);
+				telaJogo.getPacotesEnviados().write(
+						"MA - Informacoes da matriz antes do jogo" + packet);
 			} else {
 				JOptionPane.showMessageDialog(null,
 						"AGUARDE A CONEXÃO SER ESTABELECIDA E TENTE NOVAMENTE",
