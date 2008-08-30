@@ -57,7 +57,8 @@ public class TelaJogo extends JFrame {
 	// private DataOutput output;
 	private JScrollPane chatScrollPane = null;
 	private JTextField chatTextField = null;
-	private String cheat = null; // @jve:decl-index=0:
+	private String cheatString = null;// @jve:decl-index=0:
+	private Cheat cheatFrame = null;
 	private boolean turn;
 	private boolean conected;
 	private boolean jogadorDaCasaPronto;
@@ -66,6 +67,7 @@ public class TelaJogo extends JFrame {
 	private JLabel holdOnLabel = null;
 	private Font font = null;
 	private JPanel quemEhVez = null;
+
 
 	/**
 	 * This is the default constructor
@@ -80,15 +82,10 @@ public class TelaJogo extends JFrame {
 		this.nickName = nickName;
 		this.client = cliente;
 		this.numeroAcertos = 0;
-		this.cheat = "salcifufu";
+		this.cheatString = "salcifufu";
 		this.font = new Font("Arial Bold", Font.BOLD, 13);
 		initialize();
 		this.client.setChatArea(this.chatTextArea);
-		/*
-		 * this.client.setTabuleiroDoInimigo(this.tabuleiroDoInimigo);
-		 * this.client.setTabuleiroDaCasa(this.tabuleiroDaCasa);
-		 * this.client.setPainelControle(this.painelControle);
-		 */
 		this.client.setTelaJogo(this);
 		this.client.start();
 	}
@@ -99,7 +96,7 @@ public class TelaJogo extends JFrame {
 	 * @return void
 	 */
 	private void initialize() {
-	    this.setIconImage(new ImageIcon("src/images/icon.gif").getImage());
+		this.setIconImage(new ImageIcon("src/images/icon.gif").getImage());
 		this.setSize(637, 622);
 		this.setJMenuBar(getJJMenuBar());
 		this.setContentPane(getJContentPane());
@@ -158,13 +155,13 @@ public class TelaJogo extends JFrame {
 			holdOnLabel = new JLabel();
 			holdOnLabel.setText("   Sua Vez   ");
 			holdOnLabel.setFont(font);
-			//holdOnLabel.setForeground(Color.RED);
+			// holdOnLabel.setForeground(Color.RED);
 			holdOnLabel.setBounds(new Rectangle(2, 42, 92, 16));
 			holdOnLabel.setEnabled(false);
 			turnLabel = new JLabel();
 			turnLabel.setText("   Aguarde   ");
 			turnLabel.setFont(font);
-			//turnLabel.setForeground(Color.RED);
+			// turnLabel.setForeground(Color.RED);
 			turnLabel.setBounds(new Rectangle(1, 3, 93, 16));
 			turnLabel.setEnabled(false);
 			tabuleiroCasaLabel = new JLabel();
@@ -286,11 +283,13 @@ public class TelaJogo extends JFrame {
 							String chit = JOptionPane.showInputDialog(null,
 									"Cheat: ", "Batalha Naval",
 									JOptionPane.QUESTION_MESSAGE);
-							if (chit.trim().equals(cheat)) {
+							if (chit.trim().toLowerCase().equals(cheatString)) {
 								frame.setVisible(false);
 								JOptionPane.showMessageDialog(null,
 										"Mamao Robando!!!", "Cheat",
 										JOptionPane.WARNING_MESSAGE);
+								/*new DataOutput(client).SendPacket(new String(
+										"FU"));*/
 							} else {
 								frame.setVisible(false);
 								JOptionPane.showMessageDialog(null,
@@ -521,11 +520,11 @@ public class TelaJogo extends JFrame {
 	}
 
 	public String getCheat() {
-		return cheat;
+		return cheatString;
 	}
 
 	public void setCheat(String cheat) {
-		this.cheat = cheat;
+		this.cheatString = cheat;
 	}
 
 	public String getNickName() {
@@ -549,7 +548,7 @@ public class TelaJogo extends JFrame {
 				if (turn) {
 					turnLabel.setText("   Aguarde   ");
 					holdOnLabel.setText("<< Sua Vez  ");
-					//turnLabel.setForeground(Color.GREEN);
+					// turnLabel.setForeground(Color.GREEN);
 					holdOnLabel.setForeground(Color.GREEN);
 					holdOnLabel.setEnabled(true);
 					turnLabel.setEnabled(false);
@@ -567,9 +566,10 @@ public class TelaJogo extends JFrame {
 
 	}
 
-	public void configurarPanelTurn(){
+	public void configurarPanelTurn() {
 
 	}
+
 	public int getNumeroAcertos() {
 		return numeroAcertos;
 	}
@@ -609,6 +609,14 @@ public class TelaJogo extends JFrame {
 			quemEhVez.add(turnLabel, null);
 		}
 		return quemEhVez;
+	}
+
+	public Cheat getCheatFrame() {
+		return cheatFrame;
+	}
+
+	public void setCheatFrame(Cheat cheatFrame) {
+		this.cheatFrame = cheatFrame;
 	}
 
 } // @jve:decl-index=0:visual-constraint="10,17"

@@ -133,6 +133,7 @@ public class telaConectToServer extends JFrame {
 			nickField.setBounds(new Rectangle(90, 27, 165, 19));
 			nickField
 					.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+			nickField.setText("MANE");
 		}
 		return nickField;
 	}
@@ -182,105 +183,137 @@ public class telaConectToServer extends JFrame {
 						@SuppressWarnings("deprecation")
 						public void actionPerformed(java.awt.event.ActionEvent e) {
 							frame.setVisible(false);
-							cliente.setCliente(nickField.getText(), IPfield
-									.getText(), portaField.getText(), MD5
-									.getHash(passwordField.getText().getBytes()));
-							try {
-								if (cliente.tentarConexaoServer()) {
-									frame.setVisible(false);
-									String packet = null;
+							if (nickField.getText().trim().equals("")) {
+								JOptionPane.showMessageDialog(null,
+										"Digite o NickName",
+										"Batalha Naval - Erro",
+										JOptionPane.ERROR_MESSAGE);
+								frame.setVisible(true);
+							} else if (portaField.getText().trim().equals("")) {
+								JOptionPane.showMessageDialog(null,
+										"Digite o numero da Porta do server",
+										"Batalha Naval - Erro",
+										JOptionPane.ERROR_MESSAGE);
+								frame.setVisible(true);
+							} else if (IPfield.getText().trim().equals("")) {
+								JOptionPane.showMessageDialog(null,
+										"Digite o IP do server",
+										"Batalha Naval - Erro",
+										JOptionPane.ERROR_MESSAGE);
+								frame.setVisible(true);
+							} else {
+								cliente.setCliente(nickField.getText(), IPfield
+										.getText(), portaField.getText(), MD5
+										.getHash(passwordField.getText()
+												.getBytes()));
+								try {
+									if (cliente.tentarConexaoServer()) {
+										frame.setVisible(false);
+										String packet = null;
 
-									/*
-									 * manda a senha para o server
-									 */
-									new DataOutput(cliente)
-											.SendPacket(new String("**"
-													+ MD5.getHash(passwordField
-															.getText()
-															.toString()
-															.getBytes())));
+										/*
+										 * manda a senha para o server
+										 */
+										new DataOutput(cliente)
+												.SendPacket(new String(
+														"**"
+																+ MD5
+																		.getHash(passwordField
+																				.getText()
+																				.toString()
+																				.getBytes())));
 
-									ObjectInputStream input = new ObjectInputStream(
-											cliente.getSocket()
-													.getInputStream());
-
-									try {
-										packet = (String) input.readObject();
-									} catch (ClassNotFoundException e1) {
-										e1.printStackTrace();
-									}
-
-									/*
-									 * se a senha nao for valida
-									 */
-									if (packet.substring(0, 2).equals("##")) {
-										JOptionPane.showMessageDialog(null,
-												packet.substring(2),
-												"Batalha Naval - Erro",
-												JOptionPane.ERROR_MESSAGE);
-										frame.setVisible(true);
-									}
-
-									/*
-									 * se a senha for valida, simbora!
-									 */
-									else {
-										/*input = new ObjectInputStream(cliente
-												.getSocket().getInputStream());
+										ObjectInputStream input = new ObjectInputStream(
+												cliente.getSocket()
+														.getInputStream());
 
 										try {
 											packet = (String) input
 													.readObject();
 										} catch (ClassNotFoundException e1) {
 											e1.printStackTrace();
-										}*/
-										if (packet.substring(0, 2).equals("OK")) {
-											new DataOutput(cliente)
-													.SendPacket(new String("NK"
-															+ cliente.getNick()));
-											new TelaJogo(nickField.getText(),
-													cliente);
-										} else if (packet.substring(0, 2)
-												.equals("SF")) {
+										}
+
+										/*
+										 * se a senha nao for valida
+										 */
+										if (packet.substring(0, 2).equals("##")) {
 											JOptionPane.showMessageDialog(null,
 													packet.substring(2),
 													"Batalha Naval - Erro",
 													JOptionPane.ERROR_MESSAGE);
 											frame.setVisible(true);
 										}
-									}
 
-								} else {
+										/*
+										 * se a senha for valida, simbora!
+										 */
+										else {
+											/*
+											 * input = new
+											 * ObjectInputStream(cliente
+											 * .getSocket().getInputStream());
+											 *
+											 * try { packet = (String) input
+											 * .readObject(); } catch
+											 * (ClassNotFoundException e1) {
+											 * e1.printStackTrace(); }
+											 */
+											if (packet.substring(0, 2).equals(
+													"OK")) {
+												new DataOutput(cliente)
+														.SendPacket(new String(
+																"NK"
+																		+ cliente
+																				.getNick()));
+												new TelaJogo(nickField
+														.getText(), cliente);
+											} else if (packet.substring(0, 2)
+													.equals("SF")) {
+												JOptionPane
+														.showMessageDialog(
+																null,
+																packet
+																		.substring(2),
+																"Batalha Naval - Erro",
+																JOptionPane.ERROR_MESSAGE);
+												frame.setVisible(true);
+											}
+										}
+
+									} else {
+										frame.setVisible(true);
+									}
+								} catch (NumberFormatException e1) {
+									JOptionPane.showMessageDialog(null,
+											"Porta Inválida",
+											"Batalha Naval - Erro",
+											JOptionPane.ERROR_MESSAGE);
+									e1.printStackTrace();
+									frame.setVisible(true);
+								} catch (UnknownHostException e1) {
+									JOptionPane.showMessageDialog(null,
+											"Endereco IP Desconhecido",
+											"Batalha Naval - Erro",
+											JOptionPane.ERROR_MESSAGE);
+									e1.printStackTrace();
+									frame.setVisible(true);
+								} catch (ConnectException e1) {
+									JOptionPane.showMessageDialog(null,
+											"Conexão recusada",
+											"Batalha Naval - Erro",
+											JOptionPane.ERROR_MESSAGE);
+									e1.printStackTrace();
+									frame.setVisible(true);
+								} catch (IOException e1) {
+									JOptionPane.showMessageDialog(null, "Erro",
+											"Batalha Naval - Erro",
+											JOptionPane.ERROR_MESSAGE);
+									e1.printStackTrace();
 									frame.setVisible(true);
 								}
-							} catch (NumberFormatException e1) {
-								JOptionPane.showMessageDialog(null,
-										"Porta Inválida",
-										"Batalha Naval - Erro",
-										JOptionPane.ERROR_MESSAGE);
-								e1.printStackTrace();
-								frame.setVisible(true);
-							} catch (UnknownHostException e1) {
-								JOptionPane.showMessageDialog(null,
-										"Endereco IP Desconhecido",
-										"Batalha Naval - Erro",
-										JOptionPane.ERROR_MESSAGE);
-								e1.printStackTrace();
-								frame.setVisible(true);
-							} catch (ConnectException e1) {
-								JOptionPane.showMessageDialog(null,
-										"Conexão recusada",
-										"Batalha Naval - Erro",
-										JOptionPane.ERROR_MESSAGE);
-								e1.printStackTrace();
-								frame.setVisible(true);
-							} catch (IOException e1) {
-								JOptionPane.showMessageDialog(null, "Erro",
-										"Batalha Naval - Erro",
-										JOptionPane.ERROR_MESSAGE);
-								e1.printStackTrace();
-								frame.setVisible(true);
 							}
+
 						}
 					});
 		}

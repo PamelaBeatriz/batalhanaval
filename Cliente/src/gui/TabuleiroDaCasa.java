@@ -497,4 +497,14 @@ public class TabuleiroDaCasa extends JPanel {
 		this.painelControle = painelControle;
 	}
 
+
+	public ArrayList<PictureTabuleiro> getPicturesList() {
+		return picturesList;
+	}
+
+
+	public void setPicturesList(ArrayList<PictureTabuleiro> picturesList) {
+		this.picturesList = picturesList;
+	}
+
 }
