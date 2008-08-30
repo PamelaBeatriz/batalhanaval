@@ -23,6 +23,7 @@ import javax.swing.border.TitledBorder;
 import logica.Cliente;
 import logica.DataOutput;
 import util.MD5;
+import util.MP3;
 
 public class telaConectToServer extends JFrame {
 
@@ -249,16 +250,6 @@ public class telaConectToServer extends JFrame {
 										 * se a senha for valida, simbora!
 										 */
 										else {
-											/*
-											 * input = new
-											 * ObjectInputStream(cliente
-											 * .getSocket().getInputStream());
-											 *
-											 * try { packet = (String) input
-											 * .readObject(); } catch
-											 * (ClassNotFoundException e1) {
-											 * e1.printStackTrace(); }
-											 */
 											if (packet.substring(0, 2).equals(
 													"OK")) {
 												new DataOutput(cliente)
@@ -268,6 +259,7 @@ public class telaConectToServer extends JFrame {
 																				.getNick()));
 												new TelaJogo(nickField
 														.getText(), cliente);
+												MP3.play(MP3.YELLOW_SUBMARINE);
 											} else if (packet.substring(0, 2)
 													.equals("SF")) {
 												JOptionPane

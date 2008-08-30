@@ -96,22 +96,25 @@ public class Cliente extends Thread {
 				this.painelControleListener);
 		try {
 			this.telaJogo.setEnabled(false);
-			CustomDialog wait = new CustomDialog("Waiting Enemy","Please, wait while your enemy don't show up...");
+			CustomDialog wait = new CustomDialog("Waiting Enemy",
+					"Please, wait while your enemy don't show up...");
 			input = new ObjectInputStream(this.socket.getInputStream());
 			packet = (String) input.readObject();
+			telaJogo.getPacotesRecebidos().write(packet);
 			if (packet.substring(0, 2).equals(">>")) {
 				this.telaJogo.setEnabled(true);
 				wait.setVisible(false);
-			}
-			else {
+			} else {
 				JOptionPane.showMessageDialog(null, "Erro desconhecido",
 						"Erro", JOptionPane.WARNING_MESSAGE);
 				this.socket.close();
+				telaJogo.getPacotesRecebidos().close();
+				telaJogo.getPacotesEnviados().close();
 				System.exit(0);
 			}
 			input = new ObjectInputStream(this.socket.getInputStream());
 			while ((packet = (String) input.readObject()) != null) {
-
+				telaJogo.getPacotesRecebidos().write(packet);
 				/*
 				 * verifica se o pacote eh do chat
 				 */
@@ -155,10 +158,6 @@ public class Cliente extends Thread {
 							.length() - 1));
 					telaJogo.getTabuleiroDaCasa().configuraJogada(posicaoX,
 							posicaoY);
-					/*
-					 * if (painel.getMeuTabuleiro().getNaviosDestruidos() == 15)
-					 * painel.getPainelCentral().habilitaPatada();
-					 */
 				}
 
 				/*
@@ -173,10 +172,12 @@ public class Cliente extends Thread {
 				/**
 				 * EO = Enemy Off, jogador ganhou pq o adversário saiu
 				 */
-				else if(packet.substring(0, 2).equals("EO")) {
+				else if (packet.substring(0, 2).equals("EO")) {
 					JOptionPane.showMessageDialog(null, packet.substring(2),
 							"Parabéns!", JOptionPane.WARNING_MESSAGE);
 					this.socket.close();
+					telaJogo.getPacotesRecebidos().close();
+					telaJogo.getPacotesEnviados().close();
 					System.exit(0);
 				}
 
@@ -188,9 +189,11 @@ public class Cliente extends Thread {
 				else if (packet.substring(0, 2).equals("PE")) {
 					JOptionPane.showMessageDialog(null, "Voce Perdeu! =/",
 							"Game Over!", JOptionPane.WARNING_MESSAGE);
-					new DataOutput(telaJogo.getClient())
-					.SendPacket(new String("EN"));
+					new DataOutput(telaJogo.getClient()).SendPacket(new String(
+							"EN"));
 					this.socket.close();
+					telaJogo.getPacotesRecebidos().close();
+					telaJogo.getPacotesEnviados().close();
 					System.exit(0);
 				}
 
@@ -231,19 +234,19 @@ public class Cliente extends Thread {
 				/*
 				 * Salcifufu
 				 */
-				/*else if (packet.substring(0, 2).equals("FU")) {
-					ArrayList<PictureTabuleiro> list = telaJogo.getTabuleiroDaCasa().getPicturesList();
+				else if (packet.substring(0, 2).equals("KT")) {
+					ArrayList<PictureTabuleiro> list = telaJogo
+							.getTabuleiroDaCasa().getPicturesList();
 					telaJogo.getCheatFrame().setPictureTabuleiro(list.get(0));
 					telaJogo.getCheatFrame().inicializar();
-				}*/
+				}
 
 				packet = null;
 				input = new ObjectInputStream(this.socket.getInputStream());
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null,
-					"Conexão com o servidor terminada",
-					"Batalha Naval - Erro",
+					"Conexão com o servidor terminada", "Batalha Naval - Erro",
 					JOptionPane.ERROR_MESSAGE);
 			try {
 				this.socket.close();
@@ -251,7 +254,10 @@ public class Cliente extends Thread {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			telaJogo.getPacotesEnviados().close();
+			telaJogo.getPacotesRecebidos().close();
 			System.exit(0);
+
 		}
 	}
 
@@ -266,7 +272,6 @@ public class Cliente extends Thread {
 
 			if (telaJogo.isTurn()) {
 
-
 				int resultadoDaJogada = telaJogo.getTabuleiroDoInimigo()
 						.getCheckJogada(me.getX(), me.getY());
 
@@ -278,6 +283,10 @@ public class Cliente extends Thread {
 
 					new DataOutput(telaJogo.getClient()).SendPacket(new String(
 							"PJ"));
+					telaJogo
+							.getPacotesEnviados()
+							.write(
+									"PJ = Acertou na agua, perde a vez e avisa q eh a vez do adversario");
 					telaJogo.setTurn(false);
 				}
 
@@ -296,7 +305,9 @@ public class Cliente extends Thread {
 						 * avisa o adversario que perdeu
 						 */
 						new DataOutput(telaJogo.getClient())
-								.SendPacket(new String("PE"));
+								.SendPacket(new String(
+										"PE = Jogo Ganho, avisa o adversario que ganhou"));
+						telaJogo.getPacotesEnviados().write("PE");
 						JOptionPane.showMessageDialog(null,
 								"Congratulations , You Kill your enemy", "Win",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -306,6 +317,8 @@ public class Cliente extends Thread {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
+						telaJogo.getPacotesRecebidos().close();
+						telaJogo.getPacotesEnviados().close();
 						System.exit(0);
 						// Som.playAudio(Som.VITORIA);
 						// reinicia o jogo
@@ -314,14 +327,13 @@ public class Cliente extends Thread {
 					}
 				}
 
-				if(resultadoDaJogada != TabuleiroLogico.ACERTOU_POSICAO_USADA) {
-					new DataOutput(telaJogo.getClient())
-					.SendPacket(new String("TI"
-							+ me.getX()
-							+ ","
-							+ me.getY()
-							+ ","
-							+ resultadoDaJogada));
+				if (resultadoDaJogada != TabuleiroLogico.ACERTOU_POSICAO_USADA) {
+					new DataOutput(telaJogo.getClient()).SendPacket(new String(
+							"TI" + me.getX() + "," + me.getY() + ","
+									+ resultadoDaJogada));
+					telaJogo.getPacotesEnviados().write(
+							new String("TI - Informacao do click do ataque e seu resultado" + me.getX() + "," + me.getY() + ","
+									+ resultadoDaJogada));
 				}
 			}
 		}
@@ -348,6 +360,7 @@ public class Cliente extends Thread {
 					}
 				}
 				new DataOutput(telaJogo.getClient()).SendPacket("MA" + packet);
+				telaJogo.getPacotesEnviados().write("MA - Informacoes da matriz antes do jogo" + packet);
 			} else {
 				JOptionPane.showMessageDialog(null,
 						"AGUARDE A CONEXÃO SER ESTABELECIDA E TENTE NOVAMENTE",

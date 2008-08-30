@@ -12,7 +12,6 @@ import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -27,10 +26,11 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.border.TitledBorder;
 
+import util.FileLog;
+
 import logica.Cliente;
 import logica.DataOutput;
 import logica.TabuleiroLogico;
-import java.awt.GridBagLayout;
 
 public class TelaJogo extends JFrame {
 
@@ -51,10 +51,9 @@ public class TelaJogo extends JFrame {
 	private JMenuItem comoJogarJMenuItem = null;
 	private JMenuItem sobreJMenuItem = null;
 	private PainelControle painelControle = null;
-	private Cliente client;
+	private Cliente client; // @jve:decl-index=0:
 	private JLabel tabuleiroCasaLabel = null;
 	private JTextArea chatTextArea = null;
-	// private DataOutput output;
 	private JScrollPane chatScrollPane = null;
 	private JTextField chatTextField = null;
 	private String cheatString = null;// @jve:decl-index=0:
@@ -67,7 +66,8 @@ public class TelaJogo extends JFrame {
 	private JLabel holdOnLabel = null;
 	private Font font = null;
 	private JPanel quemEhVez = null;
-
+	private FileLog pacotesRecebidos;
+	private FileLog pacotesEnviados;
 
 	/**
 	 * This is the default constructor
@@ -79,6 +79,8 @@ public class TelaJogo extends JFrame {
 
 	public TelaJogo(String nickName, Cliente cliente) {
 		super();
+		this.pacotesRecebidos = new FileLog("pacotesRecebidos.txt");
+		this.pacotesEnviados = new FileLog("pacotesEnviados.txt");
 		this.nickName = nickName;
 		this.client = cliente;
 		this.numeroAcertos = 0;
@@ -155,13 +157,11 @@ public class TelaJogo extends JFrame {
 			holdOnLabel = new JLabel();
 			holdOnLabel.setText("   Sua Vez   ");
 			holdOnLabel.setFont(font);
-			// holdOnLabel.setForeground(Color.RED);
 			holdOnLabel.setBounds(new Rectangle(2, 42, 92, 16));
 			holdOnLabel.setEnabled(false);
 			turnLabel = new JLabel();
 			turnLabel.setText("   Aguarde   ");
 			turnLabel.setFont(font);
-			// turnLabel.setForeground(Color.RED);
 			turnLabel.setBounds(new Rectangle(1, 3, 93, 16));
 			turnLabel.setEnabled(false);
 			tabuleiroCasaLabel = new JLabel();
@@ -284,19 +284,19 @@ public class TelaJogo extends JFrame {
 									"Cheat: ", "Batalha Naval",
 									JOptionPane.QUESTION_MESSAGE);
 							if (chit.trim().toLowerCase().equals(cheatString)) {
-								frame.setVisible(false);
+								frame.setEnabled(false);
 								JOptionPane.showMessageDialog(null,
 										"Mamao Robando!!!", "Cheat",
 										JOptionPane.WARNING_MESSAGE);
-								/*new DataOutput(client).SendPacket(new String(
-										"FU"));*/
+								new DataOutput(client).SendPacket(new String(
+										"KT"));
 							} else {
-								frame.setVisible(false);
+								frame.setEnabled(false);
 								JOptionPane.showMessageDialog(null,
 										"É mamao mesmo", "Cheat",
 										JOptionPane.ERROR_MESSAGE);
 							}
-							frame.setVisible(true);
+							frame.setEnabled(true);
 						}
 					});
 		}
@@ -438,6 +438,8 @@ public class TelaJogo extends JFrame {
 							if (!chatTextField.getText().trim().equals("")) {
 								new DataOutput(client).SendPacket(new String(
 										"CH" + chatTextField.getText().trim()));
+								pacotesEnviados.write("CH"
+										+ chatTextField.getText().trim());
 								chatTextArea
 										.append("["
 												+ new SimpleDateFormat(
@@ -617,6 +619,22 @@ public class TelaJogo extends JFrame {
 
 	public void setCheatFrame(Cheat cheatFrame) {
 		this.cheatFrame = cheatFrame;
+	}
+
+	public FileLog getPacotesRecebidos() {
+		return pacotesRecebidos;
+	}
+
+	public void setPacotesRecebidos(FileLog pacotesRecebidos) {
+		this.pacotesRecebidos = pacotesRecebidos;
+	}
+
+	public FileLog getPacotesEnviados() {
+		return pacotesEnviados;
+	}
+
+	public void setPacotesEnviados(FileLog pacotesEnviados) {
+		this.pacotesEnviados = pacotesEnviados;
 	}
 
 } // @jve:decl-index=0:visual-constraint="10,17"
