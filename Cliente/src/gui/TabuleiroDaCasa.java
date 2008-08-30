@@ -2,13 +2,9 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.MediaTracker;
 import java.awt.Point;
-import java.awt.Toolkit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -21,10 +17,9 @@ import java.util.Vector;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
+
 import logica.PictureTabuleiro;
 import logica.TabuleiroLogico;
 
@@ -279,11 +274,6 @@ public class TabuleiroDaCasa extends JPanel {
 				this.pictureTabuleiro.setElementAt(new PictureTabuleiro(
 						this.painelControle.imagemLastShip, this.corrigirPoint(
 								x, y)), this.painelControle.posicaoLastShip);
-				/*
-				 * this.pictureTabuleiro.add(this.painelControle.posicaoLastShip,
-				 * new PictureTabuleiro( this.painelControle.imagemLastShip,
-				 * this .corrigirPoint(x, y)));
-				 */
 			}
 
 			// Reconfigura a área de navio
@@ -305,8 +295,8 @@ public class TabuleiroDaCasa extends JPanel {
 			JOptionPane
 					.showMessageDialog(
 							null,
-							"SEU NAVIO NÃO PODE SER COLOCADO NESTA POSIÇÃO. TENTE NOVAMENTE",
-							"ERRO DE POSICIONAMENTO DO NAVIO",
+							"O navio não pode ser colocado nesta posiçao. Por Favor, tente Novamente! =D",
+							"Batalha Naval - Erro",
 							JOptionPane.ERROR_MESSAGE);
 		}
 	}

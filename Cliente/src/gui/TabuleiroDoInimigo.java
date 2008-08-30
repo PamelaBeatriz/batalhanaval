@@ -2,7 +2,6 @@ package gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -42,8 +41,6 @@ public class TabuleiroDoInimigo extends JPanel {
 
 	private Image imagemDoCursor = null;
 
-	private Image imagemCursorProibido = null; // @jve:decl-index=0:
-
 	/**
 	 * This is the default constructor
 	 */
@@ -75,16 +72,6 @@ public class TabuleiroDoInimigo extends JPanel {
 		this.turn = false;
 	}
 
-	public void resetaCursorProibido() {
-		this.imagemCursorProibido = null;
-	}
-
-	public void setImagemCursorProibido() {
-		this.imagemCursorProibido = new ImageIcon(
-				PainelControle.DIRETORIO_IMAGES + "cursorProibido.gif")
-				.getImage();
-	}
-
 	/**
 	 * Pinta a tela
 	 *
@@ -102,9 +89,9 @@ public class TabuleiroDoInimigo extends JPanel {
 			e.printStackTrace();
 		}
 
-	    setSize(imagem.getWidth(null), imagem.getHeight(null));
+		setSize(imagem.getWidth(null), imagem.getHeight(null));
 
-	    setVisible(true);
+		setVisible(true);
 		g2.drawImage(imagem, 0, 0, null);
 
 		if (this.posicaoDoCursor == null || this.posicaoDoCursor.x == -1) {
@@ -120,9 +107,7 @@ public class TabuleiroDoInimigo extends JPanel {
 		Point p = this.corrigirPoint(this.posicaoDoCursor.x,
 				this.posicaoDoCursor.y);
 
-		if (this.imagemCursorProibido != null) {
-			g.drawImage(this.imagemCursorProibido, p.x, p.y, this);
-		} else if (this.turn) {
+		if (this.turn) {
 			g.drawImage(this.imagemDoCursor, p.x, p.y, this);
 		} else {
 			g.drawImage(null, p.x, p.y, this);
@@ -182,143 +167,48 @@ public class TabuleiroDoInimigo extends JPanel {
 	 */
 	private void configuraJogada(int posicaoX, int posicaoY) {
 
-		if (this.imagemCursorProibido != null) {
-
-			Point point = this.corrigirPoint(posicaoX, posicaoY);
-
-			int posicaoXFinal = (point.x + 100);
-			int posicaoYFinal = (point.y + 100);
-
-			if (posicaoXFinal > 250) {
-				posicaoXFinal = 250;
-			}
-
-			if (posicaoYFinal > 250) {
-				posicaoYFinal = 250;
-			}
-
-			for (int i = point.x / 25; i < posicaoXFinal / 25; i++) {
-				for (int j = point.y / 25; j < posicaoYFinal / 25; j++) {
-
-					System.out.println("\nCoordenada X: " + i
-							+ " Coordenada Y: " + j);
-
-					switch (this.getCheckJogada(i * 25, j * 25)) {
-
-					case TabuleiroLogico.ACERTOU_NA_AGUA:
-						this.tabuleiroLogico.setPosicaoTabuleiro(i, j, "A");
-						this.picturesList.add(new PictureTabuleiro(
-								new ImageIcon(PainelControle.DIRETORIO_IMAGES
-										+ "splash.gif").getImage(), new Point(
-										i * 25, j * 25)));
-						break;
-					case TabuleiroLogico.ACERTOU_NO_NAVIO:
-						this.tabuleiroLogico.setPosicaoTabuleiro(i, j, "N");
-						this.picturesList.add(new PictureTabuleiro(
-								new ImageIcon(PainelControle.DIRETORIO_IMAGES
-										+ "explodido.gif").getImage(),
-								new Point(i * 25, j * 25)));
-						break;
-					}
-				}
-			}
-
-			// Som.playAudio(Som.PATADA);
-			this.imagemCursorProibido = null; // gastou a jogada
-			this.turn = false;
-
-		} else {
-			int checkJogada = this.getCheckJogada(posicaoX, posicaoY);
-			Point point = this.corrigirPoint(posicaoX, posicaoY);
-
-			/*
-			 * Acertou a Agua => Errou mamao
-			 */
-			if (checkJogada == TabuleiroLogico.ACERTOU_NA_AGUA) {
-				this.tabuleiroLogico.setPosicaoTabuleiro(posicaoX / 25,
-						posicaoY / 25, "A");
-				this.picturesList.add(new PictureTabuleiro(new ImageIcon(
-						PainelControle.DIRETORIO_IMAGES + "splash.gif")
-						.getImage(), point));
-
-				// Som.playAudio(Som.ERRO);
-				repaint();
-				this.turn = false;
-				return;
-
-			}
-
-			/*
-			 * Acertou o navio => Mamao esperto
-			 */
-			else if (checkJogada == TabuleiroLogico.ACERTOU_NO_NAVIO) {
-
-				this.tabuleiroLogico.setPosicaoTabuleiro(posicaoX / 25,
-						posicaoY / 25, "N");
-				this.picturesList.add(new PictureTabuleiro(new ImageIcon(
-						PainelControle.DIRETORIO_IMAGES + "explodido.gif")
-						.getImage(), point));
-				// Som.playAudio(Som.ACERTO);
-				repaint();
-				return;
-			}
-
-			/*
-			 * Acertou posicao ja usada => eh Mamao mesmo
-			 */
-			else if (checkJogada == TabuleiroLogico.ACERTOU_POSICAO_USADA) {
-				JOptionPane.showMessageDialog(null,
-						"Esta posição já foi clicada!", "Posição já escolhida",
-						JOptionPane.WARNING_MESSAGE);
-			}
-		}
-	}
-
-	/**
-	 *
-	 * @param posicaoX
-	 * @param posicaoY
-	 * @param largura
-	 * @param altura
-	 * @return int[][]
-	 */
-	public int[][] getJogadaAera(int posicaoX, int posicaoY, int largura,
-			int altura) {
-
+		int checkJogada = this.getCheckJogada(posicaoX, posicaoY);
 		Point point = this.corrigirPoint(posicaoX, posicaoY);
 
-		int posicaoXFinal = (point.x + largura);
-		int posicaoYFinal = (point.y + altura);
+		/*
+		 * Acertou a Agua => Errou mamao
+		 */
+		if (checkJogada == TabuleiroLogico.ACERTOU_NA_AGUA) {
+			this.tabuleiroLogico.setPosicaoTabuleiro(posicaoX / 25,
+					posicaoY / 25, "A");
+			this.picturesList.add(new PictureTabuleiro(new ImageIcon(
+					PainelControle.DIRETORIO_IMAGES + "splash.gif").getImage(),
+					point));
 
-		if (posicaoXFinal > 250) {
-			posicaoXFinal = 250;
+			// Som.playAudio(Som.ERRO);
+			repaint();
+			this.turn = false;
+			return;
+
 		}
 
-		if (posicaoYFinal > 250) {
-			posicaoYFinal = 250;
+		/*
+		 * Acertou o navio => Mamao esperto
+		 */
+		else if (checkJogada == TabuleiroLogico.ACERTOU_NO_NAVIO) {
+
+			this.tabuleiroLogico.setPosicaoTabuleiro(posicaoX / 25,
+					posicaoY / 25, "N");
+			this.picturesList.add(new PictureTabuleiro(new ImageIcon(
+					PainelControle.DIRETORIO_IMAGES + "explodido.gif")
+					.getImage(), point));
+			// Som.playAudio(Som.ACERTO);
+			repaint();
+			return;
 		}
 
-		int[][] resultado = new int[10][10];
-
-		for (int i = 0; i < 100; i++) {
-			resultado[i / 10][i % 10] = -1;
+		/*
+		 * Acertou posicao ja usada => eh Mamao mesmo
+		 */
+		else if (checkJogada == TabuleiroLogico.ACERTOU_POSICAO_USADA) {
+			JOptionPane.showMessageDialog(null, "Esta posição já foi clicada!",
+					"Posição já escolhida", JOptionPane.WARNING_MESSAGE);
 		}
-
-		for (int i = point.x / 25; i < posicaoXFinal / 25; i++) {
-			for (int j = point.y / 25; j < posicaoYFinal / 25; j++) {
-
-				switch (this.getCheckJogada(i * 25, j * 25)) {
-				case TabuleiroLogico.ACERTOU_NA_AGUA:
-					resultado[i][j] = TabuleiroLogico.ACERTOU_NA_AGUA;
-					break;
-				case TabuleiroLogico.ACERTOU_NO_NAVIO:
-					resultado[i][j] = TabuleiroLogico.ACERTOU_NO_NAVIO;
-					break;
-				}
-			}
-		}
-
-		return resultado;
 	}
 
 	/**
