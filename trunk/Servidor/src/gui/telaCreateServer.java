@@ -35,7 +35,6 @@ public class telaCreateServer extends JFrame {
 	private JLabel ipLabel = null;
 	private JTextField ipField = null;
 	private Servidor servidor = null;
-	private javax.swing.UIManager.LookAndFeelInfo looks[];
 
 	/**
 	 * This is the default constructor
