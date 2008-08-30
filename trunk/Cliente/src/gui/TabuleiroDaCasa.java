@@ -37,7 +37,7 @@ public class TabuleiroDaCasa extends JPanel {
 
 	private AdptadorDoMouseMovimento adptadorDoMouseMovimento = null; // @jve:decl-index=0:
 
-	private Vector<PictureTabuleiro> pictureTabuleiro = null;  //  @jve:decl-index=0:
+	private Vector<PictureTabuleiro> pictureTabuleiro = null; // @jve:decl-index=0:
 
 	private Point posicaoDoCursor = null; // @jve:decl-index=0:
 
@@ -51,6 +51,8 @@ public class TabuleiroDaCasa extends JPanel {
 
 	private int naviosPosicionadosParaJogar = 0;
 
+	private Vector<PictureTabuleiro> cheatPicture = null;
+
 	/**
 	 * Default Construtor
 	 *
@@ -61,7 +63,6 @@ public class TabuleiroDaCasa extends JPanel {
 		initialize();
 		this.painelControle = painelControle;
 	}
-
 
 	/**
 	 * Default Construtor
@@ -94,6 +95,7 @@ public class TabuleiroDaCasa extends JPanel {
 		this.addMouseMotionListener(this.adptadorDoMouseMovimento);
 		this.posicaoDoCursor = new Point();
 	}
+
 	/**
 	 * Metodo para pintar na tela o tabuleiro e os navios
 	 */
@@ -109,9 +111,9 @@ public class TabuleiroDaCasa extends JPanel {
 			e.printStackTrace();
 		}
 
-	    setSize(imagem.getWidth(null), imagem.getHeight(null));
+		setSize(imagem.getWidth(null), imagem.getHeight(null));
 
-	    setVisible(true);
+		setVisible(true);
 		g2.drawImage(imagem, 0, 0, null);
 
 		// Desenha as imagens
@@ -289,6 +291,7 @@ public class TabuleiroDaCasa extends JPanel {
 
 				this.turnOFFHandlers();
 				painelControle.tabuleiroDaCasaPronto();
+				this.cheatPicture = this.pictureTabuleiro;
 			}
 			repaint();
 		} else {
@@ -296,8 +299,7 @@ public class TabuleiroDaCasa extends JPanel {
 					.showMessageDialog(
 							null,
 							"O navio não pode ser colocado nesta posiçao. Por Favor, tente Novamente! =D",
-							"Batalha Naval - Erro",
-							JOptionPane.ERROR_MESSAGE);
+							"Batalha Naval - Erro", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -343,7 +345,6 @@ public class TabuleiroDaCasa extends JPanel {
 		this.naviosPosicionadosParaJogar = 0;
 	}
 
-
 	/**
 	 * Configura a Jogada
 	 *
@@ -381,15 +382,17 @@ public class TabuleiroDaCasa extends JPanel {
 					PainelControle.DIRETORIO_IMAGES + "explosaoanim.gif")
 					.getImage(), point));
 
-			try{
-				Thread.sleep (1000);
-			} catch (Exception e){};
+			try {
+				Thread.sleep(1000);
+			} catch (Exception e) {
+			}
+			;
 
 			this.picturesList.add(new PictureTabuleiro(new ImageIcon(
 					PainelControle.DIRETORIO_IMAGES + "explodido.gif")
 					.getImage(), point));
 
-			//Som.playAudio(Som.ACERTO);
+			// Som.playAudio(Som.ACERTO);
 
 			repaint();
 		}
@@ -487,14 +490,20 @@ public class TabuleiroDaCasa extends JPanel {
 		this.painelControle = painelControle;
 	}
 
-
 	public ArrayList<PictureTabuleiro> getPicturesList() {
 		return picturesList;
 	}
 
-
 	public void setPicturesList(ArrayList<PictureTabuleiro> picturesList) {
 		this.picturesList = picturesList;
+	}
+
+	public Vector<PictureTabuleiro> getCheatPicture() {
+		return cheatPicture;
+	}
+
+	public void setCheatPicture(Vector<PictureTabuleiro> cheatPicture) {
+		this.cheatPicture = cheatPicture;
 	}
 
 }

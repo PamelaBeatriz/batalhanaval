@@ -1,18 +1,12 @@
 package gui;
 
 import java.awt.Rectangle;
-import java.io.ObjectInputStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.SwingUtilities;
-import javax.swing.LookAndFeel;
-import logica.Cliente;
 
 public class CustomDialog extends JFrame {
 
