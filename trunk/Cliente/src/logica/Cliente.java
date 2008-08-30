@@ -1,10 +1,9 @@
 package logica;
 
 import gui.Cheat;
-import gui.TelaJogo;
 import gui.CustomDialog;
+import gui.TelaJogo;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -15,7 +14,6 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
@@ -231,6 +229,10 @@ public class Cliente extends Thread {
 								JOptionPane.INFORMATION_MESSAGE);
 						this.telaJogo.setTurn(true);
 						this.telaJogo.getTabuleiroDoInimigo().setTurn(true);
+					}else{
+						JOptionPane.showMessageDialog(null,
+								"Você Começa Esperando!", "Let`s Go!",
+								JOptionPane.INFORMATION_MESSAGE);
 					}
 				}
 
@@ -349,33 +351,24 @@ public class Cliente extends Thread {
 	private class PainelControleListener implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) {
-			if (/* telaJogo.isConected() */true) {
-				telaJogo.setJogadorDaCasaPronto(true);
-				String tabuleiroLogico[][] = telaJogo.getTabuleiroLogico()
-						.getTabuleiro();
-				String packet = "";
-				// Habilita o tabuleiro inimigo
-				telaJogo.getTabuleiroDoInimigo().turnONHandlers();
-				// Toca o som de configuração de navio
-				// Som.stopAudio(Som.SOM_CONFIG);
+			telaJogo.setJogadorDaCasaPronto(true);
+			String tabuleiroLogico[][] = telaJogo.getTabuleiroLogico()
+					.getTabuleiro();
+			String packet = "";
+			// Habilita o tabuleiro inimigo
+			telaJogo.getTabuleiroDoInimigo().turnONHandlers();
 
-				// transforma a matriz em um String
-				for (int i = 0; i < 10; i++) {
-					for (int j = 0; j < 10; j++) {
-						packet = packet + tabuleiroLogico[i][j];
-						packet = packet + ",";
-					}
+			// transforma a matriz em um String
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					packet = packet + tabuleiroLogico[i][j];
+					packet = packet + ",";
 				}
-				new DataOutput(telaJogo.getClient()).SendPacket("MA" + packet);
-				telaJogo.getPacotesEnviados().write(
-						"MA - Informacoes da matriz antes do jogo" + packet);
-			} else {
-				JOptionPane.showMessageDialog(null,
-						"AGUARDE A CONEXÃO SER ESTABELECIDA E TENTE NOVAMENTE",
-						"ERRO DE CONEXÃO", JOptionPane.WARNING_MESSAGE);
 			}
+			new DataOutput(telaJogo.getClient()).SendPacket("MA" + packet);
+			telaJogo.getPacotesEnviados().write(
+					"MA - Informacoes da matriz antes do jogo" + packet);
 		}
-
 	}
 
 	public Socket getSocket() {
