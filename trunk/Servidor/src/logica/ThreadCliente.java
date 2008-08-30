@@ -114,6 +114,15 @@ public class ThreadCliente extends Thread {
 					}
 
 					/*
+					 * Salcifufu
+					 */
+
+					else if(packet.substring(0, 2).equals("FU")){
+						new DataOutput(clients.elementAt(this.c2))
+						.SendPacket(packet);
+					}
+
+					/*
 					 * corrigindo bug do fugiu depois q perdeu
 					 */
 					else if(packet.substring(0, 2).equals("EN")) {
