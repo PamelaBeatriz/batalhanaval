@@ -10,8 +10,6 @@ public class DataOutput{
 
 	private ObjectOutputStream saida = null;
 
-	//private Cliente client;
-
 	private String packet;
 
 	public DataOutput(Socket socket) {
@@ -34,5 +32,21 @@ public class DataOutput{
 			e2.printStackTrace();
 			System.out.println("ERRO NO ENVIO DO PACOTE");
 		}
+	}
+
+	public Socket getSocket() {
+		return socket;
+	}
+
+	public void setSocket(Socket socket) {
+		this.socket = socket;
+	}
+
+	public String getPacket() {
+		return packet;
+	}
+
+	public void setPacket(String packet) {
+		this.packet = packet;
 	}
 }

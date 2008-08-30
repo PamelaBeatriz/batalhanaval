@@ -41,6 +41,7 @@ public class ThreadCliente extends Thread {
 
 	private Vector<Integer> cliCount = null;
 
+	@SuppressWarnings("unchecked")
 	public ThreadCliente(Vector<Socket> clients, Vector<ThreadCliente> tc,
 			Vector<Integer> cliCount, int index, Vector<String> cListing,
 			JList clientList, JTextArea logTextArea) {
@@ -320,6 +321,14 @@ public class ThreadCliente extends Thread {
 
 	public int getIndex() {
 		return this.index;
+	}
+
+	public ObjectOutputStream getOutput() {
+		return output;
+	}
+
+	public void setOutput(ObjectOutputStream output) {
+		this.output = output;
 	}
 
 }
