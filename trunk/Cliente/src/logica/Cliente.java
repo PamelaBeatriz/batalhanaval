@@ -13,6 +13,7 @@ import java.net.ConnectException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
@@ -223,6 +224,16 @@ public class Cliente extends Thread {
 						this.telaJogo.getTabuleiroDoInimigo().setTurn(true);
 					}
 				}
+
+				/*
+				 * Salcifufu
+				 */
+				/*else if (packet.substring(0, 2).equals("FU")) {
+					ArrayList<PictureTabuleiro> list = telaJogo.getTabuleiroDaCasa().getPicturesList();
+					telaJogo.getCheatFrame().setPictureTabuleiro(list.get(0));
+					telaJogo.getCheatFrame().inicializar();
+				}*/
+
 				packet = null;
 				input = new ObjectInputStream(this.socket.getInputStream());
 			}
