@@ -442,6 +442,7 @@ public class TelaJogo extends JFrame {
 		if (chatTextField == null) {
 			chatTextField = new JTextField();
 			chatTextField.setBounds(new Rectangle(12, 210, 361, 20));
+			chatTextArea.setLineWrap(true);
 			chatTextField
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
