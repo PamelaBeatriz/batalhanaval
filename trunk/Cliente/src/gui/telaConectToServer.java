@@ -134,7 +134,7 @@ public class telaConectToServer extends JFrame {
 			nickField.setBounds(new Rectangle(90, 27, 165, 19));
 			nickField
 					.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-			nickField.setText("MANE");
+			nickField.setText("");
 		}
 		return nickField;
 	}
@@ -149,7 +149,7 @@ public class telaConectToServer extends JFrame {
 			portaField = new JTextField();
 			portaField.setBounds(new Rectangle(90, 82, 51, 20));
 
-			portaField.setText("9999");
+			portaField.setText("");
 		}
 		return portaField;
 	}
@@ -339,7 +339,7 @@ public class telaConectToServer extends JFrame {
 		if (IPfield == null) {
 			IPfield = new JTextField();
 			IPfield.setBounds(new Rectangle(90, 54, 100, 20));
-			IPfield.setText("localhost");
+			IPfield.setText("");
 		}
 		return IPfield;
 	}
