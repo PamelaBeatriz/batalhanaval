@@ -117,13 +117,21 @@ public class Cliente extends Thread {
 			while ((packet = (String) input.readObject()) != null) {
 				telaJogo.getPacotesRecebidos().write(packet);
 				/*
-				 * verifica se o pacote eh do chat
+				 * Pacote CH: verifica se o pacote eh do chat
 				 */
 				if (packet.substring(0, 2).equals("CH")) {
 					this.chatTextArea.append("["
 							+ new SimpleDateFormat("HH:mm:ss")
 									.format(new Date()) + "] "
 							+ packet.substring(2) + "\n");
+				}
+
+				/*
+				 * Pacote IN: Information
+				 */
+				else if (packet.substring(0, 2).equals("IN")) {
+					this.chatTextArea.append(">System: "
+							+ this.packet.substring(2));
 				}
 
 				/*
@@ -134,7 +142,7 @@ public class Cliente extends Thread {
 				 *
 				 * desenhar a imagem jogada no tabuleiro do jogador
 				 *
-				 * TI = Tabuleiro Inimigo
+				 * Pacote TI = Tabuleiro Inimigo
 				 */
 
 				else if (packet.substring(0, 2).equals("TI")) {
@@ -163,7 +171,7 @@ public class Cliente extends Thread {
 
 				/*
 				 * O inimigo errou, acertou na agua, e perde a vez. Vez da casa
-				 * PJ = Perdeu a Jogada
+				 * Pacote PJ = Perdeu a Jogada
 				 */
 				else if (packet.substring(0, 2).equals("PJ")) {
 					this.telaJogo.setTurn(true);
@@ -171,7 +179,7 @@ public class Cliente extends Thread {
 				}
 
 				/*
-				 * EO = Enemy Off, jogador ganhou pq o adversário saiu
+				 * Pacote EO = Enemy Off, jogador ganhou pq o adversário saiu
 				 */
 				else if (packet.substring(0, 2).equals("EO")) {
 					JOptionPane.showMessageDialog(null, packet.substring(2),
@@ -185,7 +193,7 @@ public class Cliente extends Thread {
 				/*
 				 * Jogo Acabou e jogador da casa perdeu
 				 *
-				 * PE = Perdeu
+				 * Pacote PE = Perdeu
 				 */
 				else if (packet.substring(0, 2).equals("PE")) {
 					JOptionPane.showMessageDialog(null, "Voce Perdeu! =/",
@@ -199,8 +207,9 @@ public class Cliente extends Thread {
 				}
 
 				/*
-				 * Tabuleiro do adversario esta pronto!configurado para jogar MA =
-				 * Matriz
+				 * Tabuleiro do adversario esta pronto!configurado para jogar
+				 *
+				 * Pacote MA = Matriz
 				 */
 				else if (packet.substring(0, 2).equals("MA")) {
 
@@ -227,23 +236,27 @@ public class Cliente extends Thread {
 
 						new DataOutput(telaJogo.getClient())
 								.SendPacket(new String(
-										"CHVocê Começa Esperando! - Let`s Go!"));
-						telaJogo.getPacotesEnviados().write(
-								"CH[WARNING]Você Começa Esperando! - Let`s Go!");
+										"IN[INFORMATION]Você Começa Esperando! - Let`s Go!"));
+						telaJogo
+								.getPacotesEnviados()
+								.write(
+										"IN[INFORMATION]Você Começa Esperando! - Let`s Go!");
 
 						this.telaJogo.setTurn(true);
 						this.telaJogo.getTabuleiroDoInimigo().setTurn(true);
 					} else {
 						new DataOutput(telaJogo.getClient())
 								.SendPacket(new String(
-										"CH[WARNING]Você Começa Jogando! - Let`s Go!"));
-						telaJogo.getPacotesEnviados().write(
-								"CHVocê Começa Jogando! - Let`s Go!");
+										"IN[INFORMATION]Você Começa Jogando! - Let`s Go!"));
+						telaJogo
+								.getPacotesEnviados()
+								.write(
+										"IN[INFORMATION]Você Começa Jogando! - Let`s Go!");
 					}
 				}
 
 				/*
-				 * FU = Salcifufu
+				 * Pacote FU = Salcifufu
 				 */
 				else if (packet.substring(0, 2).equals("FU")) {
 					if (telaJogo.getTabuleiroDaCasa().getCheatPicture() != null) {
@@ -257,7 +270,7 @@ public class Cliente extends Thread {
 				}
 
 				/*
-				 * NG = New Game
+				 * Pacote NG = New Game
 				 */
 				else if (packet.substring(0, 2).equals("NG")) {
 					telaJogo.newGame();
