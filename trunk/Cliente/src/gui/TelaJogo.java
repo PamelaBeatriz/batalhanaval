@@ -65,8 +65,8 @@ public class TelaJogo extends JFrame {
 	private JLabel holdOnLabel = null;
 	private Font font = null;
 	private JPanel quemEhVez = null;
-	private FileLog pacotesRecebidos;  //  @jve:decl-index=0:
-	private FileLog pacotesEnviados;  //  @jve:decl-index=0:
+	private FileLog pacotesRecebidos; // @jve:decl-index=0:
+	private FileLog pacotesEnviados; // @jve:decl-index=0:
 
 	/**
 	 * This is the default constructor
@@ -315,8 +315,10 @@ public class TelaJogo extends JFrame {
 			novoJogoJMenuItem
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
-							new DataOutput(client).SendPacket(new String("NGNew Game solicitado por: "+nickName));
-							getPacotesEnviados().write("NGNew Game solicitado por: "+nickName);
+							new DataOutput(client).SendPacket(new String(
+									"NGNew Game solicitado por: " + nickName));
+							getPacotesEnviados().write(
+									"NGNew Game solicitado por: " + nickName);
 						}
 					});
 		}
@@ -376,6 +378,14 @@ public class TelaJogo extends JFrame {
 			comoJogarJMenuItem.setMnemonic(KeyEvent.VK_P);
 			KeyStroke ajudaF1 = KeyStroke.getKeyStroke("F1");
 			comoJogarJMenuItem.setAccelerator(ajudaF1);
+			comoJogarJMenuItem
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+							JOptionPane.showMessageDialog(null,
+									"Help: www.google.com", "Help",
+									JOptionPane.INFORMATION_MESSAGE);
+						}
+					});
 		}
 		return comoJogarJMenuItem;
 	}
@@ -390,6 +400,13 @@ public class TelaJogo extends JFrame {
 			sobreJMenuItem = new JMenuItem();
 			sobreJMenuItem.setText("About");
 			sobreJMenuItem.setMnemonic(KeyEvent.VK_A);
+			sobreJMenuItem
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
+							new About();
+						}
+					});
+
 		}
 		return sobreJMenuItem;
 	}

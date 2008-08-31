@@ -97,7 +97,7 @@ public class ThreadCliente extends Thread {
 				if (this.isGameRunning) {
 
 					/*
-					 * se o pacote for do chat
+					 * Pacote CH: se o pacote for do chat
 					 */
 					if (packet.substring(0, 2).equals("CH")) {
 						new DataOutput(clients.elementAt(this.c2))
@@ -114,43 +114,52 @@ public class ThreadCliente extends Thread {
 					}
 
 					/*
-					 * Salcifufu
+					 * Pacote FU: Salcifufu
 					 */
 
-					else if(packet.substring(0, 2).equals("FU")){
+					else if (packet.substring(0, 2).equals("FU")) {
 						new DataOutput(clients.elementAt(this.c2))
-						.SendPacket(packet);
+								.SendPacket(packet);
 					}
 
 					/*
-					 * New Game
+					 * Pacote NG: New Game
 					 */
-					else if(packet.substring(0, 2).equals("NG")){
+					else if (packet.substring(0, 2).equals("NG")) {
 						new DataOutput(clients.elementAt(this.c2))
-						.SendPacket(packet);
+								.SendPacket(packet);
 						new DataOutput(clients.elementAt(index))
-						.SendPacket(packet);
+								.SendPacket(packet);
 					}
 
 					/*
-					 * corrigindo bug do fugiu depois q perdeu
+					 * Pacote EN: corrigindo bug do fugiu depois q perdeu
 					 */
-					else if(packet.substring(0, 2).equals("EN")) {
+					else if (packet.substring(0, 2).equals("EN")) {
 						this.isGameRunning = false;
 					}
 
 					/*
-					 * se o pacote for do jogo
+					 * Pacotes se for do jogo
 					 */
 					else {
-						if(packet.substring(0, 2).equals("PE")) {
+
+						/*
+						 * Pacote PE: Perdeu
+						 */
+						if (packet.substring(0, 2).equals("PE")) {
 							this.isGameRunning = false;
 							this.logTextArea.append("\n"
 									+ " ["
 									+ new SimpleDateFormat("HH:mm:ss")
 											.format(new Date()) + "] "
-									+ this.cListing.get(this.index) + " ganhou a batalha");
+									+ this.cListing.get(this.index)
+									+ " ganhou a batalha");
 						}
+
+						/*
+						 * Pacote TI: Informacoes do Tabuleiro do Inimigo
+						 */
 						else if (packet.substring(0, 2).equals("TI")) {
 							String temp = "";
 							String mensagem = packet.substring(2);
@@ -161,21 +170,21 @@ public class ThreadCliente extends Thread {
 								caracter = mensagem.charAt(posicao++);
 								temp += caracter;
 							} while (caracter != ',');
-							int posicaoX = Integer.parseInt(temp.substring(0, temp
-									.length() - 1));
+							int posicaoX = Integer.parseInt(temp.substring(0,
+									temp.length() - 1));
 							// recebe a coordenada y
 							temp = "";
 							do {
 								caracter = mensagem.charAt(posicao++);
 								temp += caracter;
 							} while (caracter != ',');
-							int posicaoY = Integer.parseInt(temp.substring(0, temp
-									.length() - 1));
+							int posicaoY = Integer.parseInt(temp.substring(0,
+									temp.length() - 1));
 							temp = "";
 							do {
 								caracter = mensagem.charAt(posicao++);
 								temp += caracter;
-							} while (posicao<mensagem.length());
+							} while (posicao < mensagem.length());
 							int result = Integer.parseInt(temp);
 
 							String pX = null;
@@ -254,16 +263,20 @@ public class ThreadCliente extends Thread {
 									+ " ["
 									+ new SimpleDateFormat("HH:mm:ss")
 											.format(new Date()) + "] "
-									+ this.cListing.get(this.index) + " atirou na posição "
-									+ pX + pY
+									+ this.cListing.get(this.index)
+									+ " atirou na posição " + pX + pY
 									+ " e acertou ");
-							if(result == 0) {
+							if (result == 0) {
 								this.logTextArea.append("na água");
 							} else {
 								this.logTextArea.append("uma embarcação");
 							}
 
 						}
+
+						/*
+						 * Outros tipos de pacotes
+						 */
 						new DataOutput(this.clients.elementAt(this.c2))
 								.SendPacket(this.packet);
 					}
@@ -273,27 +286,19 @@ public class ThreadCliente extends Thread {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(isGameRunning && (clients.elementAt(this.c2)) != null) {
-			new DataOutput(clients.elementAt(this.c2))
-			.SendPacket(new String("EO"
-					+ "Parabéns! "
-					+ this.cListing.get(this.index)
-					+ " fugiu da batalha, você é o vencedor!"));
-			this.logTextArea.append("\n"
-					+ " ["
-					+ new SimpleDateFormat("HH:mm:ss")
-							.format(new Date()) + "] "
-					+ this.cListing.get(this.c2)
-					+ " vence a batalha ("
-					+ this.cListing.get(this.index)
-					+" abandonou)");
+		if (isGameRunning && (clients.elementAt(this.c2)) != null) {
+			new DataOutput(clients.elementAt(this.c2)).SendPacket(new String(
+					"EO" + "Parabéns! " + this.cListing.get(this.index)
+							+ " fugiu da batalha, você é o vencedor!"));
+			this.logTextArea.append("\n" + " ["
+					+ new SimpleDateFormat("HH:mm:ss").format(new Date())
+					+ "] " + this.cListing.get(this.c2) + " vence a batalha ("
+					+ this.cListing.get(this.index) + " abandonou)");
 		}
 		try {
 			this.logTextArea.append("\n ["
-					+ new SimpleDateFormat("HH:mm:ss")
-					.format(new Date()) + "] "
-					+ this.nick
-					+ " desconectou");
+					+ new SimpleDateFormat("HH:mm:ss").format(new Date())
+					+ "] " + this.nick + " desconectou");
 			// this.clients.setElementAt(null, this.index);
 			this.clients.setElementAt(null, this.index);
 			// this.cListing.setElementAt(null,this.index);
@@ -334,8 +339,8 @@ public class ThreadCliente extends Thread {
 	public void startGame(int c2) {
 		this.c2 = c2;
 		this.isGameRunning = true;
-		new DataOutput(clients.elementAt(this.index))
-		.SendPacket(new String(">>"));
+		new DataOutput(clients.elementAt(this.index)).SendPacket(new String(
+				">>"));
 	}
 
 	public int getIndex() {
