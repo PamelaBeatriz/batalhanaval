@@ -238,7 +238,7 @@ public class PainelControle extends JPanel {
 	public void tabuleiroDaCasaPronto() {
 		this.okGost.setEnabled(true);
 		JOptionPane.showMessageDialog(null,
-				"Now, wait your Enemy finish...", "Ready to fight!",
+				"All ships ready!", "Ready to fight!",
 				JOptionPane.INFORMATION_MESSAGE);
 		this.okGost.doClick();
 		this.okGost.setEnabled(false);
