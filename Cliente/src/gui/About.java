@@ -35,6 +35,7 @@ public class About extends JFrame {
 	 */
 	private void initialize() {
 		this.setSize(424, 655);
+		this.setIconImage(new ImageIcon("src/images/icon.gif").getImage());
 		this.setContentPane(getJContentPane());
 		this.setTitle("Batalha Naval - About");
 		this.setResizable(false);

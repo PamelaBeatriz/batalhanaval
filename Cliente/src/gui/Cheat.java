@@ -12,6 +12,7 @@ import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -40,9 +41,11 @@ public class Cheat extends JFrame {
 	 */
 	private void initialize() {
 		this.setSize(280, 300);
+		this.setIconImage(new ImageIcon("src/images/icon.gif").getImage());
 		this.setContentPane(getJContentPane());
 		this.setTitle("Batalha Naval - Cheat");
 		this.setVisible(true);
+		this.setEnabled(true);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
