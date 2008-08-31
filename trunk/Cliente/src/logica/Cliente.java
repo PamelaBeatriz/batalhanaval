@@ -234,22 +234,22 @@ public class Cliente extends Thread {
 
 						new DataOutput(telaJogo.getClient())
 								.SendPacket(new String(
-										"IN[INFORMATION]Você Começa Esperando! - Let`s Go!"));
+										"IN"+"[INFORMATION] Você Começa Esperando! - Let`s Go!"));
 						telaJogo
 								.getPacotesEnviados()
 								.write(
-										"IN[INFORMATION]Você Começa Esperando! - Let`s Go!");
+										"IN"+"[INFORMATION] Você Começa Esperando! - Let`s Go!");
 
 						this.telaJogo.setTurn(true);
 						this.telaJogo.getTabuleiroDoInimigo().setTurn(true);
 					} else {
 						new DataOutput(telaJogo.getClient())
 								.SendPacket(new String(
-										"IN[INFORMATION]Você Começa Jogando! - Let`s Go!"));
+										"IN"+"[INFORMATION] Você Começa Jogando! - Let`s Go!\n(aguarde seu adversário terminar de posicionar seus navios)"));
 						telaJogo
 								.getPacotesEnviados()
 								.write(
-										"IN[INFORMATION]Você Começa Jogando! - Let`s Go!");
+										"IN"+"[INFORMATION] Você Começa Jogando! - Let`s Go\n(aguarde seu adversário terminar de posicionar seus navios)!");
 					}
 				}
 
