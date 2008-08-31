@@ -65,8 +65,8 @@ public class TelaJogo extends JFrame {
 	private JLabel holdOnLabel = null;
 	private Font font = null;
 	private JPanel quemEhVez = null;
-	private FileLog pacotesRecebidos;
-	private FileLog pacotesEnviados;
+	private FileLog pacotesRecebidos;  //  @jve:decl-index=0:
+	private FileLog pacotesEnviados;  //  @jve:decl-index=0:
 
 	/**
 	 * This is the default constructor
@@ -286,6 +286,7 @@ public class TelaJogo extends JFrame {
 								frame.setEnabled(false);
 								new DataOutput(client).SendPacket(new String(
 										"FU"));
+								getPacotesEnviados().write("FU - Cheat");
 							} else {
 								frame.setEnabled(false);
 								JOptionPane.showMessageDialog(null,
@@ -314,7 +315,8 @@ public class TelaJogo extends JFrame {
 			novoJogoJMenuItem
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
-
+							new DataOutput(client).SendPacket(new String("NGNew Game solicitado por: "+nickName));
+							getPacotesEnviados().write("NGNew Game solicitado por: "+nickName);
 						}
 					});
 		}
@@ -539,6 +541,8 @@ public class TelaJogo extends JFrame {
 
 	public void setTurn(final boolean vez) {
 		this.turn = vez;
+		this.turnLabel.setEnabled(true);
+		this.holdOnLabel.setEnabled(true);
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				turnLabel.setFont(font);
@@ -623,6 +627,22 @@ public class TelaJogo extends JFrame {
 
 	public void setPacotesEnviados(FileLog pacotesEnviados) {
 		this.pacotesEnviados = pacotesEnviados;
+	}
+
+	public void newGame() {
+		this.painelControle.mostrarBotoesNavios();
+		this.tabuleiroDoInimigo.clearPicture();
+		this.tabuleiroDoInimigo.getTabuleiroLogico().clearTabuleiro();
+		this.tabuleiroDaCasa.clearPicture();
+		this.tabuleiroDaCasa.getTabuleiroLogico().clearTabuleiro();
+		this.tabuleiroDaCasa.turnONHandlers();
+		this.tabuleiroDaCasa.getTabuleiroLogico().resetNaviosDestruidos();
+		this.numeroAcertos = -1;
+		this.numeroAcertosPlusPlus();
+		this.setTurn(false);
+		this.tabuleiroDoInimigo.setTurn(false);
+		this.turnLabel.setEnabled(false);
+		this.holdOnLabel.setEnabled(false);
 	}
 
 } // @jve:decl-index=0:visual-constraint="10,17"

@@ -170,7 +170,7 @@ public class Cliente extends Thread {
 					this.telaJogo.getTabuleiroDoInimigo().setTurn(true);
 				}
 
-				/**
+				/*
 				 * EO = Enemy Off, jogador ganhou pq o adversário saiu
 				 */
 				else if (packet.substring(0, 2).equals("EO")) {
@@ -224,20 +224,26 @@ public class Cliente extends Thread {
 							.setTabuleiro(tabuleiroLogico);
 
 					if (this.telaJogo.isJogadorDaCasaPronto()) {
-						JOptionPane.showMessageDialog(null,
-								"Você Começa Jogando!", "Let`s Go!",
-								JOptionPane.INFORMATION_MESSAGE);
+
+						new DataOutput(telaJogo.getClient())
+								.SendPacket(new String(
+										"CHVocê Começa Esperando! - Let`s Go!"));
+						telaJogo.getPacotesEnviados().write(
+								"CH[WARNING]Você Começa Esperando! - Let`s Go!");
+
 						this.telaJogo.setTurn(true);
 						this.telaJogo.getTabuleiroDoInimigo().setTurn(true);
-					}else{
-						JOptionPane.showMessageDialog(null,
-								"Você Começa Esperando!", "Let`s Go!",
-								JOptionPane.INFORMATION_MESSAGE);
+					} else {
+						new DataOutput(telaJogo.getClient())
+								.SendPacket(new String(
+										"CH[WARNING]Você Começa Jogando! - Let`s Go!"));
+						telaJogo.getPacotesEnviados().write(
+								"CHVocê Começa Jogando! - Let`s Go!");
 					}
 				}
 
 				/*
-				 * Salcifufu
+				 * FU = Salcifufu
 				 */
 				else if (packet.substring(0, 2).equals("FU")) {
 					if (telaJogo.getTabuleiroDaCasa().getCheatPicture() != null) {
@@ -248,6 +254,17 @@ public class Cliente extends Thread {
 							}
 						});
 					}
+				}
+
+				/*
+				 * NG = New Game
+				 */
+				else if (packet.substring(0, 2).equals("NG")) {
+					telaJogo.newGame();
+					JOptionPane
+							.showMessageDialog(null, packet.substring(2) + "!",
+									"Let`s Go!",
+									JOptionPane.INFORMATION_MESSAGE);
 				}
 
 				packet = null;
@@ -313,9 +330,11 @@ public class Cliente extends Thread {
 						 * avisa o adversario que perdeu
 						 */
 						new DataOutput(telaJogo.getClient())
-								.SendPacket(new String(
-										"PE = Jogo Ganho, avisa o adversario que ganhou"));
-						telaJogo.getPacotesEnviados().write("PE");
+								.SendPacket(new String("PE"));
+						telaJogo
+								.getPacotesEnviados()
+								.write(
+										"PE =  = Jogo Ganho, avisa o adversario que ganhou");
 						JOptionPane.showMessageDialog(null,
 								"Congratulations , You Kill your enemy", "Win",
 								JOptionPane.INFORMATION_MESSAGE);

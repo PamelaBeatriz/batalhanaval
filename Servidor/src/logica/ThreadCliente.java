@@ -123,6 +123,16 @@ public class ThreadCliente extends Thread {
 					}
 
 					/*
+					 * New Game
+					 */
+					else if(packet.substring(0, 2).equals("NG")){
+						new DataOutput(clients.elementAt(this.c2))
+						.SendPacket(packet);
+						new DataOutput(clients.elementAt(index))
+						.SendPacket(packet);
+					}
+
+					/*
 					 * corrigindo bug do fugiu depois q perdeu
 					 */
 					else if(packet.substring(0, 2).equals("EN")) {
