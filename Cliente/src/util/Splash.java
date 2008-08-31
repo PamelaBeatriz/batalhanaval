@@ -114,7 +114,7 @@ public class Splash extends JFrame {
 				splashProgressBar.setValue(i);
 				splashProgressBar.setString(i + " %");
 				try {
-					thread.sleep(40);
+					thread.sleep(72);
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.out.println("ERRO NO SPLASH");
@@ -122,6 +122,7 @@ public class Splash extends JFrame {
 				}
 			}
 			frame.dispose();
+			MP3.close();
 			new telaConectToServer();
 		}
 
