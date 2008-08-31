@@ -130,7 +130,7 @@ public class Cliente extends Thread {
 				 * Pacote IN: Information
 				 */
 				else if (packet.substring(0, 2).equals("IN")) {
-					this.chatTextArea.append(">System: "
+					this.chatTextArea.append("> System: "
 							+ this.packet.substring(2));
 				}
 
@@ -138,9 +138,7 @@ public class Cliente extends Thread {
 				 * verifica se o pacote eh do jogo, vem da classe
 				 * TabuleiroDoInimigoListener, ou seja, vem so inimigo para
 				 * configurar o tabuleiro da casa, dependendo da jogada do
-				 * inimigo
-				 *
-				 * desenhar a imagem jogada no tabuleiro do jogador
+				 * inimigo desenhar a imagem jogada no tabuleiro do jogador
 				 *
 				 * Pacote TI = Tabuleiro Inimigo
 				 */
