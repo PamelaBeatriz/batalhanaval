@@ -223,6 +223,7 @@ public class TelaGerenciaServer extends JFrame {
 		if (logTextArea == null) {
 			logTextArea = new JTextArea();
 			logTextArea.setEditable(false);
+			logTextArea.setLineWrap(true);
 		}
 		return logTextArea;
 	}
