@@ -244,6 +244,16 @@ public class PainelControle extends JPanel {
 		this.okGost.setEnabled(false);
 	}
 
+
+	public void mostrarBotoesNavios(){
+		this.navio1.setEnabled(true);
+		this.navio2.setEnabled(true);
+		this.navio3.setEnabled(true);
+		this.navio4.setEnabled(true);
+		this.navio5.setEnabled(true);
+		this.okGost.setEnabled(true);
+	}
+
 	public TabuleiroDoInimigo getTabuleiroDoInimigo() {
 		return tabuleiroDoInimigo;
 	}

@@ -335,12 +335,9 @@ public class TabuleiroDaCasa extends JPanel {
 	 * Metodo para Limpar o tabuleiro
 	 */
 	public void clearPicture() {
-		/*
-		 * for (int i = 0; i < this.pictureTabuleiro.size(); i++) {
-		 * this.pictureTabuleiro.add(i, null); }
-		 */
 		this.pictureTabuleiro.clear();
 		this.picturesList.clear();
+		this.pictureTabuleiro.setSize(5);
 		repaint();
 		this.naviosPosicionadosParaJogar = 0;
 	}
