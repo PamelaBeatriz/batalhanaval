@@ -89,6 +89,7 @@ public class ThreadCliente extends Thread {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
 		try {
@@ -318,10 +319,6 @@ public class ThreadCliente extends Thread {
 		Integer temp = this.cliCount.firstElement();
 		this.cliCount.remove(0);
 		this.cliCount.add(--temp);
-	}
-
-	private String getNick() {
-		return this.nick;
 	}
 
 	public Socket getConexao() {

@@ -61,7 +61,6 @@ public class TelaJogo extends JFrame {
 	private boolean conected;
 	private boolean jogadorDaCasaPronto;
 	private int numeroAcertos = 0;
-	private JLabel turnLabel = null;
 	private JLabel holdOnLabel = null;
 	private Font font = null;
 	private JPanel quemEhVez = null;
@@ -158,11 +157,6 @@ public class TelaJogo extends JFrame {
 			holdOnLabel.setFont(font);
 			holdOnLabel.setBounds(new Rectangle(2, 42, 92, 16));
 			holdOnLabel.setEnabled(false);
-			turnLabel = new JLabel();
-			turnLabel.setText("   Aguarde   ");
-			turnLabel.setFont(font);
-			turnLabel.setBounds(new Rectangle(1, 3, 93, 16));
-			turnLabel.setEnabled(false);
 			tabuleiroCasaLabel = new JLabel();
 			tabuleiroCasaLabel.setBounds(new Rectangle(8, 273, 250, 16));
 			tabuleiroCasaLabel.setText("Capitão: " + this.nickName
@@ -382,7 +376,7 @@ public class TelaJogo extends JFrame {
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
 							JOptionPane.showMessageDialog(null,
-									"Help: www.google.com", "Help",
+									"Google is our friend!\n\nwww.google.com", "Help",
 									JOptionPane.INFORMATION_MESSAGE);
 						}
 					});
@@ -432,7 +426,8 @@ public class TelaJogo extends JFrame {
 	 */
 	private JTextArea getChatTextArea() {
 		if (chatTextArea == null) {
-			chatTextArea = new JTextArea();
+			chatTextArea = new JTextArea(
+					"> System: Welcome to the Game! Have a lot of fun!\n");
 			chatTextArea.setEditable(false);
 		}
 		return chatTextArea;
@@ -558,26 +553,18 @@ public class TelaJogo extends JFrame {
 
 	public void setTurn(final boolean vez) {
 		this.turn = vez;
-		this.turnLabel.setEnabled(true);
 		this.holdOnLabel.setEnabled(true);
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				turnLabel.setFont(font);
 				holdOnLabel.setFont(font);
 				if (turn) {
-					turnLabel.setText("   Aguarde   ");
 					holdOnLabel.setText("<< Sua Vez  ");
-					// turnLabel.setForeground(Color.GREEN);
 					holdOnLabel.setForeground(Color.GREEN);
 					holdOnLabel.setEnabled(true);
-					turnLabel.setEnabled(false);
 				} else {
-					turnLabel.setText("   Aguarde >>");
-					holdOnLabel.setText("   Sua Vez  ");
-					turnLabel.setForeground(Color.RED);
+					holdOnLabel.setText("<< Aguarde!  ");
 					holdOnLabel.setForeground(Color.RED);
 					holdOnLabel.setEnabled(true);
-					turnLabel.setEnabled(true);
 				}
 
 			}
@@ -625,7 +612,6 @@ public class TelaJogo extends JFrame {
 			quemEhVez.setLayout(null);
 			quemEhVez.setBounds(new Rectangle(260, 94, 95, 61));
 			quemEhVez.add(holdOnLabel, null);
-			quemEhVez.add(turnLabel, null);
 		}
 		return quemEhVez;
 	}
@@ -658,7 +644,6 @@ public class TelaJogo extends JFrame {
 		this.numeroAcertosPlusPlus();
 		this.setTurn(false);
 		this.tabuleiroDoInimigo.setTurn(false);
-		this.turnLabel.setEnabled(false);
 		this.holdOnLabel.setEnabled(false);
 	}
 

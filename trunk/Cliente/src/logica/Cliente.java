@@ -131,7 +131,7 @@ public class Cliente extends Thread {
 				 */
 				else if (packet.substring(0, 2).equals("IN")) {
 					this.chatTextArea.append("> System: "
-							+ this.packet.substring(2));
+							+ this.packet.substring(2) + "\n");
 				}
 
 				/*
@@ -319,10 +319,7 @@ public class Cliente extends Thread {
 
 					new DataOutput(telaJogo.getClient()).SendPacket(new String(
 							"PJ"));
-					telaJogo
-							.getPacotesEnviados()
-							.write(
-									"PJ = Acertou na agua, perde a vez e avisa q eh a vez do adversario");
+					telaJogo.getPacotesEnviados().write("PJ");
 					telaJogo.setTurn(false);
 				}
 
@@ -342,13 +339,18 @@ public class Cliente extends Thread {
 						 */
 						new DataOutput(telaJogo.getClient())
 								.SendPacket(new String("PE"));
-						telaJogo
-								.getPacotesEnviados()
-								.write(
-										"PE =  = Jogo Ganho, avisa o adversario que ganhou");
+						telaJogo.getPacotesEnviados().write("PE");
 						JOptionPane.showMessageDialog(null,
 								"Congratulations , You Kill your enemy", "Win",
 								JOptionPane.INFORMATION_MESSAGE);
+
+/*						if (JOptionPane.showConfirmDialog(null,
+								"Deseja Jogar Novamente?", "Batalha Naval",
+								JOptionPane.YES_NO_OPTION,
+								JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
+
+						}
+*/
 						try {
 							socket.close();
 						} catch (IOException e) {
@@ -369,10 +371,8 @@ public class Cliente extends Thread {
 							"TI" + me.getX() + "," + me.getY() + ","
 									+ resultadoDaJogada));
 					telaJogo.getPacotesEnviados().write(
-							new String(
-									"TI - Informacao do click do ataque e seu resultado"
-											+ me.getX() + "," + me.getY() + ","
-											+ resultadoDaJogada));
+							new String("TI" + me.getX() + "," + me.getY() + ","
+									+ resultadoDaJogada));
 				}
 			}
 		}
