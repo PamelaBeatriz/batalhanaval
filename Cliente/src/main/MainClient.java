@@ -1,8 +1,9 @@
 package main;
 
-import gui.telaConectToServer;
-
 import javax.swing.SwingUtilities;
+
+import util.MP3;
+import util.Splash;
 
 public class MainClient {
 
@@ -20,8 +21,9 @@ public class MainClient {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				MP3.play(MP3.YELLOW_SUBMARINE);
+				new Splash();
 
-				new telaConectToServer();
 			}
 		});
 	}

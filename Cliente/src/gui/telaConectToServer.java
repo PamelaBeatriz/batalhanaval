@@ -23,7 +23,6 @@ import javax.swing.border.TitledBorder;
 import logica.Cliente;
 import logica.DataOutput;
 import util.MD5;
-import util.MP3;
 
 public class telaConectToServer extends JFrame {
 
@@ -49,6 +48,7 @@ public class telaConectToServer extends JFrame {
 		super();
 		this.cliente = new Cliente();
 		initialize();
+
 	}
 
 	/**
@@ -259,7 +259,6 @@ public class telaConectToServer extends JFrame {
 																				.getNick()));
 												new TelaJogo(nickField
 														.getText(), cliente);
-												MP3.play(MP3.YELLOW_SUBMARINE);
 											} else if (packet.substring(0, 2)
 													.equals("SF")) {
 												JOptionPane
