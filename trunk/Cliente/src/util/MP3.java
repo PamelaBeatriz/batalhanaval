@@ -48,4 +48,8 @@ public class MP3 {
 		}.start();
 
 	}
+
+	public static boolean isCompleate() {
+		return (player.isComplete());
+	}
 }
