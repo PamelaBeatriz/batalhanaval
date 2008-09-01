@@ -5,12 +5,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
+import java.io.PrintWriter;
 
 public class FileLog {
 
 	private FileOutputStream fileOutputStream;
-	private DataOutputStream dataOutputStream;
 	private File file;
+	private PrintWriter pw;
 	private int numeroPacotes;
 
 	public FileLog(String path) {
@@ -22,13 +24,18 @@ public class FileLog {
 			e.printStackTrace();
 			System.out.println("Erro na Abertura do Arquivo");
 		}
-		dataOutputStream = new DataOutputStream(fileOutputStream);
+		try {
+			pw = new PrintWriter (new FileOutputStream(path,false),false);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public void close() {
 		try {
 			this.fileOutputStream.close();
-			this.dataOutputStream.close();
+			pw.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Erro no Fechamento do Arquivo");
@@ -37,11 +44,11 @@ public class FileLog {
 
 	public void write(String s) {
 		try {
-			dataOutputStream.writeUTF("Pacote "
+			pw.print("Pacote "
 					+ String.valueOf(numeroPacotes) + " : " + s.trim());
-			dataOutputStream.writeUTF("\n");
+			pw.println();
 			this.numeroPacotes++;
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println("Erro no Escrita do Arquivo");
 			e.printStackTrace();
 		}
