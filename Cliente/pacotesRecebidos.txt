@@ -1,0 +1,5 @@
+Pacote 0 : >>
+Pacote 1 : IN[INFORMATION] Você Começa Jogando! - Let`s Go!
+(aguarde seu adversário terminar de posicionar seus navios)
+Pacote 2 : MAwater,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,Navio4v,Navio4v,Navio4v,Navio4v,water,water,water,water,water,water,water,Navio2v,Navio2v,Navio2v,water,water,water,water,water,water,water,water,water,water,Navio1,water,water,Navio5,water,water,water,water,water,water,Navio1,water,water,Navio5,water,water,water,water,water,water,water,water,water,Navio5,water,water,water,water,Navio3v,Navio3v,Navio3v,Navio3v,water,Navio5,water,water,water,water,water,water,water,water,water,Navio5,water,water,water,water,water,water,water,water,water,water,water,
+Pacote 3 : EOParabéns! yy [127.0.0.1] fugiu da batalha, você é o vencedor!

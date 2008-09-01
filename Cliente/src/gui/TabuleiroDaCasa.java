@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 
 import logica.PictureTabuleiro;
 import logica.TabuleiroLogico;
+import util.MP3;
 
 public class TabuleiroDaCasa extends JPanel {
 
@@ -389,7 +390,7 @@ public class TabuleiroDaCasa extends JPanel {
 					PainelControle.DIRETORIO_IMAGES + "explodido.gif")
 					.getImage(), point));
 
-			// Som.playAudio(Som.ACERTO);
+			MP3.play(MP3.EXPLOSAO);
 
 			repaint();
 		}

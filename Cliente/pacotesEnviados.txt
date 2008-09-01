@@ -1,0 +1,5 @@
+Pacote 0 : MA - Informacoes da matriz antes do jogowater,water,water,Navio5v,Navio5v,Navio5v,Navio5v,Navio5v,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,Navio1,water,water,water,water,water,water,water,Navio3,water,Navio1,water,water,water,water,water,Navio2,water,Navio3,water,water,water,water,water,water,water,Navio2,water,Navio3,water,water,water,water,water,water,water,Navio2,water,Navio3,water,water,water,water,water,water,water,water,Navio4v,Navio4v,Navio4v,Navio4v,water,water,water,water,water,water,water,water,water,water,water,water,
+Pacote 1 : IN[INFORMATION] Você Começa Esperando! - Let`s Go!
+Pacote 2 : TI142,217,1
+Pacote 3 : TI160,217,1
+Pacote 4 : TI177,217,1
