@@ -555,7 +555,6 @@ public class TelaJogo extends JFrame {
 
 	public void setTurn(final boolean vez) {
 		this.turn = vez;
-		this.holdOnLabel.setEnabled(true);
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				holdOnLabel.setFont(font);

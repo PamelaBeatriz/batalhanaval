@@ -202,6 +202,7 @@ public class Cliente extends Thread {
 					telaJogo.getPacotesRecebidos().close();
 					telaJogo.getPacotesEnviados().close();
 					System.exit(0);
+
 				}
 
 				/*
@@ -234,22 +235,26 @@ public class Cliente extends Thread {
 
 						new DataOutput(telaJogo.getClient())
 								.SendPacket(new String(
-										"IN"+"[INFORMATION] Você Começa Esperando! - Let`s Go!"));
+										"IN"
+												+ "[INFORMATION] Você Começa Esperando! - Let`s Go!"));
 						telaJogo
 								.getPacotesEnviados()
 								.write(
-										"IN"+"[INFORMATION] Você Começa Esperando! - Let`s Go!");
+										"IN"
+												+ "[INFORMATION] Você Começa Esperando! - Let`s Go!");
 
 						this.telaJogo.setTurn(true);
 						this.telaJogo.getTabuleiroDoInimigo().setTurn(true);
 					} else {
 						new DataOutput(telaJogo.getClient())
 								.SendPacket(new String(
-										"IN"+"[INFORMATION] Você Começa Jogando! - Let`s Go!\n(aguarde seu adversário terminar de posicionar seus navios)"));
+										"IN"
+												+ "[INFORMATION] Você Começa Jogando! - Let`s Go!\n(aguarde seu adversário terminar de posicionar seus navios)"));
 						telaJogo
 								.getPacotesEnviados()
 								.write(
-										"IN"+"[INFORMATION] Você Começa Jogando! - Let`s Go\n(aguarde seu adversário terminar de posicionar seus navios)!");
+										"IN"
+												+ "[INFORMATION] Você Começa Jogando! - Let`s Go\n(aguarde seu adversário terminar de posicionar seus navios)!");
 					}
 				}
 
@@ -277,7 +282,7 @@ public class Cliente extends Thread {
 									"Let`s Go!",
 									JOptionPane.INFORMATION_MESSAGE);
 				}
-				chatTextArea.setCaretPosition( chatTextArea.getText().length()  );
+				chatTextArea.setCaretPosition(chatTextArea.getText().length());
 				packet = null;
 				input = new ObjectInputStream(this.socket.getInputStream());
 			}
@@ -343,13 +348,6 @@ public class Cliente extends Thread {
 								"Congratulations , You Kill your enemy", "Win",
 								JOptionPane.INFORMATION_MESSAGE);
 
-/*						if (JOptionPane.showConfirmDialog(null,
-								"Deseja Jogar Novamente?", "Batalha Naval",
-								JOptionPane.YES_NO_OPTION,
-								JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
-
-						}
-*/
 						try {
 							socket.close();
 						} catch (IOException e) {
@@ -362,6 +360,7 @@ public class Cliente extends Thread {
 						// reinicia o jogo
 						// EnviaDado("*", "Jogada");
 						// ReinciaJogo();
+
 					}
 				}
 
