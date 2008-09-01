@@ -282,6 +282,7 @@ public class ThreadCliente extends Thread {
 								.SendPacket(this.packet);
 					}
 				}
+				logTextArea.setCaretPosition( logTextArea.getText().length()  );
 				input = new ObjectInputStream(conexao.getInputStream());
 			}
 		} catch (Exception e) {

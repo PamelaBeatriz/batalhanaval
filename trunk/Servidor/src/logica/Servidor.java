@@ -191,6 +191,7 @@ public class Servidor extends Thread {
 					e1.printStackTrace();
 				}
 			}
+			logTextArea.setCaretPosition( logTextArea.getText().length()  );
 		}
 	}
 
