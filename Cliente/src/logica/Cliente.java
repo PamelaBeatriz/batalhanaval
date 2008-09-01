@@ -300,7 +300,6 @@ public class Cliente extends Thread {
 	/**
 	 * Classe private para dedicar ao MouseListener do tabuleiro do Inimigo
 	 *
-	 * @author Thiago A. L. Genez
 	 *
 	 */
 	private class TabuleiroDoInimigoListener extends MouseAdapter {

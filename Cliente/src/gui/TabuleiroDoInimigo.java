@@ -128,7 +128,6 @@ public class TabuleiroDoInimigo extends JPanel {
 
 	/**
 	 *
-	 * @author Thiago A. L. Genez
 	 *
 	 */
 	public class AdaptadorDoMouse extends MouseAdapter {
@@ -142,7 +141,6 @@ public class TabuleiroDoInimigo extends JPanel {
 
 	/**
 	 *
-	 * @author Thiago A. L. Genez
 	 *
 	 */
 	private class AdptadorDoMouseMovimento extends MouseMotionAdapter {
