@@ -461,6 +461,7 @@ public class TelaJogo extends JFrame {
 												+ " diz: "
 												+ chatTextField.getText()
 														.trim() + "\n");
+								chatTextArea.setCaretPosition( chatTextArea.getText().length()  );
 								chatTextField.setText("");
 							}
 						}
