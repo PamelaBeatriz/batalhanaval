@@ -1,5 +1,10 @@
 Pacote 0 : >>
 Pacote 1 : IN[INFORMATION] Você Começa Jogando! - Let`s Go!
 (aguarde seu adversário terminar de posicionar seus navios)
-Pacote 2 : MAwater,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,Navio4v,Navio4v,Navio4v,Navio4v,water,water,water,water,water,water,water,Navio2v,Navio2v,Navio2v,water,water,water,water,water,water,water,water,water,water,Navio1,water,water,Navio5,water,water,water,water,water,water,Navio1,water,water,Navio5,water,water,water,water,water,water,water,water,water,Navio5,water,water,water,water,Navio3v,Navio3v,Navio3v,Navio3v,water,Navio5,water,water,water,water,water,water,water,water,water,Navio5,water,water,water,water,water,water,water,water,water,water,water,
-Pacote 3 : EOParabéns! yy [127.0.0.1] fugiu da batalha, você é o vencedor!
+Pacote 2 : MAwater,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,Navio5v,Navio5v,Navio5v,Navio5v,Navio5v,water,water,water,water,water,water,water,water,Navio1,water,water,water,water,water,water,Navio3,Navio2,water,Navio1,Navio4,water,water,water,water,water,Navio3,Navio2,water,water,Navio4,water,water,water,water,water,Navio3,Navio2,water,water,Navio4,water,water,water,water,water,Navio3,water,water,water,Navio4,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,water,
+Pacote 3 : TI108,143,1
+Pacote 4 : TI133,139,1
+Pacote 5 : TI93,131,1
+Pacote 6 : PJ
+Pacote 7 : TI83,82,0
+Pacote 8 : EOParabéns! ss [127.0.0.1] fugiu da batalha, você é o vencedor!

@@ -18,7 +18,7 @@ public class MP3 {
 
 	public static final String LOSE = "src\\MP3\\dk_Lose.mp3";
 
-	public static final String WATER = "src\\MP3\\water.mp3";
+	public static final String WATER = "src\\MP3\\agua.mp3";
 
 	public static void close() {
 		if (player != null) {

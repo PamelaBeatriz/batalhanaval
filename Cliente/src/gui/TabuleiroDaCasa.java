@@ -364,7 +364,7 @@ public class TabuleiroDaCasa extends JPanel {
 			this.picturesList.add(new PictureTabuleiro(new ImageIcon(
 					PainelControle.DIRETORIO_IMAGES + "splash.gif").getImage(),
 					point));
-			// Som.playAudio(Som.ERRO);
+			MP3.play(MP3.WATER);
 			repaint();
 
 		}

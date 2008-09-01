@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 
 import logica.PictureTabuleiro;
 import logica.TabuleiroLogico;
+import util.MP3;
 
 public class TabuleiroDoInimigo extends JPanel {
 
@@ -178,7 +179,7 @@ public class TabuleiroDoInimigo extends JPanel {
 					PainelControle.DIRETORIO_IMAGES + "splash.gif").getImage(),
 					point));
 
-			// Som.playAudio(Som.ERRO);
+			MP3.play(MP3.WATER);
 			repaint();
 			this.turn = false;
 			return;
@@ -195,7 +196,7 @@ public class TabuleiroDoInimigo extends JPanel {
 			this.picturesList.add(new PictureTabuleiro(new ImageIcon(
 					PainelControle.DIRETORIO_IMAGES + "explodido.gif")
 					.getImage(), point));
-			// Som.playAudio(Som.ACERTO);
+			MP3.play(MP3.EXPLOSAO);
 			repaint();
 			return;
 		}
