@@ -277,7 +277,7 @@ public class Cliente extends Thread {
 									"Let`s Go!",
 									JOptionPane.INFORMATION_MESSAGE);
 				}
-
+				chatTextArea.setCaretPosition( chatTextArea.getText().length()  );
 				packet = null;
 				input = new ObjectInputStream(this.socket.getInputStream());
 			}
