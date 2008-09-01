@@ -196,9 +196,11 @@ public class Cliente extends Thread {
 				 * Pacote PE = Perdeu
 				 */
 				else if (packet.substring(0, 2).equals("PE")) {
-					MP3.play(MP3.LOSE);
-					JOptionPane.showMessageDialog(null, "Voce Perdeu! =/",
-							"Game Over!", JOptionPane.WARNING_MESSAGE);
+					/*
+					 * MP3.play(MP3.LOSE); JOptionPane.showMessageDialog(null,
+					 * "Voce Perdeu! =/", "Game Over!",
+					 * JOptionPane.WARNING_MESSAGE);
+					 */
 					new DataOutput(telaJogo.getClient()).SendPacket(new String(
 							"EN"));
 					this.socket.close();
@@ -206,6 +208,20 @@ public class Cliente extends Thread {
 					telaJogo.getPacotesEnviados().close();
 					System.exit(0);
 
+				}
+
+				/*
+				 * Pacote WI: Win
+				 */
+
+				else if (this.packet.substring(0, 2).equals("WI")) {
+					MP3.play(MP3.LOSE);
+					JOptionPane
+							.showMessageDialog(
+									null,
+									"Nova Partida esta sendo decidida pelo Vencedor...",
+									"Game Over!",
+									JOptionPane.INFORMATION_MESSAGE);
 				}
 
 				/*
@@ -279,6 +295,7 @@ public class Cliente extends Thread {
 				 * Pacote NG = New Game
 				 */
 				else if (packet.substring(0, 2).equals("NG")) {
+					Thread.sleep(1000);
 					telaJogo.newGame();
 					this.chatTextArea.append("> System: "
 							+ this.packet.substring(2) + "-Let's Go!\n");
@@ -317,6 +334,15 @@ public class Cliente extends Thread {
 				int resultadoDaJogada = telaJogo.getTabuleiroDoInimigo()
 						.getCheckJogada(me.getX(), me.getY());
 
+				if (resultadoDaJogada != TabuleiroLogico.ACERTOU_POSICAO_USADA) {
+					new DataOutput(telaJogo.getClient()).SendPacket(new String(
+							"TI" + me.getX() + "," + me.getY() + ","
+									+ resultadoDaJogada));
+					telaJogo.getPacotesEnviados().write(
+							new String("TI" + me.getX() + "," + me.getY() + ","
+									+ resultadoDaJogada));
+				}
+
 				/*
 				 * acertou na agua, logo perde a vez e avisa q eh a vez do
 				 * adversario
@@ -339,36 +365,52 @@ public class Cliente extends Thread {
 					 * jogo termina quando numero de acertos forem 18
 					 */
 					if (telaJogo.getNumeroAcertos() == 18) {
-
-						/*
-						 * avisa o adversario que perdeu
-						 */
-						new DataOutput(telaJogo.getClient())
-								.SendPacket(new String("PE"));
-						telaJogo.getPacotesEnviados().write("PE");
 						MP3.play(MP3.WIN);
-						JOptionPane.showMessageDialog(null,
-								"Congratulations , You Kill your enemy", "Win",
-								JOptionPane.INFORMATION_MESSAGE);
+						new DataOutput(telaJogo.getClient())
+								.SendPacket(new String("WI"));
+						telaJogo.getPacotesEnviados().write("WI");
+						if (JOptionPane
+								.showConfirmDialog(
+										null,
+										"Congratulations , You Kill your enemy\n\nDo you want play again?",
+										"Win", JOptionPane.YES_NO_OPTION,
+										JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
 
-						try {
-							socket.close();
-						} catch (IOException e) {
-							e.printStackTrace();
+							new DataOutput(telaJogo.getClient())
+									.SendPacket(new String("TI" + me.getX()
+											+ "," + me.getY() + ","
+											+ resultadoDaJogada));
+							telaJogo.getPacotesEnviados().write(
+									new String("TI" + me.getX() + ","
+											+ me.getY() + ","
+											+ resultadoDaJogada));
+
+							new DataOutput(telaJogo.getClient())
+									.SendPacket(new String(
+											"NGNew Game solicitado por: "
+													+ telaJogo.getNickName()));
+							telaJogo.getPacotesEnviados().write(
+									"NGNew Game solicitado por: "
+											+ telaJogo.getNickName());
+						} else {
+
+							/*
+							 * avisa o adversario que perdeu
+							 */
+							new DataOutput(telaJogo.getClient())
+									.SendPacket(new String("PE"));
+							telaJogo.getPacotesEnviados().write("PE");
+
+							try {
+								socket.close();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+							telaJogo.getPacotesRecebidos().close();
+							telaJogo.getPacotesEnviados().close();
+							System.exit(0);
 						}
-						telaJogo.getPacotesRecebidos().close();
-						telaJogo.getPacotesEnviados().close();
-						System.exit(0);
 					}
-				}
-
-				if (resultadoDaJogada != TabuleiroLogico.ACERTOU_POSICAO_USADA) {
-					new DataOutput(telaJogo.getClient()).SendPacket(new String(
-							"TI" + me.getX() + "," + me.getY() + ","
-									+ resultadoDaJogada));
-					telaJogo.getPacotesEnviados().write(
-							new String("TI" + me.getX() + "," + me.getY() + ","
-									+ resultadoDaJogada));
 				}
 			}
 		}
@@ -392,8 +434,7 @@ public class Cliente extends Thread {
 				}
 			}
 			new DataOutput(telaJogo.getClient()).SendPacket("MA" + packet);
-			telaJogo.getPacotesEnviados().write(
-					"MA - Informacoes da matriz antes do jogo" + packet);
+			telaJogo.getPacotesEnviados().write("MA" + packet);
 		}
 	}
 

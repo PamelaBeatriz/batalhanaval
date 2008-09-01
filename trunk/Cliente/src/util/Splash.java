@@ -68,7 +68,7 @@ public class Splash extends JFrame {
 			imgSplashLabel = new JLabel();
 			imgSplashLabel.setBounds(new Rectangle(0, 0, 420, 538));
 			imgSplashLabel.setText("");
-			imgSplashLabel.setIcon(new ImageIcon("src/images/splash.jpg"));
+			imgSplashLabel.setIcon(new ImageIcon("src\\images\\splash.jpg"));
 			splashPanel = new JPanel();
 			splashPanel.setLayout(null);
 			splashPanel.setBackground(new Color(0, 0, 0));
