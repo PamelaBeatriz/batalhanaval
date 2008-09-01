@@ -634,6 +634,7 @@ public class TelaJogo extends JFrame {
 	}
 
 	public void newGame() {
+		this.holdOnLabel.setEnabled(false);
 		this.painelControle.mostrarBotoesNavios();
 		this.tabuleiroDoInimigo.clearPicture();
 		this.tabuleiroDoInimigo.getTabuleiroLogico().clearTabuleiro();
@@ -643,9 +644,10 @@ public class TelaJogo extends JFrame {
 		this.tabuleiroDaCasa.getTabuleiroLogico().resetNaviosDestruidos();
 		this.numeroAcertos = -1;
 		this.numeroAcertosPlusPlus();
-		this.setTurn(false);
+		//this.setTurn(false);
 		this.tabuleiroDoInimigo.setTurn(false);
-		this.holdOnLabel.setEnabled(false);
+		holdOnLabel.setText("   Sua Vez   ");
+
 	}
 
 } // @jve:decl-index=0:visual-constraint="10,17"

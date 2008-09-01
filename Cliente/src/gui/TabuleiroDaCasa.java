@@ -339,6 +339,7 @@ public class TabuleiroDaCasa extends JPanel {
 		this.pictureTabuleiro.clear();
 		this.picturesList.clear();
 		this.pictureTabuleiro.setSize(5);
+		this.posicaoDoCursor = new Point();
 		repaint();
 		this.naviosPosicionadosParaJogar = 0;
 	}

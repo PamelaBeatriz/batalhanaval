@@ -33,7 +33,7 @@ public class MP3 {
 			player = new Player(bis);
 		} catch (Exception e) {
 			System.out.println("Problem playing file " + filename);
-			System.out.println(e);
+			e.printStackTrace();
 		}
 
 		// run in new thread to play in background
@@ -42,7 +42,7 @@ public class MP3 {
 				try {
 					player.play();
 				} catch (Exception e) {
-					System.out.println(e);
+					e.printStackTrace();
 				}
 			}
 		}.start();
