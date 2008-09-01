@@ -20,6 +20,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import util.MP3;
+
 public class Cliente extends Thread {
 
 	private String nick = "";
@@ -194,6 +196,7 @@ public class Cliente extends Thread {
 				 * Pacote PE = Perdeu
 				 */
 				else if (packet.substring(0, 2).equals("PE")) {
+					MP3.play(MP3.LOSE);
 					JOptionPane.showMessageDialog(null, "Voce Perdeu! =/",
 							"Game Over!", JOptionPane.WARNING_MESSAGE);
 					new DataOutput(telaJogo.getClient()).SendPacket(new String(
@@ -277,10 +280,9 @@ public class Cliente extends Thread {
 				 */
 				else if (packet.substring(0, 2).equals("NG")) {
 					telaJogo.newGame();
-					JOptionPane
-							.showMessageDialog(null, packet.substring(2) + "!",
-									"Let`s Go!",
-									JOptionPane.INFORMATION_MESSAGE);
+					this.chatTextArea.append("> System: "
+							+ this.packet.substring(2) + "-Let's Go!\n");
+
 				}
 				chatTextArea.setCaretPosition(chatTextArea.getText().length());
 				packet = null;
@@ -344,6 +346,7 @@ public class Cliente extends Thread {
 						new DataOutput(telaJogo.getClient())
 								.SendPacket(new String("PE"));
 						telaJogo.getPacotesEnviados().write("PE");
+						MP3.play(MP3.WIN);
 						JOptionPane.showMessageDialog(null,
 								"Congratulations , You Kill your enemy", "Win",
 								JOptionPane.INFORMATION_MESSAGE);
@@ -356,11 +359,6 @@ public class Cliente extends Thread {
 						telaJogo.getPacotesRecebidos().close();
 						telaJogo.getPacotesEnviados().close();
 						System.exit(0);
-						// Som.playAudio(Som.VITORIA);
-						// reinicia o jogo
-						// EnviaDado("*", "Jogada");
-						// ReinciaJogo();
-
 					}
 				}
 
